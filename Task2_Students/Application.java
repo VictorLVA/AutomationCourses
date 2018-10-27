@@ -20,6 +20,7 @@ public class Application {
                 sumMark += results[ i ].mark;
             }
             avgMark = sumMark / StudentCount;
+            System.out.println ();
             System.out.println ( "Average mark for the group is: " + avgMark );
         }
         if (mode == 2) {
@@ -37,6 +38,7 @@ public class Application {
             for ( int i = 0 ; i < StudentCount ; i++ ) {
                 studenttickets[ i ] = new StudentTicket ( 0 );
             }
+            System.out.println ();
             for ( int i = 0 ; i < StudentCount ; i++ ) {
                 int ticket = 1 + (int) (Math.random ( ) * ticketsCount);
                 while (studenttickets[i].id == 0) {
@@ -60,6 +62,7 @@ public class Application {
                 System.out.println ( "Ticket was: " + studenttickets[i].id+". Question was: "+alltickets[studenttickets[i].id-1].question);
             }
             avgMark = sumMark / StudentCount;
+            System.out.println ();
             System.out.println ( "Average mark for the group is: " + avgMark );
             //for (int i = 0; i<StudentCount; i++) {
             //    System.out.print ( "Student #"+(i+1)+" passed exam with a mark " + results[i].mark +". ");
