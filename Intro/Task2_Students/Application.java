@@ -12,8 +12,8 @@ public class Application {
             float sumMark = 0;
             float avgMark = 0;
             int StudentCount = 5;
-            Student[] allstudents = new Student[ StudentCount ]; //зачем этот массив для решения задачи?
-            StudentMark[] results = new StudentMark[ StudentCount ]; //зачем этот массив для решения задачи?
+            Student[] allstudents = new Student[ StudentCount ];
+            StudentMark[] results = new StudentMark[ StudentCount ];
             for ( int i = 0 ; i < StudentCount ; i++ ) {
                 int mark = minMark + (int) (Math.random ( ) * maxMark);
                 results[ i ] = new StudentMark ( mark );
@@ -28,7 +28,7 @@ public class Application {
             float avgMark = 0;
             int StudentCount = 5;
             int ticketsCount = 10;
-            Student[] allstudents = new Student[ StudentCount ]; //зачем этот массив для решения задачи?
+            Student[] allstudents = new Student[ StudentCount ];
             Ticket[] alltickets = new Ticket[ ticketsCount ];
             StudentMark[] results = new StudentMark[ StudentCount ];
             StudentTicket[] studenttickets = new StudentTicket[StudentCount];
@@ -111,8 +111,6 @@ public class Application {
                     int mark = minMark + (int) (Math.random ( ) * maxMark);
                     results[ gr ][ i ] = new StudentMark ( mark );
                     sumMark += results[ gr ][ i ].mark;
-                    //System.out.print ( "Student " + allstudents[gr][i].name);
-                    //System.out.println ( ". Mark is " + results[gr][i].mark);
                 }
                 avgMark = sumMark / StudentCount;
                 System.out.println ();
@@ -137,8 +135,6 @@ public class Application {
                         max=results[gr][indexmax].mark;
                     }
                 }
-                //System.out.println ( "IndexMin "+indexmin+ " Min "+min);
-                //System.out.println ( "IndexMax "+indexmax+ " Max "+max);
                 System.out.println ( "   The best student(s) in the " + allgroups[gr].number + ": ");
                 for (int i = 0; i < StudentCount; i++) {
                     if (max == results[ gr ][ i ].mark) {
@@ -188,8 +184,6 @@ public class Application {
                     }
                 }
             }
-            //System.out.println ("ttlMAX "+totalmax);
-            //System.out.println ("ttlMIN "+totalmin);
             if (totalmin != totalmax) {
                 System.out.println ();
                 System.out.println ( "Totally the worst student(s):" );

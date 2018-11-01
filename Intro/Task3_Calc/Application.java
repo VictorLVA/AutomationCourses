@@ -219,7 +219,6 @@ public class Application {
                 else if ( o == '/' && n2 == 0 ) {
                     System.out.println("You cannot divide by 0");
                 }
-                // cannot use TryCatch with float/double types -> ( 1 / 0 ) returns Infinity
                 else if (o == '/') {
                     double div = 0;
                     div = n1 / n2;
