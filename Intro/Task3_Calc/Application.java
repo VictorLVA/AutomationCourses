@@ -7,9 +7,7 @@ public class Application {
         System.out.print ( "Please select a mode (1-Common, 2-Star, 3-withTryCatchExceptions): " );
         while (mode == 0) {
             String mod = reader.readLine ( );
-            if ("quit".equals ( mod )) {
-                return;
-            }
+            if (checkQuit(mod)) return;
             if (mod.matches ("[1-3]")) {
                 mode = Short.parseShort ( mod );
             }
@@ -26,9 +24,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the 1st number: " );
                     String s = reader.readLine ( );
-                    if ("quit".equals ( s )) {
-                        return;
-                    }
+                    if (checkQuit(s)) return;
                     if (s.matches ( "^[-+]?\\d+" )) {
                         n1 = Long.parseLong ( s );
                         break;
@@ -40,9 +36,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the operation (+ or -): " );
                     String s2 = reader.readLine ( );
-                    if ("quit".equals ( s2 )) {
-                        return;
-                    }
+                    if (checkQuit(s2)) return;
                     if ((s2.matches ( "\\+" )) || (s2.matches ( "\\-" ))) {
                         o = s2.charAt ( 0 );
                         break;
@@ -54,9 +48,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the 2nd number: " );
                     String s3 = reader.readLine ( );
-                    if ("quit".equals ( s3 )) {
-                        return;
-                    }
+                    if (checkQuit(s3)) return;
                     if (s3.matches ( "^[-+]?\\d+" )) {
                         n2 = Long.parseLong ( s3 );
                         break;
@@ -66,12 +58,10 @@ public class Application {
                     }
                 }
                 if (o == '+') {
-                    long sum = 0;
-                    sum = n1 + n2;
+                    long sum = Math.addExact(n1,n2);
                     System.out.println ( "The sum = " + sum );
                 } else if (o == '-') {
-                    long diff = 0;
-                    diff = n1 - n2;
+                    long diff = Math.subtractExact(n1,n2);
                     System.out.println ( "The diff = " + diff );
                 }
             }
@@ -85,9 +75,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the 1st number: " );
                     String s = reader.readLine ( );
-                    if ("quit".equals ( s )) {
-                        return;
-                    }
+                    if (checkQuit(s)) return;
                     if (s.matches ( "^[-+]?[0-9]*[.]?[0-9]+(?:[eE][-+]?[0-9]+)?$" )) {
                         n1 = Double.parseDouble ( s );
                         break;
@@ -99,9 +87,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the operation (+ or -, * or /): " );
                     String s2 = reader.readLine ( );
-                    if ("quit".equals ( s2 )) {
-                        return;
-                    }
+                    if (checkQuit(s2)) return;
                     if ((s2.matches ( "\\+" )) || (s2.matches ( "\\-" )) || (s2.matches ( "\\*" )) || (s2.matches ( "\\/" ))) {
                         o = s2.charAt ( 0 );
                         break;
@@ -113,9 +99,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the 2nd number: " );
                     String s3 = reader.readLine ( );
-                    if ("quit".equals ( s3 )) {
-                        return;
-                    }
+                    if (checkQuit(s3)) return;
                     if (s3.matches ( "^[-+]?[0-9]*[.]?[0-9]+(?:[eE][-+]?[0-9]+)?$" )) {
                         n2 = Double.parseDouble ( s3 );
                         break;
@@ -158,9 +142,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the 1st number: " );
                     String s = reader.readLine ( );
-                    if ("quit".equals ( s )) {
-                        return;
-                    }
+                    if (checkQuit(s)) return;
                     else {
                         try {
                             n1 = Double.parseDouble ( s );
@@ -175,9 +157,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the operation (+ or -, * or /): " );
                     String s2 = reader.readLine ( );
-                    if ("quit".equals ( s2 )) {
-                        return;
-                    }
+                    if (checkQuit(s2)) return;
                     if ((s2.matches ( "\\+" )) || (s2.matches ( "\\-" )) || (s2.matches ( "\\*" )) || (s2.matches ( "\\/" ))) {
                         o = s2.charAt ( 0 );
                         break;
@@ -189,9 +169,7 @@ public class Application {
                 while (true) {
                     System.out.print ( "Enter the 2nd number: " );
                     String s3 = reader.readLine ( );
-                    if ("quit".equals ( s3 )) {
-                        return;
-                    }
+                    if (checkQuit(s3)) return;
                     else {
                         try {
                             n2 = Double.parseDouble ( s3 );
@@ -226,5 +204,12 @@ public class Application {
                 }
             }
         }
+    }
+
+    private static boolean checkQuit(String s) {
+        if ("quit".equals(s)) {
+            return true;
+        }
+        return false;
     }
 }
