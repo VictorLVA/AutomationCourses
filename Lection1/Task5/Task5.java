@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 
 public class Task5 {
-    public static BufferedReader reader = new BufferedReader ( new InputStreamReader ( System.in ) );
+    private static BufferedReader reader = new BufferedReader ( new InputStreamReader ( System.in ) );
     public static void main ( String[] args ) throws Exception {
         System.out.println ("Let's start the game!!!");
         Console console = System.console();
