@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Application {
+public class Task2L1 {
     public static void main ( String[] args ) {
         int mode = 0;
         int minMark = 1;

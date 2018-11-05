@@ -1,6 +1,6 @@
 import java.io.*;
 
-public class Application {
+public class Task3L1 {
     public static BufferedReader reader = new BufferedReader ( new InputStreamReader ( System.in ) );
     public static void main ( String[] args ) throws Exception {
         short mode = 0;
