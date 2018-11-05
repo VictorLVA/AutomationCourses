@@ -6,15 +6,27 @@ public class Task5 {
     public static void main ( String[] args ) throws Exception {
         System.out.println ("Let's start the game!!!");
         Console console = System.console();
-        console.printf("Please enter the secret name:");
-        char[] secretName = console.readPassword();
-        String name = new String(secretName);
-        console.printf("Please enter the secret lastname:");
-        char[] secretLastname = console.readPassword();
-        String lastname = new String(secretLastname);
+        String name = null;
+        while (name == null) {
+            console.printf("Please enter the secret name:");
+            char[] secretName = console.readPassword();
+            String check = new String(secretName);
+            if (check.matches("[a-zA-Z]+")) {
+                name = check;
+            }
+        }
+        String lastname = null;
+        while (lastname == null) {
+            console.printf("Please enter the secret lastname:");
+            char[] secretLastname = console.readPassword();
+            String check = new String(secretLastname);
+            if (check.matches("[a-zA-Z]+")) {
+                lastname = check;
+            }
+        }
         System.out.println ( );
         System.out.println ("Now try to solve secret name and lastname ;)");
-        List<String> listOfWords = new ArrayList<>(); // может в один лист все???
+        List<String> listOfWords = new ArrayList<>();
         List<String> listOfLetters = new ArrayList<>();
         char[] nameArray = name.toCharArray ( );
         char[] lastnameArray = lastname.toCharArray ( );
@@ -71,13 +83,14 @@ public class Task5 {
                 }
 
             }
-            if (choice.length ( ) == 1 && choice.matches ( "[a-zA-Z]+" )) {
-                boolean checkRightMove = false;
+            if (choice.length ( ) == 1) {
+                boolean checkRightMoveName = false;
+                boolean checkRightMoveLastname = false;
                 if (!Arrays.equals ( nameArray , starNameArray )) {
                     for ( int i = 0 ; i < nameArray.length ; i++ ) {
                         if (choice.equalsIgnoreCase ( Character.toString ( nameArray[ i ] ) )) {
                             starNameArray[ i ] = nameArray[ i ];
-                            checkRightMove = true;
+                            checkRightMoveName = true;
                         }
                     }
                 }
@@ -85,27 +98,36 @@ public class Task5 {
                     for ( int i = 0 ; i < lastnameArray.length ; i++ ) {
                         if (choice.equalsIgnoreCase ( Character.toString ( lastnameArray[ i ] ) )) {
                             starLastnameArray[ i ] = lastnameArray[ i ];
-                            checkRightMove = true;
+                            checkRightMoveLastname = true;
                         }
                     }
                 }
                 listOfLetters.add ( choice );
-                if (checkRightMove) {
-                    if (Arrays.equals ( nameArray , starNameArray ) && !Arrays.equals ( lastnameArray , starLastnameArray )) {
+                if (checkRightMoveName && checkRightMoveLastname)
+                    if (Arrays.equals ( nameArray , starNameArray ) && Arrays.equals ( lastnameArray , starLastnameArray )) {
                         printWholeWord ( starNameArray , starLastnameArray );
                     }
-                    else if (!Arrays.equals ( nameArray , starNameArray ) && Arrays.equals ( lastnameArray , starLastnameArray )) {
-                        printWholeWord ( starNameArray , starLastnameArray );
+                    else {
+                        printRightMove ( starNameArray , starLastnameArray );
                     }
-                    else if (Arrays.equals ( nameArray , starNameArray ) && Arrays.equals ( lastnameArray , starLastnameArray )) {
+                else if (checkRightMoveName && !checkRightMoveLastname) {
+                    if (Arrays.equals ( nameArray , starNameArray )) {
                         printWholeWord ( starNameArray , starLastnameArray );
                     }
                     else {
                         printRightMove ( starNameArray , starLastnameArray );
                     }
                 }
-                else {
-                    printWrongMove ();
+                else if (!checkRightMoveName && checkRightMoveLastname) {
+                    if (Arrays.equals ( lastnameArray , starLastnameArray )) {
+                        printWholeWord ( starNameArray , starLastnameArray );
+                    }
+                    else {
+                        printRightMove ( starNameArray , starLastnameArray );
+                    }
+                }
+                else if (!checkRightMoveName && !checkRightMoveLastname) {
+                    printWrongMove();
                 }
             }
             checkResultName = Arrays.equals(nameArray, starNameArray);
