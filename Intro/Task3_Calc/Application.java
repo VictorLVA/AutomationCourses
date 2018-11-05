@@ -1,26 +1,21 @@
 import java.io.*;
 
 public class Application {
-    public static BufferedReader reader = new BufferedReader ( new InputStreamReader ( System.in ) );
+    private static BufferedReader reader = new BufferedReader ( new InputStreamReader ( System.in ) );
     public static void main ( String[] args ) throws Exception {
         short mode = 0;
         System.out.print ( "Please select a mode (1-Common, 2-Star, 3-withTryCatchExceptions): " );
         while (mode == 0) {
             String mod = reader.readLine ( );
             if (checkQuit(mod)) return;
-            if (mod.matches ("[1-3]")) {
-                mode = Short.parseShort ( mod );
-            }
-            else {
-                System.out.print ( "Please select a proper mode! 1-Common, 2-Star, 3-withTryCatchExceptions: " );
-            }
+            mode = checkSelectedMode(mode, mod);
         }
         if (mode == 1) {
             while (true) {
                 long n1;
                 long n2;
                 char o;
-                System.out.println ( );
+                System.out.print("\n");
                 while (true) {
                     System.out.print ( "Enter the 1st number: " );
                     String s = reader.readLine ( );
@@ -57,13 +52,7 @@ public class Application {
                         System.out.print ( "Try to enter a proper value (INT). " );
                     }
                 }
-                if (o == '+') {
-                    long sum = Math.addExact(n1,n2);
-                    System.out.println ( "The sum = " + sum );
-                } else if (o == '-') {
-                    long diff = Math.subtractExact(n1,n2);
-                    System.out.println ( "The diff = " + diff );
-                }
+                tryCalcM1(n1, n2, o);
             }
         }
         if (mode == 2) {
@@ -71,7 +60,7 @@ public class Application {
                 double n1;
                 double n2;
                 char o;
-                System.out.println ( );
+                System.out.print ("\n");
                 while (true) {
                     System.out.print ( "Enter the 1st number: " );
                     String s = reader.readLine ( );
@@ -108,29 +97,7 @@ public class Application {
                         System.out.print ( "Try to enter a proper value. " );
                     }
                 }
-                if (o == '+') {
-                    double sum = 0;
-                    sum = n1 + n2;
-                    System.out.println ( "The sum = " + sum );
-                }
-                else if (o == '-') {
-                    double diff = 0;
-                    diff = n1 - n2;
-                    System.out.println ( "The diff = " + diff );
-                }
-                else if (o == '*') {
-                    double der = 0;
-                    der = n1 * n2;
-                    System.out.println ("The der is " + der);
-                }
-                else if ( o == '/' && n2 == 0 ) {
-                    System.out.println("You cannot divide by 0");
-                }
-                else if(o == '/') {
-                    double div = 0;
-                    div = n1 / n2;
-                    System.out.println("The quo is " + div);
-                }
+                tryCalcM23(n1, n2, o);
             }
         }
         if (mode == 3) {
@@ -138,7 +105,7 @@ public class Application {
                 double n1;
                 double n2;
                 char o;
-                System.out.println ( );
+                System.out.print ("\n");
                 while (true) {
                     System.out.print ( "Enter the 1st number: " );
                     String s = reader.readLine ( );
@@ -180,36 +147,79 @@ public class Application {
                         }
                     }
                 }
-                if (o == '+') {
-                    double sum = 0;
-                    sum = n1 + n2;
-                    System.out.println ( "The sum = " + sum );
-                } else if (o == '-') {
-                    double diff = 0;
-                    diff = n1 - n2;
-                    System.out.println ( "The diff = " + diff );
-                }
-                else if (o == '*') {
-                    double der = 0;
-                    der = n1 * n2;
-                    System.out.println ("The der is " + der);
-                }
-                else if ( o == '/' && n2 == 0 ) {
-                    System.out.println("You cannot divide by 0");
-                }
-                else if (o == '/') {
-                    double div = 0;
-                    div = n1 / n2;
-                    System.out.println("The quo is " + div);
-                }
+                tryCalcM23(n1, n2, o);
             }
         }
     }
 
-    private static boolean checkQuit(String s) {
-        if ("quit".equals(s)) {
+    private static void tryCalcM23(double n1, double n2, char o) {
+        trySumM23(n1, n2, o);
+        tryDiffM23(n1, n2, o);
+        tryDerM23(n1, n2, o);
+        if (checkDiv0(n2, o)) return;
+        tryDivM23(n1, n2, o);
+    }
+
+    private static void tryCalcM1(long n1, long n2, char o) {
+        trySumM1(n1, n2, o);
+        tryDiffM1(n1, n2, o);
+    }
+
+    private static void tryDivM23(double n1, double n2, char o) {
+        if (o == '/') {
+            System.out.println("The quo is " + (n1 / n2));
+        }
+    }
+
+    private static boolean checkDiv0(double n2, char o) {
+        if (o == '/' && n2 == 0) {
+            System.out.println("You cannot divide by 0");
             return true;
         }
         return false;
+    }
+
+    private static void tryDerM23(double n1, double n2, char o) {
+        if (o == '*') {
+            System.out.println ("The der is " + (n1 * n2));
+        }
+    }
+
+    private static void tryDiffM23(double n1, double n2, char o) {
+        if (o == '-') {
+            System.out.println ( "The diff = " + (n1 - n2) );
+        }
+    }
+
+    private static void trySumM23(double n1, double n2, char o) {
+        if (o == '+') {
+            System.out.println ( "The sum = " + (n1 + n2) );
+        }
+    }
+
+    private static void tryDiffM1(long n1, long n2, char o) {
+        if (o == '-') {
+            System.out.println ( "The diff = " + (n1 - n2) );
+        }
+    }
+
+    private static void trySumM1(long n1, long n2, char o) {
+        if (o == '+') {
+            System.out.println ( "The sum = " + (n1 + n2) );
+        }
+    }
+
+    private static short checkSelectedMode(short mode, String mod) {
+        if (mod.matches ("[1-3]")) {
+            mode = Short.parseShort ( mod );
+        }
+        else {
+            System.out.print ( "Please select a proper mode! 1-Common, 2-Star, 3-withTryCatchExceptions: " );
+        }
+        return mode;
+    }
+
+    private static boolean checkQuit(String s) {
+        return "quit".equals(s);
     }
 }
