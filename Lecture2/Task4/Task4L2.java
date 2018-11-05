@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.*;
 
-public class Task4 {
+public class Task4L2 {
 
     static class Pair implements Comparable {
         private int time;

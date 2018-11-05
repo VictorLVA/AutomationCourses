@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Task2 {
+public class Task2L2 {
     public static void main ( String[] args ) throws Exception {
         Scanner in = new Scanner ( System.in );
         System.out.print ( "Please enter an index of a day within a week (1-7): " );

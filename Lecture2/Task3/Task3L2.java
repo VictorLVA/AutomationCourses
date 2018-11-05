@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Task3 {
+public class Task3L2 {
     public static void main ( String[] args ) throws Exception {
         Scanner in = new Scanner ( System.in );
         System.out.print ( "Please enter a rhombus size: " );

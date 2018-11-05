@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Task5 {
+public class Task5L2 {
     private static BufferedReader reader = new BufferedReader ( new InputStreamReader ( System.in ) );
     public static void main ( String[] args ) throws Exception {
         System.out.println ("Let's start the game!!!");
