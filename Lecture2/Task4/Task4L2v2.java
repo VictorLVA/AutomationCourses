@@ -14,12 +14,12 @@ public class Task4L2v2 {
             System.out.println(each.getKey() + " - " + each.getValue());
         }
         System.out.println( "\nThe marathon winner is: " + results.values( ).toArray()[0] + " - " + results.keySet().toArray()[0] );
-        Scanner in = new Scanner ( System.in );
-        System.out.print ( "\nPlease enter a place (1-"+results.size()+"): " );
-        getPlace(results, in);
+        getPlace(results);
     }
 
-    private static void getPlace(Map<Integer, String> results, Scanner in) {
+    private static void getPlace(Map<Integer, String> results) {
+        Scanner in = new Scanner ( System.in );
+        System.out.print ( "\nPlease enter a place (1-"+results.size()+"): " );
         int place;
         try {
             place = in.nextInt ( );
