@@ -49,14 +49,14 @@ public class Task4L2 {
         try {
             place = in.nextInt ( );
         } catch (Exception e) {
-            System.out.println ( "Please check the entered value and try again" );
+            System.out.println ( "Please check the entered value and try again." );
             return true;
         }
         try {
             System.out.println ( "Place " + place + ": " + (pairs[place-1]) );
         }
         catch (Exception e) {
-            System.out.println ( "You have entered an invalid place. Please try enter a value from the 1-" + pairs.length + " range: " );
+            System.out.println ( "You have entered an invalid place. Please try enter a value from the 1-" + pairs.length + " range. " );
             return true;
         }
         return false;
