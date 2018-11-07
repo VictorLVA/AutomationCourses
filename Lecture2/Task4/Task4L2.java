@@ -7,12 +7,12 @@ public class Task4L2 {
         private int time;
         private String name;
 
-        private Pair(int time, String name) {
+        private Pair ( int time , String name ) {
             this.time = time;
             this.name = name;
         }
 
-        private int getTime() {
+        private int getTime () {
             return time;
         }
 
@@ -21,23 +21,21 @@ public class Task4L2 {
             return Integer.compare(time, right.getTime ());
         }
 
-        public String toString() {return name + " - " + time;}
+        public String toString() {
+            return name + " - " + time;
+        }
     }
 
     public static void main(String[] args) {
         int[] times = {341 , 273 , 278 , 329 , 445 , 402 , 388 , 275 , 243 , 334 , 412 , 393 , 299 , 343 , 317 , 265};
-        String[] names = {"Elena" , "Thomas" , "Hamilton" , "Suzie" , "Phil" , "Matt" , "Alex" , "Emma" , "John" , "James" ,
-                "Jane" , "Emily" , "Daniel" , "Neda" , "Aaron" , "Kate"};
+        String[] names = {"Elena" , "Thomas" , "Hamilton" , "Suzie" , "Phil" , "Matt" , "Alex" , "Emma" , "John" , "James" , "Jane" , "Emily" , "Daniel" , "Neda" , "Aaron" , "Kate"};
         Pair[] pairs = new Pair[times.length];
-        for (int i = 0; i < pairs.length; i++) {
+        for (int i = 0; i < pairs.length; i++)
             pairs[ i ] = new Pair ( times[i], names[i] );
-        }
         Arrays.sort(pairs);
-        for(Pair p : pairs) {
-            System.out.println(p);
-        }
-        System.out.println ( );
-        System.out.println("The marathon winner is: "+pairs[0]);
+        for(Pair each : pairs)
+            System.out.println(each);
+        System.out.println("\nThe marathon winner is: "+pairs[0]);
         if (getPlace ( pairs ));
     }
 
