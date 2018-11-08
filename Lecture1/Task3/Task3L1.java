@@ -11,56 +11,70 @@ public class Task3L1 {
     private static final String REGEX_INT = "^[-+]?\\d+";
     private static final String REGEX_DOUBLE = "^[-+]?[0-9]*[.]?[0-9]+(?:[eE][-+]?[0-9]+)?$";
 
-    private static BufferedReader reader = new BufferedReader ( new InputStreamReader ( System.in ) );
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader ( System.in ));
 
-    public static void main ( String[] args ) throws Exception {
+    public static void main (String[] args) throws Exception {
         short mode = 0;
-        System.out.print ( "Please select a mode" + MESSAGE_MODES );
+        System.out.print("Please select a mode" + MESSAGE_MODES);
         while (mode == 0) {
-            String input = reader.readLine ( );
-            if ("quit".equals ( input ))
+            String input = reader.readLine();
+            if ("quit".equals (input)) {
                 return;
-            if (input.matches ( "[1-3]" ))
-                mode = Short.parseShort ( input );
-            else System.out.print ( "Please select a proper mode!" + MESSAGE_MODES );
+            }
+            if (input.matches ("[1-3]")) {
+                mode = Short.parseShort(input);
+            }
+            else {
+                System.out.print ("Please select a proper mode!" + MESSAGE_MODES);
+            }
         }
         if (mode == 1) {
             while (true) {
                 long firstNumber;
                 long secondNumber;
                 char operation;
-                System.out.println ( );
+                System.out.println();
                 while (true) {
-                    System.out.print ( MESSAGE_NUMBER1 );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_NUMBER1);
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
-                    if (input.matches ( REGEX_INT )) {
-                        firstNumber = Long.parseLong ( input );
+                    }
+                    if (input.matches(REGEX_INT)) {
+                        firstNumber = Long.parseLong(input);
                         break;
-                    } else System.out.print ( MESSAGE_NEED_PROPER_VALUE + " (INT). " );
+                    }
+                    else {
+                        System.out.print(MESSAGE_NEED_PROPER_VALUE + " (INT). ");
+                    }
                 }
                 while (true) {
-                    System.out.print ( MESSAGE_OPERATION + " (+ or -): " );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_OPERATION + " (+ or -): ");
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
-                    if ((input.equals ( "+" )) || (input.equals ( "-" ))) {
-                        operation = input.charAt ( 0 );
+                    }
+                    if (input.equals("+") || input.equals("-")) {
+                        operation = input.charAt(0);
                         break;
-                    } else System.out.print ( MESSAGE_NEED_PROPER_OPERATION + ". " );
+                    }
+                    else {
+                        System.out.print(MESSAGE_NEED_PROPER_OPERATION + ". ");
+                    }
                 }
                 while (true) {
-                    System.out.print ( MESSAGE_NUMBER2 );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_NUMBER2);
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
-                    if (input.matches ( REGEX_INT )) {
-                        secondNumber = Long.parseLong ( input );
+                    }
+                    if (input.matches(REGEX_INT)) {
+                        secondNumber = Long.parseLong(input);
                         break;
-                    } else System.out.print ( MESSAGE_NEED_PROPER_VALUE + " (INT). " );
+                    }
+                    else System.out.print(MESSAGE_NEED_PROPER_VALUE + " (INT). ");
                 }
-                doCalc ( firstNumber , secondNumber , operation );
+                doCalc(firstNumber , secondNumber , operation);
             }
         }
         if (mode == 2) {
@@ -68,38 +82,50 @@ public class Task3L1 {
                 double firstNumber;
                 double secondNumber;
                 char operation;
-                System.out.println ( );
+                System.out.println();
                 while (true) {
-                    System.out.print ( MESSAGE_NUMBER1 );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_NUMBER1);
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
-                    if (input.matches ( REGEX_DOUBLE )) {
-                        firstNumber = Double.parseDouble ( input );
+                    }
+                    if (input.matches(REGEX_DOUBLE)) {
+                        firstNumber = Double.parseDouble(input);
                         break;
-                    } else System.out.print ( MESSAGE_NEED_PROPER_VALUE + ". " );
+                    }
+                    else {
+                        System.out.print(MESSAGE_NEED_PROPER_VALUE + ". ");
+                    }
                 }
                 while (true) {
-                    System.out.print ( MESSAGE_OPERATION + " (+ or -, * or /): " );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_OPERATION + " (+ or -, * or /): ");
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
-                    if ((input.equals ( "+" )) || (input.equals ( "-" )) || (input.equals ( "*" )) || (input.equals ( "/" ))) {
-                        operation = input.charAt ( 0 );
+                    }
+                    if (input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/")) {
+                        operation = input.charAt(0);
                         break;
-                    } else System.out.print ( MESSAGE_NEED_PROPER_OPERATION + ". " );
+                    }
+                    else {
+                        System.out.print(MESSAGE_NEED_PROPER_OPERATION + ". ");
+                    }
                 }
                 while (true) {
-                    System.out.print ( MESSAGE_NUMBER2 );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_NUMBER2);
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
-                    if (input.matches ( REGEX_DOUBLE )) {
-                        secondNumber = Double.parseDouble ( input );
+                    }
+                    if (input.matches(REGEX_DOUBLE)) {
+                        secondNumber = Double.parseDouble(input);
                         break;
-                    } else System.out.print ( MESSAGE_NEED_PROPER_VALUE + ". " );
+                    }
+                    else {
+                        System.out.print(MESSAGE_NEED_PROPER_VALUE + ". ");
+                    }
                 }
-                doCalc ( firstNumber , secondNumber , operation );
+                doCalc(firstNumber , secondNumber , operation);
             }
         }
         if (mode == 3) {
@@ -107,71 +133,83 @@ public class Task3L1 {
                 double firstNumber;
                 double secondNumber;
                 char operation;
-                System.out.println ( );
+                System.out.println();
                 while (true) {
-                    System.out.print ( MESSAGE_NUMBER1 );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_NUMBER1);
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
+                    }
                     else {
                         try {
-                            firstNumber = Double.parseDouble ( input );
+                            firstNumber = Double.parseDouble(input);
                             break;
                         }
                         catch (Exception e) {
-                            System.out.print ( MESSAGE_NEED_PROPER_VALUE + ". " );
+                            System.out.print(MESSAGE_NEED_PROPER_VALUE + ". ");
                         }
                     }
                 }
                 while (true) {
-                    System.out.print ( MESSAGE_OPERATION + " (+ or -, * or /): " );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_OPERATION + " (+ or -, * or /): ");
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
-                    if ((input.equals ( "+" )) || (input.equals ( "-" )) || (input.equals ( "*" )) || (input.equals ( "/" ))) {
-                        operation = input.charAt ( 0 );
+                    }
+                    if (input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/")) {
+                        operation = input.charAt(0);
                         break;
-                    } else System.out.print ( MESSAGE_NEED_PROPER_OPERATION + ". " );
+                    }
+                    else {
+                        System.out.print(MESSAGE_NEED_PROPER_OPERATION + ". ");
+                    }
                 }
                 while (true) {
-                    System.out.print ( MESSAGE_NUMBER2 );
-                    String input = reader.readLine ( );
-                    if ("quit".equals ( input ))
+                    System.out.print(MESSAGE_NUMBER2);
+                    String input = reader.readLine();
+                    if ("quit".equals(input)) {
                         return;
+                    }
                     else {
                         try {
-                            secondNumber = Double.parseDouble ( input );
+                            secondNumber = Double.parseDouble(input);
                             break;
                         }
                         catch (Exception e) {
-                            System.out.print ( "Try to enter a proper value. " );
+                            System.out.print("Try to enter a proper value. ");
                         }
                     }
                 }
-                doCalc ( firstNumber , secondNumber , operation );
+                doCalc(firstNumber , secondNumber , operation);
             }
         }
     }
 
-    private static void doCalc ( long firstNumber , long secondNumber , char operation ) {
-        if (operation == '+')
-            System.out.println ( "The sum = " + (firstNumber + secondNumber) );
-        if (operation == '-')
-            System.out.println ( "The diff = " + (firstNumber - secondNumber) );
+    private static void doCalc (long firstNumber, long secondNumber, char operation) {
+        if (operation == '+') {
+            System.out.println("The sum = " + (firstNumber + secondNumber));
+        }
+        else {
+            System.out.println("The diff = " + (firstNumber - secondNumber));
+        }
     }
 
-    private static void doCalc ( double firstNumber , double secondNumber , char operation ) {
-        if (operation == '+')
-            System.out.println ( "The sum = " + (firstNumber + secondNumber) );
-        if (operation == '-')
-            System.out.println ( "The diff = " + (firstNumber - secondNumber) );
-        if (operation == '*')
-            System.out.println ( "The der = " + (firstNumber * secondNumber) );
+    private static void doCalc (double firstNumber, double secondNumber, char operation) {
+        if (operation == '+') {
+            System.out.println("The sum = " + (firstNumber + secondNumber));
+        }
+        if (operation == '-') {
+            System.out.println("The diff = " + (firstNumber - secondNumber));
+        }
+        if (operation == '*') {
+            System.out.println("The der = " + (firstNumber * secondNumber));
+        }
         if (operation == '/' && secondNumber == 0) {
-            System.out.println ( "You cannot divide by 0" );
+            System.out.println("You cannot divide by 0");
             return;
         }
-        if (operation == '/')
-            System.out.println ( "The quo = " + (firstNumber / secondNumber) );
+        if (operation == '/') {
+            System.out.println("The quo = " + (firstNumber / secondNumber));
+        }
     }
 }
