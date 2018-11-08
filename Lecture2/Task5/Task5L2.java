@@ -32,9 +32,9 @@ public class Task5L2 {
         for (int i = 0; i < starLastnameArray.length; i++) {
             starLastnameArray[i] = '*';
         }
-        boolean checkResultName = false;
-        boolean checkResultLastname = false;
-        while (!checkResultName || !checkResultLastname) {
+        boolean isNameSolvedFinal = false;
+        boolean isLastnameSolvedFinal = false;
+        while (!isNameSolvedFinal || !isLastnameSolvedFinal) {
             System.out.print("\nYour choice: ");
             String choice = reader.readLine();
             if (listOfWords.contains(choice) || listOfLetters.contains(choice)) {
@@ -55,9 +55,9 @@ public class Task5L2 {
             if (choice.length() == 1) {
                 letterProcessing(nameArray, starNameArray, choice, lastnameArray, starLastnameArray, listOfLetters);
             }
-            checkResultName = Arrays.equals(nameArray, starNameArray);
-            checkResultLastname = Arrays.equals(lastnameArray, starLastnameArray);
-            finishGameValidation(checkResultName, checkResultLastname);
+            isNameSolvedFinal = Arrays.equals(nameArray, starNameArray);
+            isLastnameSolvedFinal = Arrays.equals(lastnameArray, starLastnameArray);
+            finishGameValidation(isNameSolvedFinal, isLastnameSolvedFinal);
         }
     }
 
@@ -86,8 +86,8 @@ public class Task5L2 {
         printStar(starNameArray, starLastnameArray);
     }
 
-    private static void letterMessageValidation(boolean checkRightMoveName, boolean checkRightMoveLastname, char[] nameArray, char[] lastnameArray, char[] starNameArray, char[] starLastnameArray) {
-        if (checkRightMoveName && checkRightMoveLastname) {
+    private static void letterMessageValidation(boolean isRightMoveForName, boolean isRightMoveForLastname, char[] nameArray, char[] lastnameArray, char[] starNameArray, char[] starLastnameArray) {
+        if (isRightMoveForName && isRightMoveForLastname) {
             if (Arrays.equals(nameArray, starNameArray) || Arrays.equals(lastnameArray, starLastnameArray)) {
                 printWholeWord(starNameArray, starLastnameArray);
             }
@@ -95,7 +95,7 @@ public class Task5L2 {
                 printRightMove(starNameArray, starLastnameArray);
             }
         }
-        else if (checkRightMoveName) {
+        else if (isRightMoveForName) {
             if (Arrays.equals(nameArray, starNameArray)) {
                 printWholeWord(starNameArray, starLastnameArray);
             }
@@ -103,7 +103,7 @@ public class Task5L2 {
                 printRightMove(starNameArray, starLastnameArray);
             }
         }
-        else if (checkRightMoveLastname) {
+        else if (isRightMoveForLastname) {
             if (Arrays.equals(lastnameArray, starLastnameArray)) {
                 printWholeWord(starNameArray, starLastnameArray);
             }
@@ -114,37 +114,37 @@ public class Task5L2 {
         }
     }
 
-    private static void finishGameValidation(boolean checkResultName, boolean checkResultLastname) {
-        if (checkResultName && checkResultLastname) {
+    private static void finishGameValidation(boolean isNameSolvedFinal, boolean isLastnameSolvedFinal) {
+        if (isNameSolvedFinal && isLastnameSolvedFinal) {
             System.out.print("\nWonderful!!! You did it!!! See you later...\n");
         }
     }
 
-    private static boolean letterMoveValidation(String choice, int arraylength, char[] array, char[] starArray, boolean checkRightMove) {
+    private static boolean isLetterRightMove(String choice, int arraylength, char[] array, char[] starArray, boolean isLetterRightMove) {
         for (int i = 0; i < arraylength; i++) {
             if (choice.equalsIgnoreCase(Character.toString(array[i]))) {
                 starArray[i] = array[i];
-                checkRightMove = true;
+                isLetterRightMove = true;
             }
         }
-        return checkRightMove;
+        return isLetterRightMove;
     }
 
     private static void letterProcessing(char[] nameArray, char[] starNameArray, String choice, char[] lastnameArray, char[] starLastnameArray, List <String> listOfLetters) {
-        boolean checkRightMoveName = false;
-        boolean checkRightMoveLastname = false;
+        boolean isRightMoveForName = false;
+        boolean isRightMoveForLastname = false;
         if (!Arrays.equals(nameArray , starNameArray)) {
-            checkRightMoveName = letterMoveValidation(choice, nameArray.length, nameArray, starNameArray, checkRightMoveName);
+            isRightMoveForName = isLetterRightMove(choice, nameArray.length, nameArray, starNameArray, isRightMoveForName);
         }
         if (!Arrays.equals(lastnameArray , starLastnameArray)) {
-            checkRightMoveLastname = letterMoveValidation(choice, lastnameArray.length, lastnameArray, starLastnameArray, checkRightMoveLastname);
+            isRightMoveForLastname = isLetterRightMove(choice, lastnameArray.length, lastnameArray, starLastnameArray, isRightMoveForLastname);
         }
         listOfLetters.add(choice);
-        letterMessageValidation(checkRightMoveName, checkRightMoveLastname, nameArray, lastnameArray, starNameArray, starLastnameArray);
+        letterMessageValidation(isRightMoveForName, isRightMoveForLastname, nameArray, lastnameArray, starNameArray, starLastnameArray);
     }
 
-    private static void wordMessageValidation(boolean checkRightMove, char[] starNameArray, char[] starLastnameArray) {
-        if (checkRightMove) {
+    private static void wordMessageValidation(boolean isWordRightMove, char[] starNameArray, char[] starLastnameArray) {
+        if (isWordRightMove) {
             printWholeWord(starNameArray, starLastnameArray);
         }
         else {
@@ -152,21 +152,21 @@ public class Task5L2 {
         }
     }
 
-    private static boolean wordMoveValidation(char[] array, char[] starArray) {
+    private static boolean isWordRightMove(char[] array, char[] starArray) {
         System.arraycopy(array, 0, starArray, 0, array.length);
         return true;
     }
 
     private static void wordProcessing(char[] nameArray, char[] starNameArray, String choice, String name, char[] lastnameArray, char[] starLastnameArray, String lastname, List<String> listOfWords) {
-        boolean checkRightMove = false;
+        boolean isWordOpened = false;
         if (!Arrays.equals(nameArray , starNameArray) && choice.length() == name.length() && choice.equalsIgnoreCase(name)) {
-            checkRightMove = wordMoveValidation(nameArray, starNameArray);
+            isWordOpened = isWordRightMove(nameArray, starNameArray);
         }
         if (!Arrays.equals(lastnameArray, starLastnameArray) && choice.length() == lastname.length() && choice.equalsIgnoreCase(lastname)) {
-            checkRightMove = wordMoveValidation(lastnameArray, starLastnameArray);
+            isWordOpened = isWordRightMove(lastnameArray, starLastnameArray);
         }
         listOfWords.add(choice);
-        wordMessageValidation(checkRightMove, starNameArray, starLastnameArray);
+        wordMessageValidation(isWordOpened, starNameArray, starLastnameArray);
     }
 
     private static String getWord(Console console) {
