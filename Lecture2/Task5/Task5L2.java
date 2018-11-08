@@ -32,20 +32,22 @@ public class Task5L2 {
         for (int i = 0; i < starLastnameArray.length; i++) {
             starLastnameArray[i] = '*';
         }
-        boolean isNameSolvedFinal = false;
-        boolean isLastnameSolvedFinal = false;
-        while (!isNameSolvedFinal || !isLastnameSolvedFinal) {
+        while (!Arrays.equals(nameArray, starNameArray) || !Arrays.equals(lastnameArray, starLastnameArray)) {
             System.out.print("\nYour choice: ");
             String choice = reader.readLine();
             if (listOfWords.contains(choice) || listOfLetters.contains(choice)) {
                 System.out.println(MESSAGE_AGAIN);
                 continue;
             }
-            if ((Arrays.equals(nameArray, starNameArray) && choice.equalsIgnoreCase(name)) || (Arrays.equals(lastnameArray, starLastnameArray) && choice.equalsIgnoreCase(lastname))) {
+            if (isChoiceAlreadySolved(nameArray, starNameArray, choice, name)) {
                 System.out.println(MESSAGE_AGAIN);
                 continue;
             }
-            if (choice.length() != name.length() && choice.length() != lastname.length() && choice.length() != 1 || !choice.matches(REGEX_NAME_LASTNAME)) {
+            if (isChoiceAlreadySolved(lastnameArray, starLastnameArray, choice, lastname)) {
+                System.out.println(MESSAGE_AGAIN);
+                continue;
+            }
+            if (isInvalidInput(choice, name, lastname)) {
                 System.out.println("You have to enter one letter or a whole name/lastname. Please try again.");
                 continue;
             }
@@ -55,9 +57,7 @@ public class Task5L2 {
             if (choice.length() == 1) {
                 letterProcessing(nameArray, starNameArray, choice, lastnameArray, starLastnameArray, listOfLetters);
             }
-            isNameSolvedFinal = Arrays.equals(nameArray, starNameArray);
-            isLastnameSolvedFinal = Arrays.equals(lastnameArray, starLastnameArray);
-            finishGameValidation(isNameSolvedFinal, isLastnameSolvedFinal);
+            finishGameMessage(Arrays.equals(nameArray, starNameArray), Arrays.equals(lastnameArray, starLastnameArray));
         }
     }
 
@@ -114,8 +114,8 @@ public class Task5L2 {
         }
     }
 
-    private static void finishGameValidation(boolean isNameSolvedFinal, boolean isLastnameSolvedFinal) {
-        if (isNameSolvedFinal && isLastnameSolvedFinal) {
+    private static void finishGameMessage(boolean isNameSolved, boolean isLastnameSolved) {
+        if (isNameSolved && isLastnameSolved) {
             System.out.print("\nWonderful!!! You did it!!! See you later...\n");
         }
     }
@@ -179,4 +179,16 @@ public class Task5L2 {
         }
         return word;
     }
+
+    private static boolean isChoiceAlreadySolved (char[] array, char[] starArray, String choice, String word) {
+        return Arrays.equals(array, starArray) && choice.equalsIgnoreCase(word);
+    }
+
+    private static boolean isInvalidInput (String choice, String name, String lastname) {
+        return choice.length() != name.length()
+                && choice.length() != lastname.length()
+                && choice.length() != 1
+                || !choice.matches(REGEX_NAME_LASTNAME);
+    }
+
 }
