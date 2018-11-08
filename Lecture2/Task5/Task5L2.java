@@ -143,8 +143,8 @@ public class Task5L2 {
         letterMessageValidation(isRightMoveForName, isRightMoveForLastname, nameArray, lastnameArray, starNameArray, starLastnameArray);
     }
 
-    private static void wordMessageValidation(boolean isWordRightMove, char[] starNameArray, char[] starLastnameArray) {
-        if (isWordRightMove) {
+    private static void wordMessageValidation(boolean isWordOpened, char[] starNameArray, char[] starLastnameArray) {
+        if (isWordOpened) {
             printWholeWord(starNameArray, starLastnameArray);
         }
         else {
@@ -152,18 +152,18 @@ public class Task5L2 {
         }
     }
 
-    private static boolean isWordRightMove(char[] array, char[] starArray) {
+    private static boolean arrayCopyAndTrue(char[] array, char[] starArray) {
         System.arraycopy(array, 0, starArray, 0, array.length);
         return true;
     }
 
     private static void wordProcessing(char[] nameArray, char[] starNameArray, String choice, String name, char[] lastnameArray, char[] starLastnameArray, String lastname, List<String> listOfWords) {
         boolean isWordOpened = false;
-        if (!Arrays.equals(nameArray , starNameArray) && choice.length() == name.length() && choice.equalsIgnoreCase(name)) {
-            isWordOpened = isWordRightMove(nameArray, starNameArray);
+        if (choice.equalsIgnoreCase(name)) {
+            isWordOpened = arrayCopyAndTrue(nameArray, starNameArray);
         }
-        if (!Arrays.equals(lastnameArray, starLastnameArray) && choice.length() == lastname.length() && choice.equalsIgnoreCase(lastname)) {
-            isWordOpened = isWordRightMove(lastnameArray, starLastnameArray);
+        if (choice.equalsIgnoreCase(lastname)) {
+            isWordOpened = arrayCopyAndTrue(lastnameArray, starLastnameArray);
         }
         listOfWords.add(choice);
         wordMessageValidation(isWordOpened, starNameArray, starLastnameArray);
