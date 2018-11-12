@@ -1,55 +1,41 @@
-class Voucher {
+abstract class Voucher {
     private String name;
     private double price;
     private String country;
     private String startDate;
     private int countDays;
+    private int discount;
+    private double cost;
 
-    public Voucher(String name, int price, String country, String startDate, int countDays) {
-        this.name = name;
-        this.price = price;
-        this.country = country;
-        this.startDate = startDate;
-        this.countDays = countDays;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public int getCountDays() {
+    int getCountDays() {
         return countDays;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    double getCost() {
+        return cost;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public abstract String getFood();
+
+    public abstract String getTransfer();
+
+    public void initVoucher(int i) {
+        this.name = "Name" + i;
+        this.price = i;
+        this.country = "Country" + i;
+        this.startDate = "StartDate" + i;
+        this.countDays = i;
+        this.discount = i;
+        this.cost = this.price - this.price * this.discount / 100;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public void setCountDays(int countDays) {
-        this.countDays = countDays;
+    public void printVoucher() {
+        System.out.print("Name: " + name + " ");
+        System.out.print("Price: " + price + " ");
+        System.out.print("Country: " + country + " ");
+        System.out.print("StartDate: " + startDate + " ");
+        System.out.print("CountDays: " + countDays + " ");
+        System.out.print("Discount: " + discount + " ");
+        System.out.print("Cost: " + cost + " ");
     }
 }

@@ -1,6 +1,8 @@
-class RestVoucher extends Voucher {
+class CureVoucher extends Voucher {
 
-    private String residence;
+    private String hospital;
+    private String personal;
+    private String medicalSupplies;
     private String transfer;
     private String food;
 
@@ -17,7 +19,9 @@ class RestVoucher extends Voucher {
     @Override
     public void initVoucher(int i) {
         super.initVoucher(i);
-        this.residence = "Residence" + i;
+        this.hospital = "Hospital" + i;
+        this.personal = "Personal" + i;
+        this.medicalSupplies = "MedicalSupplies" + i;
         this.transfer = "Transfer" + i;
         this.food = "Food" + i;
     }
@@ -25,7 +29,9 @@ class RestVoucher extends Voucher {
     @Override
     public void printVoucher() {
         super.printVoucher();
-        System.out.print("Residence: " + residence + " ");
+        System.out.print("Hospital: " + hospital + " ");
+        System.out.print("Personal: " + personal + " ");
+        System.out.print("MedicalSupplies: " + medicalSupplies + " ");
         System.out.print("Transfer: " + transfer + " ");
         System.out.println("Food: " + food + " ");
     }
