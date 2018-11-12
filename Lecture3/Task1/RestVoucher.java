@@ -8,4 +8,5 @@ class RestVoucher extends Voucher{
         super(name, price, country, startDate, countDays);
         this.residence = residence;
     }
+
 }
