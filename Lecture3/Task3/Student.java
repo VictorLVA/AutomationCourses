@@ -4,35 +4,30 @@ class Student {
     private String lastname;
     private int age;
 
+    Student(int i) {
+        this.id = i + 1;
+        this.name = "Name" + (i + 1);
+        this.lastname = (int) (Math.random() * 2) + "Lastname" + (i + 1);
+        this.age = 16 + (int) (Math.random() * (100 - 16));
+    }
+
     int getId() {
         return id;
-    }
-
-    void setId(int id) {
-        this.id = id;
-    }
-
-    String getName() {
-        return name;
-    }
-
-    void setName(String name) {
-        this.name = name;
     }
 
     String getLastname() {
         return lastname;
     }
 
-    void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
     int getAge() {
         return age;
     }
 
-    void setAge(int age) {
-        this.age = age;
+    @Override
+    public String toString() {
+        return id + "\t\t" +
+                name + "\t\t" +
+                lastname + "\t\t" +
+                age + "\n";
     }
 }

@@ -5,99 +5,81 @@ import java.util.Map;
 
 public class Task2L3 {
     public static void main(String[] args) {
-
-        List<Student> allStudents = initStudents ();
-
+        List<Student> allStudents = initListOfStudents();
         System.out.println("\nList of students:");
         printStudentsList(allStudents);
-
         System.out.println("\nLets sort students by age ASC:");
         sortListByAge(allStudents);
         printStudentsList(allStudents);
-
-        System.out.println("\nLets search");
-        printStudentsList(searchListByLastname("1", allStudents));
-
+        System.out.println("\nLets search:");
+        printStudentsList(searchStudentsByLastname("1", allStudents));
         System.out.println("\nAverage age is: " + getListAverageAge(allStudents));
-
-        System.out.println("\nLets create an allStudentsMap");
+        System.out.println("\nLets create an allStudentsMap:");
         Map<Integer, Student> allStudentsMap = createAllStudentsMap(allStudents);
         printStudentsMap(allStudentsMap);
-
-        System.out.println("\nLets create a filterStudentsMap");
-        Map<Integer, Student> filterStudentsMap = filterStudentsMap(allStudentsMap);
-        printStudentsMap(filterStudentsMap);
+        System.out.println("\nLets create a filteredStudentsMap:");
+        Map<Integer, Student> filteredStudentsMap = filterStudentsMap(allStudentsMap);
+        printStudentsMap(filteredStudentsMap);
     }
 
-    private static List<Student> initStudents () {
-        List<Student> list = new ArrayList<>();
+    private static List<Student> initListOfStudents() {
+        List<Student> listOfStudents = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            Student student = new Student();
-            student.setId(i + 1);
-            student.setName("Name" + (i + 1));
-            student.setLastname(((int)(Math.random() * 2) + "Lastname" + (i + 1)));
-            student.setAge(16 + (int)(Math.random() * (100 - 16)));
-            list.add(student);
+            Student student = new Student(i);
+            listOfStudents.add(student);
         }
-        return list;
+        return listOfStudents;
     }
 
-    private static void printStudentsList(List<Student> list){
-        System.out.print("Id:\t\t");
-        System.out.print("Name:" + "\t\t");
-        System.out.print("Lastname:" + "\t\t");
-        System.out.print("Age:" + "\n");
-        for (Student each : list) {
-            System.out.print(each.getId() + "\t\t");
-            System.out.print(each.getName() + "\t\t");
-            System.out.print(each.getLastname() + "\t\t");
-            System.out.println(each.getAge());
+    private static void printStudentsList(List<Student> listOfStudents) {
+        for (Student studentFromList : listOfStudents) {
+            System.out.print(studentFromList);
         }
     }
 
-    private static void printStudentsMap(Map<Integer, Student> map){
-        for (Map.Entry<Integer, Student> each : map.entrySet()) {
-            System.out.println(each.getKey() + " - " + each.getValue().getName() + " " + each.getValue().getLastname());
+    private static void printStudentsMap(Map<Integer, Student> mapOfStudents) {
+        for (Map.Entry<Integer, Student> studentFromMap : mapOfStudents.entrySet()) {
+            System.out.print(studentFromMap);
         }
     }
 
-    private static void sortListByAge(List<Student> list) {
-        list.sort(new AgeComparatorAsc());
+    private static void sortListByAge(List<Student> listOfStudents) {
+        listOfStudents.sort(new AgeComparatorAsc());
     }
 
-    private static List<Student> searchListByLastname (String search, List<Student> list) {
+    private static List<Student> searchStudentsByLastname(String search, List<Student> listOfStudents) {
         List<Student> afterSearchList = new ArrayList<>();
-        for (Student each : list) {
-            if (each.getLastname ( ).startsWith ( search )) {
-                afterSearchList.add ( each );
+        for (Student studentFromList : listOfStudents) {
+            if (studentFromList.getLastname().startsWith(search)) {
+                afterSearchList.add(studentFromList);
             }
         }
         return afterSearchList;
     }
 
-    private static double getListAverageAge (List<Student> list) {
+    private static double getListAverageAge(List<Student> listOfStudents) {
         double averageAge = 0;
-        for (Student each : list) {
-            averageAge += each.getAge();
+        for (Student studentFromList : listOfStudents) {
+            averageAge += studentFromList.getAge();
         }
-        return averageAge / list.size();
+        return averageAge / listOfStudents.size();
     }
 
-    private static Map<Integer, Student> createAllStudentsMap (List<Student> list) {
+    private static Map<Integer, Student> createAllStudentsMap(List<Student> listOfStudents) {
         Map<Integer, Student> allStudentsMap = new HashMap<>();
-        for (Student each : list) {
-            allStudentsMap.put(each.getId(), each);
+        for (Student studentFromList : listOfStudents) {
+            allStudentsMap.put(studentFromList.getId(), studentFromList);
         }
         return allStudentsMap;
     }
 
-    private static Map<Integer, Student> filterStudentsMap (Map<Integer, Student> map) {
-        Map<Integer, Student> filterStudentMap = new HashMap<>();
-        for (Map.Entry<Integer, Student> each : map.entrySet()) {
-            if (each.getKey() > 5) {
-                filterStudentMap.put(each.getKey(), each.getValue());
+    private static Map<Integer, Student> filterStudentsMap(Map<Integer, Student> mapOfStudents) {
+        Map<Integer, Student> filteredStudentMap = new HashMap<>();
+        for (Map.Entry<Integer, Student> studentFromMap : mapOfStudents.entrySet()) {
+            if (studentFromMap.getKey() > 5) {
+                filteredStudentMap.put(studentFromMap.getKey(), studentFromMap.getValue());
             }
         }
-        return filterStudentMap;
+        return filteredStudentMap;
     }
 }
