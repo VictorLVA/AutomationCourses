@@ -90,7 +90,7 @@ public class Task1L3 {
                 System.out.print("ID: " + (i + 1) + " | " + listOfSelection.get(i));
             }
         } else {
-            System.out.println("Sorry, we don't have such vouchers :(");
+            System.out.println(MESSAGE_SORRY);
             System.exit(0);
         }
     }
