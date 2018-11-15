@@ -1,48 +1,44 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class Task1L3 {
+    private static final String MESSAGE_TRY_AGAIN = "Please check the entered value. ";
+    private static final String MESSAGE_SORRY = "\nSorry, we don't have such vouchers :(";
 
     private static List<Voucher> listOfVouchers = new ArrayList<>();
     private static List<Voucher> listOfSelection = new ArrayList<>();
-    private static Map<Integer, Voucher> mapOfSelection = new TreeMap<>();
 
     public static void main(String[] args) {
         createRandomVouchers();
-        int selection = getUserSelection();
-        provideFirstOffer(listOfVouchers, selection);
-        String advanced = needAdvancedSearch();
-        if (advanced.equalsIgnoreCase("n")) {
+        provideFirstOffer(getUserSelection());
+        if (!isAdvancedSearchNeeded()) {
             selectVoucher();
-        }
-        if (advanced.equalsIgnoreCase("y")) {
-            searchDaysCount();
-            searchFood();
-            searchTransfer();
+        } else {
+            searchMinimumDaysCount();
+            searchWithFood();
+            searchWithTransfer();
             provideFinalOffer();
         }
     }
 
     private static void createRandomVouchers() {
-        for (int i = 50; i != 0; i--) {
+        for (int i = 20; i != 0; i--) {
             int creationType = (int) (Math.random() * 3);
-            if (creationType == 0) {
-                RestVoucher restVoucher = new RestVoucher();
-                restVoucher.initVoucher(i);
-                listOfVouchers.add(restVoucher);
-            } else if (creationType == 1) {
-                CureVoucher cureVoucher = new CureVoucher();
-                cureVoucher.initVoucher(i);
-                listOfVouchers.add(cureVoucher);
-            } else {
-                ShoppingVoucher shoppingVoucher = new ShoppingVoucher();
-                shoppingVoucher.initVoucher(i);
-                listOfVouchers.add(shoppingVoucher);
+            switch (creationType) {
+                case 0:
+                    Voucher restVoucher = new RestVoucher(i);
+                    listOfVouchers.add(restVoucher);
+                    break;
+                case 1:
+                    Voucher cureVoucher = new CureVoucher(i);
+                    listOfVouchers.add(cureVoucher);
+                    break;
+                case 2:
+                    Voucher shoppingVoucher = new ShoppingVoucher(i);
+                    listOfVouchers.add(shoppingVoucher);
             }
         }
     }
@@ -52,52 +48,46 @@ public class Task1L3 {
         while (selection == 0) {
             System.out.print("Lets select needed type of the vouchers (1-Rest, 2-Cure, 3-Shopping): ");
             Scanner input = new Scanner(System.in);
-            int check;
+            int userInput;
             try {
-                check = input.nextInt();
+                userInput = input.nextInt();
             } catch (Exception e) {
+                System.out.print(MESSAGE_TRY_AGAIN);
                 continue;
             }
-            if (check >= 1 && check <= 3) {
-                selection = check;
+            if (userInput >= 1 && userInput <= 3) {
+                selection = userInput;
+            } else {
+                System.out.print(MESSAGE_TRY_AGAIN);
             }
         }
         return selection;
     }
 
-    private static void provideFirstOffer(List<Voucher> listOfVouchers, int selection) {
-        if (selection == 1) {
-            Comparator<Voucher> byCost = Comparator.comparingDouble(Voucher::getCost);
-            listOfSelection = listOfVouchers.stream()
-                                            .filter(each -> each.getClass() == RestVoucher.class)
-                                            .sorted(byCost)
-                                            .collect(Collectors.toList());
-            for (int i = 0; i < listOfSelection.size(); i++) {
-                mapOfSelection.put(i + 1, listOfSelection.get(i));
-            }
-        } else if (selection == 2) {
-            Comparator<Voucher> byCost = Comparator.comparingDouble(Voucher::getCost);
-            listOfSelection = listOfVouchers.stream()
-                                            .filter(each -> each.getClass() == CureVoucher.class)
-                                            .sorted(byCost)
-                                            .collect(Collectors.toList());
-            for (int i = 0; i < listOfSelection.size(); i++) {
-                mapOfSelection.put(i + 1, listOfSelection.get(i));
-            }
-        } else {
-            Comparator<Voucher> byCost = Comparator.comparingDouble(Voucher::getCost);
-            listOfSelection = listOfVouchers.stream()
-                                            .filter(each -> each.getClass() == ShoppingVoucher.class)
-                                            .sorted(byCost)
-                                            .collect(Collectors.toList());
-            for (int i = 0; i < listOfSelection.size(); i++) {
-                mapOfSelection.put(i + 1, listOfSelection.get(i));
-            }
+    private static void provideFirstOffer(int selection) {
+        Comparator<Voucher> byCost = Comparator.comparingDouble(Voucher::getCost);
+        switch (selection) {
+            case 1:
+                listOfSelection = listOfVouchers.stream()
+                                                .filter(voucher -> voucher.getClass() == RestVoucher.class)
+                                                .sorted(byCost)
+                                                .collect(Collectors.toList());
+                break;
+            case 2:
+                listOfSelection = listOfVouchers.stream()
+                                                .filter(voucher -> voucher.getClass() == CureVoucher.class)
+                                                .sorted(byCost)
+                                                .collect(Collectors.toList());
+                break;
+            case 3:
+                listOfSelection = listOfVouchers.stream()
+                                                .filter(voucher -> voucher.getClass() == ShoppingVoucher.class)
+                                                .sorted(byCost)
+                                                .collect(Collectors.toList());
         }
-        if (!mapOfSelection.isEmpty()) {
-            for (Map.Entry<Integer, Voucher> each : mapOfSelection.entrySet()) {
-                System.out.print("ID: " + each.getKey() + " ");
-                each.getValue().printVoucher();
+        if (!listOfSelection.isEmpty()) {
+            for (int i = 0; i < listOfSelection.size(); i++) {
+                System.out.print("ID: " + (i + 1) + " | " + listOfSelection.get(i));
             }
         } else {
             System.out.println("Sorry, we don't have such vouchers :(");
@@ -105,28 +95,27 @@ public class Task1L3 {
         }
     }
 
-    private static String needAdvancedSearch() {
-        String advanced = null;
-        while (advanced == null) {
+    private static boolean isAdvancedSearchNeeded() {
+        String userAnswer = null;
+        while (userAnswer == null) {
             System.out.print("Do you want advanced filters? (y/n) ");
             Scanner input = new Scanner(System.in);
-            String check;
-            check = input.nextLine();
-            if (check.matches("[ynYN]")) {
-                advanced = check;
+            String userInput;
+            userInput = input.nextLine();
+            if (userInput.matches("[ynYN]")) {
+                userAnswer = userInput;
+            } else {
+                System.out.print(MESSAGE_TRY_AGAIN);
             }
         }
-        return advanced;
+        return (userAnswer.equalsIgnoreCase("y"));
     }
 
-    private static void searchDaysCount() {
+    private static void searchMinimumDaysCount() {
         int countDays = getUserCountDays();
         listOfSelection = listOfSelection.stream()
-                                         .filter(each -> each.getCountDays() >= countDays)
+                                         .filter(voucher -> voucher.getCountDays() >= countDays)
                                          .collect(Collectors.toList());
-        for (int i = 0; i < listOfSelection.size(); i++) {
-            mapOfSelection.put(i + 1, listOfSelection.get(i));
-        }
     }
 
     private static int getUserCountDays() {
@@ -134,108 +123,107 @@ public class Task1L3 {
         while (countDays == 0) {
             System.out.print("How many days minimum you need? ");
             Scanner input = new Scanner(System.in);
-            int check;
+            int userInput;
             try {
-                check = input.nextInt();
+                userInput = input.nextInt();
             } catch (Exception e) {
+                System.out.print(MESSAGE_TRY_AGAIN);
                 continue;
             }
-            if (check >= 1) {
-                countDays = check;
+            if (userInput >= 1) {
+                countDays = userInput;
+            } else {
+                System.out.print(MESSAGE_TRY_AGAIN);
             }
         }
         return countDays;
     }
 
-    private static void searchFood() {
-        String food = getUserFood();
-        if (food.equalsIgnoreCase("n")) {
+    private static void searchWithFood() {
+        if (!isUserNeedFood()) {
             listOfSelection = listOfSelection.stream()
-                                             .filter(each -> each.getFood().isBlank())
+                                             .filter(voucher -> voucher.getFood().isBlank())
                                              .collect(Collectors.toList());
-            for (int i = 0; i < listOfSelection.size(); i++) {
-                mapOfSelection.put(i + 1, listOfSelection.get(i));
-            }
-        } else if (food.equalsIgnoreCase("y")) {
+        } else {
             listOfSelection = listOfSelection.stream()
-                                             .filter(each -> !each.getFood().isBlank())
+                                             .filter(voucher -> !voucher.getFood().isBlank())
                                              .collect(Collectors.toList());
-            for (int i = 0; i < listOfSelection.size(); i++) {
-                mapOfSelection.put(i + 1, listOfSelection.get(i));
-            }
         }
     }
 
-    private static String getUserFood() {
+    private static boolean isUserNeedFood() {
         String food = null;
         while (food == null) {
             System.out.print("Do you need food? (y/n) ");
             Scanner input = new Scanner(System.in);
-            String check;
-            check = input.nextLine();
-            if (check.matches("[ynYN]")) {
-                food = check;
+            String userInput;
+            userInput = input.nextLine();
+            if (userInput.matches("[ynYN]")) {
+                food = userInput;
+            } else {
+                System.out.print(MESSAGE_TRY_AGAIN);
             }
         }
-        return food;
+        return food.equalsIgnoreCase("y");
     }
 
-    private static void searchTransfer() {
-        String transfer = getUserTransfer();
-        if (transfer.equalsIgnoreCase("n")) {
+    private static void searchWithTransfer() {
+        if (!isUserNeedTransfer()) {
             listOfSelection = listOfSelection.stream()
                                              .filter(each -> each.getTransfer().isBlank())
                                              .collect(Collectors.toList());
-            mapOfSelection.clear();
-            for (int i = 0; i < listOfSelection.size(); i++) {
-                mapOfSelection.put(i + 1, listOfSelection.get(i));
-            }
-        } else if (transfer.equalsIgnoreCase("y")) {
+        } else {
             listOfSelection = listOfSelection.stream()
                                              .filter(each -> !each.getTransfer().isBlank())
                                              .collect(Collectors.toList());
-            mapOfSelection.clear();
-            for (int i = 0; i < listOfSelection.size(); i++) {
-                mapOfSelection.put(i + 1, listOfSelection.get(i));
-            }
         }
     }
 
-    private static String getUserTransfer() {
+    private static boolean isUserNeedTransfer() {
         String transfer = null;
         while (transfer == null) {
             System.out.print("Do you need transfer? (y/n) ");
             Scanner input = new Scanner(System.in);
-            String check;
-            check = input.nextLine();
-            if (check.matches("[ynYN]")) {
-                transfer = check;
+            String userInput;
+            userInput = input.nextLine();
+            if (userInput.matches("[ynYN]")) {
+                transfer = userInput;
+            } else {
+                System.out.print(MESSAGE_TRY_AGAIN);
             }
         }
-        return transfer;
+        return transfer.equalsIgnoreCase("y");
     }
 
     private static void selectVoucher() {
-        System.out.print("Lets select a voucher you like (by ID): ");
-        Scanner input1 = new Scanner(System.in);
-        int like = input1.nextInt();
-        for (Map.Entry<Integer, Voucher> each : mapOfSelection.entrySet()) {
-            if (each.getKey() == like) {
-                System.out.print("\nYou select:\n" + "ID: " + each.getKey() + " ");
-                each.getValue().printVoucher();
+        int likeVoucherId = 0;
+        while (likeVoucherId == 0) {
+            System.out.print("Lets select a voucher you like (by ID): ");
+            Scanner input = new Scanner(System.in);
+            int userInput;
+            try {
+                userInput = input.nextInt();
+            } catch (Exception e) {
+                System.out.print(MESSAGE_TRY_AGAIN);
+                continue;
+            }
+            if (userInput >= 1 && userInput <= listOfSelection.size()) {
+                likeVoucherId = userInput;
+            } else {
+                System.out.print(MESSAGE_TRY_AGAIN);
             }
         }
+        System.out.print("\nYou select:\n" + "ID: " + (likeVoucherId) + " | " + listOfSelection.get(likeVoucherId - 1));
     }
 
     private static void provideFinalOffer() {
-        if (!mapOfSelection.isEmpty()) {
-            for (Map.Entry<Integer, Voucher> each : mapOfSelection.entrySet()) {
-                System.out.print("ID: " + each.getKey() + " ");
-                each.getValue().printVoucher();
+        if (!listOfSelection.isEmpty()) {
+            for (int i = 0; i < listOfSelection.size(); i++) {
+                System.out.print("ID: " + (i + 1) + " | " + listOfSelection.get(i));
             }
             selectVoucher();
         } else {
-            System.out.println("\nSorry, we don't have such vouchers :(");
+            System.out.println(MESSAGE_SORRY);
         }
     }
 }

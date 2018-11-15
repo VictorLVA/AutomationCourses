@@ -6,6 +6,15 @@ class ShoppingVoucher extends Voucher {
     private String route;
     private String shops;
 
+    ShoppingVoucher(int i) {
+        super(i);
+        this.residence = "Residence" + i;
+        this.route = "Route" + i;
+        this.shops = "Shops" + i;
+        this.transfer = "Transfer" + i;
+        this.food = "Food" + i;
+    }
+
     @Override
     public String getFood() {
         return food;
@@ -17,22 +26,12 @@ class ShoppingVoucher extends Voucher {
     }
 
     @Override
-    public void initVoucher(int i) {
-        super.initVoucher(i);
-        this.residence = "Residence" + i;
-        this.route = "Route" + i;
-        this.shops = "Shops" + i;
-        this.transfer = "Transfer" + i;
-        this.food = "Food" + i;
-    }
-
-    @Override
-    public void printVoucher() {
-        super.printVoucher();
-        System.out.print("Residence: " + residence + " ");
-        System.out.print("Route: " + route + " ");
-        System.out.print("Shops: " + shops + " ");
-        System.out.print("Transfer: " + transfer + " ");
-        System.out.println("Food: " + food + " ");
+    public String toString() {
+        return super.toString() +
+                "Residence: " + residence + " | " +
+                "Route: " + route + " | " +
+                "Shops: " + shops + " | " +
+                "Transfer: " + transfer + " | " +
+                "Food: " + food + "\n";
     }
 }

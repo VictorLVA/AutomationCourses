@@ -6,6 +6,18 @@ abstract class Voucher {
     private int countDays;
     private int discount;
     private double cost;
+    private String formattedCost;
+
+    Voucher(int i) {
+        name = "VoucherName" + i;
+        price = 50 + (int) (Math.random() * 10000);
+        country = "GB";
+        startDate = "07.12.2018";
+        countDays = 3 + (int) (Math.random() * 30);
+        discount = (int) (Math.random() * 51);
+        cost = price - price * discount / 100;
+        formattedCost = String.format("%.2f", cost);
+    }
 
     int getCountDays() {
         return countDays;
@@ -19,23 +31,14 @@ abstract class Voucher {
 
     public abstract String getTransfer();
 
-    public void initVoucher(int i) {
-        this.name = "Name" + i;
-        this.price = i;
-        this.country = "Country" + i;
-        this.startDate = "StartDate" + i;
-        this.countDays = i;
-        this.discount = i;
-        this.cost = this.price - this.price * this.discount / 100;
-    }
-
-    public void printVoucher() {
-        System.out.print("Name: " + name + " ");
-        System.out.print("Price: " + price + " ");
-        System.out.print("Country: " + country + " ");
-        System.out.print("StartDate: " + startDate + " ");
-        System.out.print("CountDays: " + countDays + " ");
-        System.out.print("Discount: " + discount + " ");
-        System.out.print("Cost: " + cost + " ");
+    @Override
+    public String toString() {
+        return name + " | " +
+                price + "$ | " +
+                country + " | " +
+                "Start: " + startDate + " | " +
+                "Days: " + countDays + " | " +
+                "Discount: " + discount + " | " +
+                "FINAL COST: " + formattedCost + "$ | ";
     }
 }

@@ -4,6 +4,13 @@ class RestVoucher extends Voucher {
     private String transfer;
     private String food;
 
+    RestVoucher(int i) {
+        super(i);
+        this.residence = "Residence" + i;
+        this.transfer = "Transfer" + i;
+        this.food = "Food" + i;
+    }
+
     @Override
     public String getFood() {
         return food;
@@ -15,18 +22,10 @@ class RestVoucher extends Voucher {
     }
 
     @Override
-    public void initVoucher(int i) {
-        super.initVoucher(i);
-        this.residence = "Residence" + i;
-        this.transfer = "Transfer" + i;
-        this.food = "Food" + i;
-    }
-
-    @Override
-    public void printVoucher() {
-        super.printVoucher();
-        System.out.print("Residence: " + residence + " ");
-        System.out.print("Transfer: " + transfer + " ");
-        System.out.println("Food: " + food + " ");
+    public String toString() {
+        return super.toString() +
+                "Residence: " + residence + " | " +
+                "Transfer: " + transfer + " | " +
+                "Food: " + food + "\n";
     }
 }
