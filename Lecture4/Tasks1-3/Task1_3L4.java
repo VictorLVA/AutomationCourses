@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import predefinedExceptions.DaysCountException;
 import predefinedExceptions.EmptyListException;
+import predefinedExceptions.RegexException;
 import predefinedExceptions.SelectedVoucherTypeException;
 import predefinedExceptions.VoucherNotFoundException;
 import predefinedExceptions.YesNoAnswerException;
@@ -67,7 +68,10 @@ public class Task1_3L4 {
                         default:
                             notDownloadedCount++;
                     }
-                } catch (NumberFormatException | ArithmeticException | ArrayIndexOutOfBoundsException initEx) {
+                } catch (NumberFormatException
+                        | ArithmeticException
+                        | ArrayIndexOutOfBoundsException
+                        | RegexException initEx) {
                     notDownloadedCount++;
                 }
             }

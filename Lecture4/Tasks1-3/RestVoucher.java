@@ -1,10 +1,12 @@
+import predefinedExceptions.RegexException;
+
 class RestVoucher extends Voucher {
 
     private String residence;
     private String transfer;
     private String food;
 
-    RestVoucher(String[] voucherDetails) {
+    RestVoucher(String[] voucherDetails) throws RegexException {
         super(voucherDetails);
         this.residence = voucherDetails[7];
         this.transfer = voucherDetails[8];

@@ -1,7 +1,7 @@
-1;United Kingdom trip;3570.5;GB;20.12.2018;10;0;Hilton #31;Airplane;1 per day
+1;United Kingdom trip;3570.5;GB;20.12.2018;1;0;Hilton #31;Airplane;1 per day
 1;Australia trip;7234;AUS;21.12.2018;15;25;Renaissance hotel;no;3 per day
-1;Ibiza trip;2225.55;ESP;22.12.2018;25;50;Any bungalow;Airplane, ship;no
-1;Ibiza trip;2200.55;ESP;22.12.2018;25;55;Any bungalow;no;no
+1;Ibiza trip;2225.55;ESP;22.12.2018;90;37;Any bungalow;Airplane, ship;no
+1;Ibiza trip;2200.55;ESP;22.12.2018;25;50;Any bungalow;no;no
 ---
 wrong vouchers:
 1;United Kingdom trip;GB;20.12.2018;10;0;Hilton #31;Airplane;1 per day ; - NumberFormatException

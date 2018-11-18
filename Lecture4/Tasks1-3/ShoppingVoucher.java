@@ -1,3 +1,5 @@
+import predefinedExceptions.RegexException;
+
 class ShoppingVoucher extends Voucher {
 
     private String residence;
@@ -6,7 +8,7 @@ class ShoppingVoucher extends Voucher {
     private String route;
     private String shops;
 
-    ShoppingVoucher(String[] voucherDetails) {
+    ShoppingVoucher(String[] voucherDetails) throws RegexException {
         super(voucherDetails);
         this.residence = voucherDetails[7];
         this.route = voucherDetails[8];
