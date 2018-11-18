@@ -4,12 +4,14 @@
 1;Ibiza trip;2200.55;ESP;22.12.2018;25;55;Any bungalow;no;no
 ---
 wrong vouchers:
-w;Ibiza trip;2200.55;ESP;22.12.2018;25;55;Any bungalow;no;no
-4;Ibiza trip;2200.55;ESP;22.12.2018;25;55;Any bungalow;no;no
-1.1;Ibiza trip;bla bla bla
-1,1;Ibiza trip;bla bla bla
--1;Ibiza trip;bla bla bla
-0;Ibiza trip;2225.55;ESP;22.12.2018;25;50;Any b bla bla bla
+1;United Kingdom trip;GB;20.12.2018;10;0;Hilton #31;Airplane;1 per day ; - NumberFormatException
+1;United Kingdom trip;3570.5;GB;20.12.2018;10;0; - ArrayIndexOutOfBoundsException
+w;Ibiza trip;2200.55;ESP;22.12.2018;25;55;Any bungalow;no;no ; - NumberFormatException
+4;Ibiza trip;2200.55;ESP;22.12.2018;25;55;Any bungalow;no;no ; - default
+1.1;Ibiza trip;bla bla bla ; - default
+1,1;Ibiza trip;bla bla bla ; - default
+-1;Ibiza trip;bla bla bla ; - default
+0;Ibiza trip;2225.55;ESP;22.12.2018;25;50;Any b bla bla bla ; - default
 ---
 2;United Kingdom Medical;3570.5;GB;20.12.2018;10;5;Some hospital;Only doctors;Much medicine;Car;3 per day
 2;United Kingdom Medical;3000.5;GB;20.12.2018;11;10;Some hospital;Only doctors;Much medicine;no;3 per day

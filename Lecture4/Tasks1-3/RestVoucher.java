@@ -6,15 +6,9 @@ class RestVoucher extends Voucher {
 
     RestVoucher(String[] voucherDetails) {
         super(voucherDetails);
-        try {
-            this.residence = voucherDetails[7];
-            this.transfer = voucherDetails[8];
-            this.food = voucherDetails[9];
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("RestVouchers. Something wrong with the imported vouchers");
-            ex.printStackTrace();
-            System.exit(0);
-        }
+        this.residence = voucherDetails[7];
+        this.transfer = voucherDetails[8];
+        this.food = voucherDetails[9];
     }
 
     @Override

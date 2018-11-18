@@ -67,12 +67,13 @@ public class Task1_3L4 {
                         default:
                             notDownloadedCount++;
                     }
-                } catch (NumberFormatException numberFormatEx) {
+                } catch (NumberFormatException | ArithmeticException | ArrayIndexOutOfBoundsException initEx) {
                     notDownloadedCount++;
                 }
             }
         } catch (IOException inputEx) {
             inputEx.printStackTrace();
+            System.exit(0);
         }
         if (notDownloadedCount != 0) {
             System.out.println("\nThere are some problems with " + notDownloadedCount + " vouchers within the file\n");
@@ -127,12 +128,8 @@ public class Task1_3L4 {
         }
         try {
             if (!listOfSelection.isEmpty()) {
-                try {
-                    for (int i = 0; i < listOfSelection.size(); i++) {
-                        System.out.print("ID: " + (i + 1) + " | " + listOfSelection.get(i));
-                    }
-                } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsEx) {
-                    System.out.println(MESSAGE_OPS);
+                for (int i = 0; i < listOfSelection.size(); i++) {
+                    System.out.print("ID: " + (i + 1) + " | " + listOfSelection.get(i));
                 }
             } else {
                 throw new EmptyListException(MESSAGE_SORRY);
@@ -287,13 +284,8 @@ public class Task1_3L4 {
     private static void provideFinalOffer() {
         try {
             if (!listOfSelection.isEmpty()) {
-                try {
-                    for (int i = 0; i < listOfSelection.size(); i++) {
-                        System.out.print("ID: " + (i + 1) + " | " + listOfSelection.get(i));
-                    }
-                } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsEx) {
-                    System.out.println(MESSAGE_OPS);
-                    System.exit(0);
+                for (int i = 0; i < listOfSelection.size(); i++) {
+                    System.out.print("ID: " + (i + 1) + " | " + listOfSelection.get(i));
                 }
                 selectVoucher();
             } else {
@@ -315,6 +307,7 @@ public class Task1_3L4 {
             voucherDetailsWriter.close();
             System.out.println("\nVoucher details have been written to file \"Your voucher.txt\"");
         } catch (IOException outputEx) {
+            System.out.println("Cannot write output file!");
             outputEx.printStackTrace();
         }
     }

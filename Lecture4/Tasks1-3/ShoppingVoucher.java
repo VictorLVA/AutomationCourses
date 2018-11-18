@@ -8,17 +8,11 @@ class ShoppingVoucher extends Voucher {
 
     ShoppingVoucher(String[] voucherDetails) {
         super(voucherDetails);
-        try {
-            this.residence = voucherDetails[7];
-            this.route = voucherDetails[8];
-            this.shops = voucherDetails[9];
-            this.transfer = voucherDetails[10];
-            this.food = voucherDetails[11];
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("ShoppingVouchers. Something wrong with the imported vouchers");
-            ex.printStackTrace();
-            System.exit(0);
-        }
+        this.residence = voucherDetails[7];
+        this.route = voucherDetails[8];
+        this.shops = voucherDetails[9];
+        this.transfer = voucherDetails[10];
+        this.food = voucherDetails[11];
     }
 
     @Override
