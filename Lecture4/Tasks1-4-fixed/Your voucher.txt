@@ -1,0 +1,12 @@
+Your selected voucher details are listed below:
+
+Ibiza trip
+First price: 2225.55$
+Country: ESP
+Start date: 22.12.2018
+Days count: 90
+Discount: 37%
+FINAL COST: 1402.10$
+Residence: Any bungalow
+Transfer: Airplane, ship
+Food: no
