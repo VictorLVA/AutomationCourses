@@ -1,0 +1,12 @@
+Your selected voucher details are listed below:
+
+United Kingdom trip
+First price: 3570.5$
+Country: GB
+Start date: 20.12.2018
+Days count: 1
+Discount: 0%
+FINAL COST: 3570.50$
+Residence: Hilton #31
+Transfer: Airplane
+Food: 1 per day

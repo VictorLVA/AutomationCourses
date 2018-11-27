@@ -1,0 +1,14 @@
+Your selected voucher details are listed below:
+
+United Kingdom Medical
+First price: 3000.5$
+Country: GB
+Start date: 20.12.2018
+Days count: 11
+Discount: 10%
+FINAL COST: 2700.45$
+Hospital: Some hospital
+Personal: Only doctors
+MedicalSupplies: Much medicine
+Transfer: no
+Food: 3 per day
