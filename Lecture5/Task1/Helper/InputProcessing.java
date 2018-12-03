@@ -2,7 +2,6 @@ package Helper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class InputProcessing {
 
@@ -12,7 +11,6 @@ public class InputProcessing {
     private static final String REGEX_DOUBLE = "^[-+]?[0-9]*[.]?[0-9]+(?:[eE][-+]?[0-9]+)?$";
     private static final String REGEX_OPERATIONS = "[-+*/]";
 
-    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static boolean isInputAssigned = false;
 
     public static boolean isInputAssigned() {
@@ -23,16 +21,20 @@ public class InputProcessing {
         InputProcessing.isInputAssigned = isInputAssigned;
     }
 
-    public static double getUserNumber() {
+    public static boolean isQuitNeeded(String input) {
+        return ("quit".equalsIgnoreCase(input));
+    }
+
+    public static double getUserNumber(BufferedReader userInputReader) {
         String input = null;
         double number = 0;
         try {
-            input = reader.readLine();
+            input = userInputReader.readLine();
         } catch (IOException ex) {
             System.out.println(MESSAGE_EXCEPTION);
             System.exit(0);
         }
-        if ("quit".equals(input)) {
+        if (isQuitNeeded(input)) {
             System.exit(0);
         }
         if (input.matches(REGEX_DOUBLE)) {
@@ -44,16 +46,16 @@ public class InputProcessing {
         return number;
     }
 
-    public static char getUserOperation() {
+    public static char getUserOperation(BufferedReader userInputReader) {
         String input = null;
         char operation = ' ';
         try {
-            input = reader.readLine();
+            input = userInputReader.readLine();
         } catch (IOException ex) {
             System.out.println(MESSAGE_EXCEPTION);
             System.exit(0);
         }
-        if ("quit".equals(input)) {
+        if (isQuitNeeded(input)) {
             System.exit(0);
         }
         if (input.matches(REGEX_OPERATIONS)) {

@@ -21,25 +21,21 @@ public class TestOperations {
 
     @Test(dataProvider = "testData")
     public static void testSum(double number1, double number2) {
-        double actualResult = Helper.Operations.getSum(number1, number2);
-        Assert.assertEquals(actualResult, number1 + number2);
+        Assert.assertEquals(Helper.Operations.getSum(number1, number2), number1 + number2);
     }
 
     @Test(dataProvider = "testData")
     public static void testDiff(double number1, double number2) {
-        double actualResult = Helper.Operations.getDiff(number1, number2);
-        Assert.assertEquals(actualResult, number1 - number2);
+        Assert.assertEquals(Helper.Operations.getDiff(number1, number2), number1 - number2);
     }
 
     @Test(dataProvider = "testData")
     public static void testDer(double number1, double number2) {
-        double actualResult = Helper.Operations.getDer(number1, number2);
-        Assert.assertEquals(actualResult, number1 * number2);
+        Assert.assertEquals(Helper.Operations.getDer(number1, number2), number1 * number2);
     }
 
     @Test(dataProvider = "testData")
     public static void testQuo(double number1, double number2) {
-        double actualResult = Helper.Operations.getQuo(number1, number2);
-        Assert.assertEquals(actualResult, number1 / number2);
+        Assert.assertEquals(Helper.Operations.getQuo(number1, number2), number1 / number2);
     }
 }
