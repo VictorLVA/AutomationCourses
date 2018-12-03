@@ -2,6 +2,9 @@ package Helper;
 
 public class CalcProcessing {
 
+    private CalcProcessing() {
+    }
+
     public static double getResultByOperation(double firstNumber, double secondNumber, char operation) {
         if (operation == '+') {
             return Operations.getSum(firstNumber, secondNumber);

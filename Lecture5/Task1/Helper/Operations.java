@@ -2,6 +2,9 @@ package Helper;
 
 public class Operations {
 
+    private Operations() {
+    }
+
     public static double getSum(double firstNumber, double secondNumber) {
         return firstNumber + secondNumber;
     }

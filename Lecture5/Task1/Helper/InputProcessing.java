@@ -5,6 +5,9 @@ import java.io.IOException;
 
 public class InputProcessing {
 
+    private InputProcessing() {
+    }
+
     private static final String MESSAGE_NEED_PROPER_VALUE = "Try to enter a proper value";
     private static final String MESSAGE_NEED_PROPER_OPERATION = "Try to enter a proper operation";
     private static final String MESSAGE_EXCEPTION = "Sorry, something went wrong";
