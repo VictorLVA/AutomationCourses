@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Calculator unit tests" thread-count="5">
+
+    <test name="TestInputProcessing">
+        <classes>
+            <class name="TestInputProcessing"/>
+        </classes>
+    </test>
+
+    <test name="TestCalcProcessing">
+        <classes>
+            <class name="TestCalcProcessing"/>
+        </classes>
+    </test>
+
+    <test name="TestOperations" parallel="methods">
+        <classes>
+            <class name="TestOperations"/>
+        </classes>
+    </test>
+
+</suite>
