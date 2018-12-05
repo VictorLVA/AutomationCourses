@@ -47,24 +47,48 @@ public class TestInputProcessing {
     }
 
     @Test
-    public static void testInputAssignedFalseAtStart() {
+    public static void testFlagsFalseAtStart() {
         Assert.assertFalse(
-                Helper.InputProcessing.isInputAssigned(),
-                "Boolean 'isInputAssigned' isn't 'FALSE' at the start of application -"
+                Helper.InputProcessing.isFirstNumberAssigned(),
+                "Boolean 'isFirstNumberAssigned' isn't 'FALSE' at the start of application -"
+        );
+        Assert.assertFalse(
+                Helper.InputProcessing.isOperationAssigned(),
+                "Boolean 'isOperationAssigned' isn't 'FALSE' at the start of application -"
+        );
+        Assert.assertFalse(
+                Helper.InputProcessing.isSecondNumberAssigned(),
+                "Boolean 'isSecondNumberAssigned' isn't 'FALSE' at the start of application -"
         );
     }
 
     @Test
     public static void testSettingValueInputAssigned() {
-        Helper.InputProcessing.setInputAssigned(true);
+        Helper.InputProcessing.setFlagsValue(true);
         Assert.assertTrue(
-                Helper.InputProcessing.isInputAssigned(),
-                "Cannot assign the value 'TRUE' for the 'isInputAssigned' boolean -"
+                Helper.InputProcessing.isFirstNumberAssigned(),
+                "Cannot assign the value 'TRUE' for the 'isFirstNumberAssigned' boolean -"
         );
-        Helper.InputProcessing.setInputAssigned(false);
+        Assert.assertTrue(
+                Helper.InputProcessing.isOperationAssigned(),
+                "Cannot assign the value 'TRUE' for the 'isOperationAssigned' boolean -"
+        );
+        Assert.assertTrue(
+                Helper.InputProcessing.isSecondNumberAssigned(),
+                "Cannot assign the value 'TRUE' for the 'isSecondNumberAssigned' boolean -"
+        );
+        Helper.InputProcessing.setFlagsValue(false);
         Assert.assertFalse(
-                Helper.InputProcessing.isInputAssigned(),
-                "Cannot assign the value 'FALSE' for the 'isInputAssigned' boolean -"
+                Helper.InputProcessing.isFirstNumberAssigned(),
+                "Cannot assign the value 'FALSE' for the 'isFirstNumberAssigned' boolean -"
+        );
+        Assert.assertFalse(
+                Helper.InputProcessing.isOperationAssigned(),
+                "Cannot assign the value 'FALSE' for the 'isOperationAssigned' boolean -"
+        );
+        Assert.assertFalse(
+                Helper.InputProcessing.isSecondNumberAssigned(),
+                "Cannot assign the value 'FALSE' for the 'isSecondNumberAssigned' boolean -"
         );
     }
 

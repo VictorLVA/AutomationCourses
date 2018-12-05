@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import Factory.ResultsFactory;
+import Helper.InputProcessing;
 import Results.Result;
 
 public class Task1L5 {
@@ -19,30 +20,28 @@ public class Task1L5 {
             double firstNumber = 0;
             double secondNumber = 0;
             char operation = ' ';
-            while (!Helper.InputProcessing.isInputAssigned()) {
+            while (!InputProcessing.isFirstNumberAssigned()) {
                 System.out.print(MESSAGE_NUMBER1);
                 String input = userInputReader.readLine();
-                firstNumber = Helper.InputProcessing.getUserNumber(input);
+                firstNumber = InputProcessing.getUserNumber(input);
             }
-            Helper.InputProcessing.setInputAssigned(false);
-            while (!Helper.InputProcessing.isInputAssigned()) {
+            while (!InputProcessing.isOperationAssigned()) {
                 System.out.print(MESSAGE_OPERATION);
                 String input = userInputReader.readLine();
-                operation = Helper.InputProcessing.getUserOperation(input);
+                operation = InputProcessing.getUserOperation(input);
             }
-            Helper.InputProcessing.setInputAssigned(false);
-            while (!Helper.InputProcessing.isInputAssigned()) {
+            while (!InputProcessing.isSecondNumberAssigned()) {
                 System.out.print(MESSAGE_NUMBER2);
                 String input = userInputReader.readLine();
-                secondNumber = Helper.InputProcessing.getUserNumber(input);
+                secondNumber = InputProcessing.getUserNumber(input);
             }
-            Helper.InputProcessing.setInputAssigned(false);
             if (operation == '/' && secondNumber == 0) {
                 System.out.println(MESSAGE_DIVISION_BY_0);
             } else {
                 Result result = ResultsFactory.createResult(firstNumber, secondNumber, operation);
                 System.out.println(result);
             }
+            InputProcessing.setFlagsValue(false);
         }
     }
 }

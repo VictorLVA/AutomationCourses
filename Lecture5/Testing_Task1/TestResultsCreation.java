@@ -9,25 +9,20 @@ public class TestResultsCreation {
     @DataProvider(name = "dataForResultsCreation")
     public Object[][] dataForOperationSelection() {
         return new Object[][]{
-                {5, 2, '+', "The sum = ", 7},
-                {5, 2, '-', "The difference = ", 3},
-                {5, 2, '*', "The product = ", 10},
-                {5, 2, '/', "The quotient = ", 2.5}
+                {5, 2, '+', "The sum = 7.0"},
+                {5, 2, '-', "The difference = 3.0"},
+                {5, 2, '*', "The product = 10.0"},
+                {5, 2, '/', "The quotient = 2.5"}
         };
     }
 
     @Test(dataProvider = "dataForResultsCreation")
-    public static void testProperResultCreated(double number1, double number2, char operation, String expectedText, double expectedResult) {
+    public static void testProperResultCreated(double number1, double number2, char operation, String expectedResult) {
         Result result = ResultsFactory.createResult(number1, number2, operation);
         Assert.assertEquals(
-                result.getResult(),
+                result.toString(),
                 expectedResult,
-                "Result wasn't calculated properly -"
-        );
-        Assert.assertEquals(
-                result.getText(),
-                expectedText,
-                "Result text wasn't choose properly -"
+                "Result wasn't created properly -"
         );
     }
 }

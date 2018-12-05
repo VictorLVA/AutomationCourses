@@ -9,11 +9,6 @@ public class SubtractionResult extends Result {
     }
 
     @Override
-    public String getText() {
-        return RESULT_TEXT;
-    }
-
-    @Override
     public String toString() {
         return RESULT_TEXT + super.toString();
     }

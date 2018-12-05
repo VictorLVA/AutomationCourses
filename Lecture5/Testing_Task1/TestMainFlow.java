@@ -52,7 +52,7 @@ public class TestMainFlow {
     }
 
     @AfterClass
-    public static void setValueAssigned() {
-        InputProcessing.setInputAssigned(false);
+    public static void setFlagsValue() {
+        InputProcessing.setFlagsValue(false);
     }
 }

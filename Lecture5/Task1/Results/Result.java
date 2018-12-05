@@ -1,8 +1,6 @@
 package Results;
 
-public class Result {
-
-    private static final String RESULT_TEXT = "Result = ";
+public abstract class Result {
 
     private double result;
 
@@ -14,11 +12,7 @@ public class Result {
         return result;
     }
 
-    public String getText() {
-        return RESULT_TEXT;
-    }
-
     public String toString() {
-        return RESULT_TEXT + result;
+        return "" + result;
     }
 }

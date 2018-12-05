@@ -10,14 +10,28 @@ public class InputProcessing {
     private static final String REGEX_DOUBLE = "^[-+]?[0-9]*[.]?[0-9]+(?:[eE][-+]?[0-9]+)?$";
     private static final String REGEX_OPERATIONS = "[-+*/]";
 
-    private static boolean isInputAssigned = false;
+    private static boolean isFirstNumberAssigned = false;
+    private static boolean isOperationAssigned = false;
+    private static boolean isSecondNumberAssigned = false;
 
-    public static boolean isInputAssigned() {
-        return isInputAssigned;
+
+    public static boolean isFirstNumberAssigned() {
+        return isFirstNumberAssigned;
     }
 
-    public static void setInputAssigned(boolean isInputAssigned) {
-        InputProcessing.isInputAssigned = isInputAssigned;
+    public static boolean isOperationAssigned() {
+        return isOperationAssigned;
+    }
+
+    public static boolean isSecondNumberAssigned() {
+        return isSecondNumberAssigned;
+    }
+
+
+    public static void setFlagsValue(boolean value) {
+        isFirstNumberAssigned = value;
+        isOperationAssigned = value;
+        isSecondNumberAssigned = value;
     }
 
     public static boolean isQuitNeeded(String input) {
@@ -31,7 +45,11 @@ public class InputProcessing {
         }
         if (input.matches(REGEX_DOUBLE)) {
             number = Double.parseDouble(input);
-            isInputAssigned = true;
+            if (!isFirstNumberAssigned) {
+                isFirstNumberAssigned = true;
+            } else {
+                isSecondNumberAssigned = true;
+            }
         } else {
             System.out.print(MESSAGE_NEED_PROPER_VALUE + ". ");
         }
@@ -45,7 +63,7 @@ public class InputProcessing {
         }
         if (input.matches(REGEX_OPERATIONS)) {
             operation = input.charAt(0);
-            isInputAssigned = true;
+            isOperationAssigned = true;
         } else {
             System.out.print(MESSAGE_NEED_PROPER_OPERATION + ". ");
         }
