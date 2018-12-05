@@ -1,5 +1,9 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+
+import Factory.ResultsFactory;
+import Results.Result;
 
 public class Task1L5 {
 
@@ -10,32 +14,34 @@ public class Task1L5 {
 
     private static BufferedReader userInputReader = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         while (true) {
             double firstNumber = 0;
             double secondNumber = 0;
             char operation = ' ';
             while (!Helper.InputProcessing.isInputAssigned()) {
                 System.out.print(MESSAGE_NUMBER1);
-                firstNumber = Helper.InputProcessing.getUserNumber(userInputReader);
+                String input = userInputReader.readLine();
+                firstNumber = Helper.InputProcessing.getUserNumber(input);
             }
             Helper.InputProcessing.setInputAssigned(false);
             while (!Helper.InputProcessing.isInputAssigned()) {
                 System.out.print(MESSAGE_OPERATION);
-                operation = Helper.InputProcessing.getUserOperation(userInputReader);
+                String input = userInputReader.readLine();
+                operation = Helper.InputProcessing.getUserOperation(input);
             }
             Helper.InputProcessing.setInputAssigned(false);
             while (!Helper.InputProcessing.isInputAssigned()) {
                 System.out.print(MESSAGE_NUMBER2);
-                secondNumber = Helper.InputProcessing.getUserNumber(userInputReader);
+                String input = userInputReader.readLine();
+                secondNumber = Helper.InputProcessing.getUserNumber(input);
             }
             Helper.InputProcessing.setInputAssigned(false);
             if (operation == '/' && secondNumber == 0) {
                 System.out.println(MESSAGE_DIVISION_BY_0);
             } else {
-                System.out.println
-                        (Helper.CalcProcessing.getResultTextByOperation(operation) +
-                                 Helper.CalcProcessing.getResultByOperation(firstNumber, secondNumber, operation));
+                Result result = ResultsFactory.createResult(firstNumber, secondNumber, operation);
+                System.out.println(result);
             }
         }
     }

@@ -1,71 +1,125 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class TestInputProcessing {
+
+    private static final String MESSAGE_TEST_RESOURCES_EXCEPTION = "Please check the test resources file - ";
+    private static final String FILEPATH_FILE_WITH_NUMBERS = ".\\Testing_Task1\\userInputNumber.txt";
+    private static final String FILEPATH_FILE_WITH_OPERATIONS = ".\\Testing_Task1\\userInputOperation.txt";
+    private static final String REGEX_DOUBLE = "^[-+]?[0-9]*[.]?[0-9]+(?:[eE][-+]?[0-9]+)?$";
+    private static final String REGEX_OPERATIONS = "[-+*/]";
 
     private static BufferedReader numberReader;
     private static BufferedReader operationReader;
 
     static {
         try {
-            numberReader = new BufferedReader(new FileReader(".\\Testing_Task1\\userInputNumber.txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            numberReader = new BufferedReader(new FileReader(FILEPATH_FILE_WITH_NUMBERS));
+        } catch (FileNotFoundException fileEx) {
+            System.out.println(MESSAGE_TEST_RESOURCES_EXCEPTION + FILEPATH_FILE_WITH_NUMBERS);
         }
     }
 
     static {
         try {
-            operationReader = new BufferedReader(new FileReader(".\\Testing_Task1\\userInputOperation.txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            operationReader = new BufferedReader(new FileReader(FILEPATH_FILE_WITH_OPERATIONS));
+        } catch (FileNotFoundException fileEx) {
+            System.out.println(MESSAGE_TEST_RESOURCES_EXCEPTION + FILEPATH_FILE_WITH_OPERATIONS);
         }
+    }
+
+    @DataProvider(name = "dataForQuit")
+    public Object[][] dataForProperQuit() {
+        return new Object[][]{
+                {"quit"},
+                {"QUIT"},
+                {"qui"},
+                {"quit1"},
+                {"2quit"},
+                {"exit"}
+        };
     }
 
     @Test
     public static void testInputAssignedFalseAtStart() {
-        Assert.assertFalse(Helper.InputProcessing.isInputAssigned());
-    }
-
-    @Test(dependsOnMethods = "testInputAssignedFalseAtStart")
-    public static void testSettingValueInputAssigned() {
-        Helper.InputProcessing.setInputAssigned(true);
-        Assert.assertTrue(Helper.InputProcessing.isInputAssigned());
-        Helper.InputProcessing.setInputAssigned(false);
-        Assert.assertFalse(Helper.InputProcessing.isInputAssigned());
+        Assert.assertFalse(
+                Helper.InputProcessing.isInputAssigned(),
+                "Boolean 'isInputAssigned' isn't 'FALSE' at the start of application -"
+        );
     }
 
     @Test
-    public static void testIsQuitNeeded() {
-        Assert.assertTrue(Helper.InputProcessing.isQuitNeeded("quit"));
-        Assert.assertTrue(Helper.InputProcessing.isQuitNeeded("QUIT"));
-        Assert.assertFalse(Helper.InputProcessing.isQuitNeeded("quit1"));
-        Assert.assertFalse(Helper.InputProcessing.isQuitNeeded("2quit"));
-        Assert.assertFalse(Helper.InputProcessing.isQuitNeeded("exit"));
+    public static void testSettingValueInputAssigned() {
+        Helper.InputProcessing.setInputAssigned(true);
+        Assert.assertTrue(
+                Helper.InputProcessing.isInputAssigned(),
+                "Cannot assign the value 'TRUE' for the 'isInputAssigned' boolean -"
+        );
+        Helper.InputProcessing.setInputAssigned(false);
+        Assert.assertFalse(
+                Helper.InputProcessing.isInputAssigned(),
+                "Cannot assign the value 'FALSE' for the 'isInputAssigned' boolean -"
+        );
     }
 
-    @Test(dependsOnMethods = "testSettingValueInputAssigned")
-    public static void testUserInputNumber() {
-        Assert.assertEquals(Helper.InputProcessing.getUserNumber(numberReader), -2d);
-        Assert.assertEquals(Helper.InputProcessing.getUserNumber(numberReader), 3d);
-        Assert.assertEquals(Helper.InputProcessing.getUserNumber(numberReader), -4.4d);
-        Assert.assertEquals(Helper.InputProcessing.getUserNumber(numberReader), 5.5d);
-        Assert.assertEquals(Helper.InputProcessing.getUserNumber(numberReader), 0d);
+    @Test(dataProvider = "dataForQuit")
+    public static void testProperIsQuitNeeded(String quitInput) {
+        if (quitInput.equalsIgnoreCase("quit")) {
+            Assert.assertTrue(
+                    Helper.InputProcessing.isQuitNeeded(quitInput),
+                    "'" + quitInput + "' input isn't work properly with the Quit function -"
+            );
+        } else {
+            Assert.assertFalse(
+                    Helper.InputProcessing.isQuitNeeded(quitInput),
+                    "'" + quitInput + "' input isn't work properly with the Quit function -"
+            );
+        }
     }
 
-    @Test(dependsOnMethods = "testUserInputNumber")
-    public static void testUserInputOperation() {
-        Assert.assertEquals(Helper.InputProcessing.getUserOperation(operationReader), '+');
-        Assert.assertEquals(Helper.InputProcessing.getUserOperation(operationReader), '-');
-        Assert.assertEquals(Helper.InputProcessing.getUserOperation(operationReader), '*');
-        Assert.assertEquals(Helper.InputProcessing.getUserOperation(operationReader), '/');
-        Assert.assertEquals(Helper.InputProcessing.getUserOperation(operationReader), ' ');
-        Assert.assertEquals(Helper.InputProcessing.getUserOperation(operationReader), ' ');
-        Assert.assertEquals(Helper.InputProcessing.getUserOperation(operationReader), ' ');
-        Assert.assertEquals(Helper.InputProcessing.getUserOperation(operationReader), ' ');
+    @Test
+    public static void testUserInputNumber() throws IOException {
+        String numberFromFile;
+        while ((numberFromFile = numberReader.readLine()) != null) {
+            if (numberFromFile.matches(REGEX_DOUBLE)) {
+                Assert.assertEquals(
+                        Helper.InputProcessing.getUserNumber(numberFromFile),
+                        Double.parseDouble(numberFromFile),
+                        "Application cannot work correctly with user input (numbers) -"
+                );
+            } else {
+                Assert.assertEquals(
+                        Helper.InputProcessing.getUserNumber(numberFromFile),
+                        0d,
+                        "Application cannot work correctly with user input (numbers) -"
+                );
+            }
+        }
+    }
+
+    @Test
+    public static void testUserInputOperation() throws IOException {
+        String operationFromFile;
+        while ((operationFromFile = operationReader.readLine()) != null) {
+            if (operationFromFile.matches(REGEX_OPERATIONS)) {
+                Assert.assertEquals(
+                        Helper.InputProcessing.getUserOperation(operationFromFile),
+                        operationFromFile.charAt(0),
+                        "Application cannot work correctly with user input (operation) -"
+                );
+            } else {
+                Assert.assertEquals(
+                        Helper.InputProcessing.getUserOperation(operationFromFile),
+                        ' ',
+                        "Application cannot work correctly with user input (operation) -"
+                );
+            }
+        }
     }
 }

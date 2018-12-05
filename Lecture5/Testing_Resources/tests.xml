@@ -9,9 +9,9 @@
         </classes>
     </test>
 
-    <test name="TestCalcProcessing">
+    <test name="TestResultsCreation">
         <classes>
-            <class name="TestCalcProcessing"/>
+            <class name="TestResultsCreation"/>
         </classes>
     </test>
 

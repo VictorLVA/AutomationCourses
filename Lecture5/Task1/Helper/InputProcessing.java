@@ -1,8 +1,5 @@
 package Helper;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-
 public class InputProcessing {
 
     private InputProcessing() {
@@ -10,7 +7,6 @@ public class InputProcessing {
 
     private static final String MESSAGE_NEED_PROPER_VALUE = "Try to enter a proper value";
     private static final String MESSAGE_NEED_PROPER_OPERATION = "Try to enter a proper operation";
-    private static final String MESSAGE_EXCEPTION = "Sorry, something went wrong";
     private static final String REGEX_DOUBLE = "^[-+]?[0-9]*[.]?[0-9]+(?:[eE][-+]?[0-9]+)?$";
     private static final String REGEX_OPERATIONS = "[-+*/]";
 
@@ -28,15 +24,8 @@ public class InputProcessing {
         return ("quit".equalsIgnoreCase(input));
     }
 
-    public static double getUserNumber(BufferedReader userInputReader) {
-        String input = null;
+    public static double getUserNumber(String input) {
         double number = 0;
-        try {
-            input = userInputReader.readLine();
-        } catch (IOException ex) {
-            System.out.println(MESSAGE_EXCEPTION);
-            System.exit(0);
-        }
         if (isQuitNeeded(input)) {
             System.exit(0);
         }
@@ -49,15 +38,8 @@ public class InputProcessing {
         return number;
     }
 
-    public static char getUserOperation(BufferedReader userInputReader) {
-        String input = null;
+    public static char getUserOperation(String input) {
         char operation = ' ';
-        try {
-            input = userInputReader.readLine();
-        } catch (IOException ex) {
-            System.out.println(MESSAGE_EXCEPTION);
-            System.exit(0);
-        }
         if (isQuitNeeded(input)) {
             System.exit(0);
         }
