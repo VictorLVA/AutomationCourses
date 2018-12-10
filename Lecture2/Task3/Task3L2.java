@@ -8,12 +8,11 @@ public class Task3L2 {
         int size;
         try {
             size = in.nextInt();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Please check the entered value and try again");
             return;
         }
-        if (size < 3) {
+        if (size < 2) {
             System.out.println("You have entered an invalid rhombus size (should be 3 at least). Please try again");
             return;
         }
@@ -22,21 +21,41 @@ public class Task3L2 {
 
     private static void drawRhombus(int size) {
         String space = " ";
-        int inSpaceCount = 1;
-        for (int i = 1; i < size*2; i++) {
+        int innerSpaceCount = 1;
+        for (int i = 1; i < size * 2; i++) {
             if (i == 1) {
-                System.out.println(space.repeat(size - i) + "*");
+                for (int j = 1; j < size; j++) {
+                    System.out.print(space);
+                }
+                System.out.println("*");
             }
             if (i > 1 && i < size) {
-                System.out.println(space.repeat(size - i) + "*" + space.repeat(inSpaceCount) + "*");
-                inSpaceCount += 2;
+                for (int j = 0; j < size - i; j++) {
+                    System.out.print(space);
+                }
+                System.out.print("*");
+                for (int j = 0; j < innerSpaceCount; j++) {
+                    System.out.print(space);
+                }
+                System.out.println("*");
+                innerSpaceCount += 2;
             }
-            if (i >= size && i < size*2-1) {
-                System.out.println(space.repeat(i - size) + "*" + space.repeat(inSpaceCount) + "*");
-                inSpaceCount -= 2;
+            if (i >= size && i < size * 2 - 1) {
+                for (int j = 0; j < i - size; j++) {
+                    System.out.print(space);
+                }
+                System.out.print("*");
+                for (int j = 0; j < innerSpaceCount; j++) {
+                    System.out.print(space);
+                }
+                System.out.println("*");
+                innerSpaceCount -= 2;
             }
-            if (i == size*2-1) {
-                System.out.println(space.repeat(i - size) + "*");
+            if (i == size * 2 - 1) {
+                for (int j = 0; j < i - size; j++) {
+                    System.out.print(space);
+                }
+                System.out.print("*");
             }
         }
     }
