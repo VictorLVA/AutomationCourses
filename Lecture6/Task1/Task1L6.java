@@ -1,42 +1,37 @@
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.response.Response;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import static com.jayway.restassured.RestAssured.basePath;
 import static com.jayway.restassured.RestAssured.baseURI;
 import static com.jayway.restassured.RestAssured.given;
 
 // TODO: 11.12.2018 keytool -import -alias example -keystore  C:\Program Files (x86)\Java\jre1.6.0_22\lib\security\cacerts -file example.cer
-// TODO: 11.12.2018 f2cf87799fa7467d02a5f4a95da855536f913dee
+
 public class Task1L6 {
 
-    @BeforeClass
-    public static void setup() {
+    private static final String USER_LOGIN = "Victorl";
+    private static final String USER_TOKEN = "";
+    private static final String REPO_OWNER = "VictorLVA";
+    private static final String REPO_NAME = "AutomationCourses";
+    private static final String ENDPOINT_REPO_COLLABORATORS = "/repos/" + REPO_OWNER + "/" + REPO_NAME + "/collaborators";
+
+    @BeforeTest
+    public void initHost() {
         RestAssured.baseURI = "https://api.github.com";
-        RestAssured.basePath = "/repos/VictorLVA/AutomationCourses/collaborators";
     }
 
     @Test
-    public void basicPingTest() {
-        given()
-                .auth()
-                .preemptive()
-                .basic ("Victorl", "f2cf87799fa7467d02a5f4a95da855536f913dee")
-                .when()
-                .get(baseURI + basePath)
-                .then()
-                .statusCode(200);
+    public void pingTest() {
+        given().auth().preemptive().basic(USER_LOGIN, USER_TOKEN)
+               .when().get(baseURI)
+               .then().statusCode(200);
     }
 
-    @Test
-    public void mainFlowTest() {
-        Response response = given()
-                .auth()
-                .preemptive()
-                .basic ("Victorl", "f2cf87799fa7467d02a5f4a95da855536f913dee")
-                .get(baseURI + basePath);
+    @Test(dependsOnMethods = "pingTest")
+    public void getColaboratorsTest() {
+        Response response = given().auth().preemptive().basic(USER_LOGIN, USER_TOKEN)
+                                   .get(ENDPOINT_REPO_COLLABORATORS);
         System.out.println(response.asString());
     }
-
 }
