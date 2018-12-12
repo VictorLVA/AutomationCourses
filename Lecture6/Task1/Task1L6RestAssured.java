@@ -14,7 +14,7 @@ import static com.jayway.restassured.RestAssured.given;
 public class Task1L6RestAssured {
 
     private static final String USER_LOGIN = "Victorl";
-    private static final String USER_TOKEN = "";
+    private static final String USER_TOKEN = "a3f629857c861a20af7f4c6bd89bd86c6082bfad";
     private static final String REPO_OWNER = "VictorLVA";
     private static final String REPO_NAME = "AutomationCourses";
     private static final String REPO_POSITIVE_INVITATION_USER = "dihnatsyeu";
@@ -29,16 +29,16 @@ public class Task1L6RestAssured {
 
     @Test
     public void pingHostTest() {
-        given().auth().preemptive().basic(USER_LOGIN, USER_TOKEN)
-               .when().get(baseURI)
-               .then().statusCode(200);
+        given()
+                .when().get(baseURI)
+                .then().statusCode(200);
     }
 
     @Test(dependsOnMethods = "pingHostTest")
     public void repExistTest() {
-        given().auth().preemptive().basic(USER_LOGIN, USER_TOKEN)
-               .when().get(ENDPOINT_REPO)
-               .then().statusCode(200);
+        given()
+                .when().get(ENDPOINT_REPO)
+                .then().statusCode(200);
     }
 
     @Test(dependsOnMethods = "repExistTest")
