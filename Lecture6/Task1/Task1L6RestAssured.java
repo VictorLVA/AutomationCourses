@@ -20,7 +20,7 @@ public class Task1L6RestAssured {
     private static final String REPO_POSITIVE_INVITATION_USER = "dihnatsyeu";
     private static final String REPO_NEGATIVE_INVITATION_USER = "asulzhyts";
     private static final String ENDPOINT_REPO = "/repos/" + REPO_OWNER + "/" + REPO_NAME;
-    private static final String ENDPOINT_REPO_COLLABORATORS = "/repos/" + REPO_OWNER + "/" + REPO_NAME + "/collaborators";
+    private static final String ENDPOINT_REPO_COLLABORATORS = ENDPOINT_REPO + "/collaborators";
 
     @BeforeTest
     public void initHost() {

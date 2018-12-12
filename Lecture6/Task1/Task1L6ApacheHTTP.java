@@ -25,7 +25,7 @@ public class Task1L6ApacheHTTP {
     private static final String REPO_NEGATIVE_INVITATION_USER = "asulzhyts";
     private static final String GITHUB_API_URI = "https://api.github.com";
     private static final String ENDPOINT_REPO = "/repos/" + REPO_OWNER + "/" + REPO_NAME;
-    private static final String ENDPOINT_REPO_COLLABORATORS = "/repos/" + REPO_OWNER + "/" + REPO_NAME + "/collaborators";
+    private static final String ENDPOINT_REPO_COLLABORATORS = ENDPOINT_REPO + "/collaborators";
 
     @Test
     public void pingHostTest() throws IOException {
