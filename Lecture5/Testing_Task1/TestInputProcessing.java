@@ -1,38 +1,8 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class TestInputProcessing {
-
-    private static final String MESSAGE_TEST_RESOURCES_EXCEPTION = "Please check the test resources file - ";
-    private static final String FILEPATH_FILE_WITH_NUMBERS = ".\\Testing_Task1\\userInputNumber.txt";
-    private static final String FILEPATH_FILE_WITH_OPERATIONS = ".\\Testing_Task1\\userInputOperation.txt";
-    private static final String REGEX_DOUBLE = "^[-+]?[0-9]*[.]?[0-9]+(?:[eE][-+]?[0-9]+)?$";
-    private static final String REGEX_OPERATIONS = "[-+*/]";
-
-    private static BufferedReader numberReader;
-    private static BufferedReader operationReader;
-
-    static {
-        try {
-            numberReader = new BufferedReader(new FileReader(FILEPATH_FILE_WITH_NUMBERS));
-        } catch (FileNotFoundException fileEx) {
-            System.out.println(MESSAGE_TEST_RESOURCES_EXCEPTION + FILEPATH_FILE_WITH_NUMBERS);
-        }
-    }
-
-    static {
-        try {
-            operationReader = new BufferedReader(new FileReader(FILEPATH_FILE_WITH_OPERATIONS));
-        } catch (FileNotFoundException fileEx) {
-            System.out.println(MESSAGE_TEST_RESOURCES_EXCEPTION + FILEPATH_FILE_WITH_OPERATIONS);
-        }
-    }
 
     @DataProvider(name = "dataForQuit")
     public Object[][] dataForProperQuit() {
@@ -108,42 +78,34 @@ public class TestInputProcessing {
     }
 
     @Test
-    public static void testUserInputNumber() throws IOException {
-        String numberFromFile;
-        while ((numberFromFile = numberReader.readLine()) != null) {
-            if (numberFromFile.matches(REGEX_DOUBLE)) {
-                Assert.assertEquals(
-                        Helper.InputProcessing.getUserNumber(numberFromFile),
-                        Double.parseDouble(numberFromFile),
-                        "Application cannot work correctly with user input (numbers) -"
-                );
-            } else {
-                Assert.assertEquals(
-                        Helper.InputProcessing.getUserNumber(numberFromFile),
-                        0d,
-                        "Application cannot work correctly with user input (numbers) -"
-                );
-            }
-        }
+    public static void testUserInputNumber() {
+        String properInput = "-5.0";
+        String invalidInput = "w";
+        Assert.assertEquals(
+                Helper.InputProcessing.getUserNumber(properInput),
+                -5.0d,
+                "Application cannot work correctly with user input -"
+        );
+        Assert.assertEquals(
+                Helper.InputProcessing.getUserNumber(invalidInput),
+                0d,
+                "Application cannot work correctly with user input -"
+        );
     }
 
     @Test
-    public static void testUserInputOperation() throws IOException {
-        String operationFromFile;
-        while ((operationFromFile = operationReader.readLine()) != null) {
-            if (operationFromFile.matches(REGEX_OPERATIONS)) {
-                Assert.assertEquals(
-                        Helper.InputProcessing.getUserOperation(operationFromFile),
-                        operationFromFile.charAt(0),
-                        "Application cannot work correctly with user input (operation) -"
-                );
-            } else {
-                Assert.assertEquals(
-                        Helper.InputProcessing.getUserOperation(operationFromFile),
-                        ' ',
-                        "Application cannot work correctly with user input (operation) -"
-                );
-            }
-        }
+    public static void testUserInputOperation() {
+        String properInput = "*";
+        String invalidInput = "-5.0";
+        Assert.assertEquals(
+                Helper.InputProcessing.getUserOperation(properInput),
+                '*',
+                "Application cannot work correctly with user input -"
+        );
+        Assert.assertEquals(
+                Helper.InputProcessing.getUserOperation(invalidInput),
+                ' ',
+                "Application cannot work correctly with user input -"
+        );
     }
 }
