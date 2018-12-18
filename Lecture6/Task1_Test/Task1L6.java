@@ -1,17 +1,18 @@
-import java.io.IOException;
-
 import CollaboratorClasses.Collaborator;
-import Helper.CollaboratorsBuilder;
-import Helper.RequestsApacheHTTPClient;
-import Helper.RequestsRestAssured;
-import org.apache.http.auth.AuthenticationException;
+import CollaboratorClasses.Utils.CollaboratorsBuilder;
+import Constants.HttpClients;
+import Constants.HttpMethods;
+import HttpClientsImplementation.Utils.RequestDataPreparatory;
+import HttpClientsImplementation.Utils.RequestExecutor;
+import com.jayway.restassured.response.Response;
+import org.apache.http.HttpResponse;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class Task1L6 {
 
     private static final String USER_LOGIN = "Victorl";
-    private static final String USER_TOKEN = "eb21caba2800f479c34f0abee5c0905a3dee9027";
+    private static final String USER_TOKEN = "622b03dc246761e2ef5197d71086fbe46e1479e7";
     private static final String REPO_OWNER = "VictorLVA";
     private static final String REPO_NAME = "AutomationCourses";
     private static final String REPO_POSITIVE_INVITATION_USER = "dihnatsyeu";
@@ -20,10 +21,14 @@ public class Task1L6 {
     private static final String ENDPOINT_REPO = "/repos/" + REPO_OWNER + "/" + REPO_NAME;
     private static final String ENDPOINT_REPO_COLLABORATORS = ENDPOINT_REPO + "/collaborators";
 
+    private static RequestExecutor requestExecutor = new RequestExecutor();
+
     @Test
     public void pingGitHubWithRestAssured() {
+        RequestDataPreparatory requestToGitHubData = new RequestDataPreparatory(GITHUB_API_URI);
+        Response gitHubResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.GET, requestToGitHubData);
         Assert.assertEquals(
-                RequestsRestAssured.requestGet(GITHUB_API_URI).statusCode(),
+                gitHubResponse.statusCode(),
                 200,
                 "RestAssured: GitHub API cannot be accessed -"
         );
@@ -31,8 +36,10 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "pingGitHubWithRestAssured")
     public void repoExistWithRestAssured() {
+        RequestDataPreparatory requestToRepoData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO);
+        Response repoResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.GET, requestToRepoData);
         Assert.assertEquals(
-                RequestsRestAssured.requestGet(GITHUB_API_URI + ENDPOINT_REPO).statusCode(),
+                repoResponse.statusCode(),
                 200,
                 "RestAssured: Repo cannot be accessed -"
         );
@@ -40,17 +47,20 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoExistWithRestAssured")
     public void repoCollaboratorsEndpointWithRestAssured() {
+        RequestDataPreparatory requestToCollaboratorsData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
+        Response collaboratorsResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.GET, requestToCollaboratorsData);
         Assert.assertEquals(
-                RequestsRestAssured.requestGet(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN).statusCode(),
+                collaboratorsResponse.statusCode(),
                 200,
                 "RestAssured: Collaborators endpoint cannot be accessed -"
         );
     }
 
     @Test(dependsOnMethods = "repoCollaboratorsEndpointWithRestAssured")
-    public void getCollaboratorsWithRestAssured() throws IOException {
-        Collaborator[] repoCollaborators =
-                CollaboratorsBuilder.createCollaborators(RequestsRestAssured.requestGet(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN));
+    public void getCollaboratorsWithRestAssured() {
+        RequestDataPreparatory requestToCollaboratorsData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
+        Response collaboratorsResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.GET, requestToCollaboratorsData);
+        Collaborator[] repoCollaborators = CollaboratorsBuilder.createCollaborators(collaboratorsResponse);
         Assert.assertNotNull(
                 repoCollaborators,
                 "RestAssured: GitHub API isn't return any collaborators"
@@ -65,54 +75,66 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoExistWithRestAssured")
     public void createPositiveInvitationWithRestAssured() {
-        Assert.assertEquals(RequestsRestAssured.requestPut(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
-                                                                   "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN).statusCode(),
-                            201,
-                            "RestAssured: Cannot invite a collaborator -"
+        RequestDataPreparatory requestToRepoInvitationData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
+                                                                                                "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
+        Response collaboratorsInvitationResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.PUT, requestToRepoInvitationData);
+        Assert.assertEquals(
+                collaboratorsInvitationResponse.statusCode(),
+                201,
+                "RestAssured: Cannot invite a collaborator -"
         );
     }
 
     @Test(dependsOnMethods = "repoExistWithRestAssured")
     public void createNegativeInvitationWithRestAssured() {
-        Assert.assertEquals(RequestsRestAssured.requestPut(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
-                                                                   "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN).statusCode(),
-                            204,
-                            "RestAssured: Collaborator can be invited again -"
+        RequestDataPreparatory requestToRepoInvitationData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
+                                                                                                "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
+        Response collaboratorsInvitationResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.PUT, requestToRepoInvitationData);
+        Assert.assertEquals(
+                collaboratorsInvitationResponse.statusCode(),
+                204,
+                "RestAssured: Collaborator can be invited again -"
         );
     }
 
     @Test
-    public void pingGitHubWithApacheHTTPClient() throws IOException {
+    public void pingGitHubWithApacheHTTPClient() {
+        RequestDataPreparatory requestToGitHubData = new RequestDataPreparatory(GITHUB_API_URI);
+        HttpResponse gitHubResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToGitHubData);
         Assert.assertEquals(
-                RequestsApacheHTTPClient.requestGet(GITHUB_API_URI).getStatusLine().getStatusCode(),
+                gitHubResponse.getStatusLine().getStatusCode(),
                 200,
                 "ApacheHTTPClient: GitHub API cannot be accessed -"
         );
     }
 
     @Test(dependsOnMethods = "pingGitHubWithApacheHTTPClient")
-    public void repoExistWithApacheHTTPClient() throws IOException {
+    public void repoExistWithApacheHTTPClient() {
+        RequestDataPreparatory requestToRepoData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO);
+        HttpResponse repoResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToRepoData);
         Assert.assertEquals(
-                RequestsApacheHTTPClient.requestGet(GITHUB_API_URI + ENDPOINT_REPO).getStatusLine().getStatusCode(),
+                repoResponse.getStatusLine().getStatusCode(),
                 200,
                 "ApacheHTTPClient: Repo cannot be accessed -"
         );
     }
 
     @Test(dependsOnMethods = "repoExistWithApacheHTTPClient")
-    public void repoCollaboratorsEndpointWithApacheHTTPClient() throws IOException, AuthenticationException {
+    public void repoCollaboratorsEndpointWithApacheHTTPClient() {
+        RequestDataPreparatory requestToCollaboratorsData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
+        HttpResponse collaboratorsResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToCollaboratorsData);
         Assert.assertEquals(
-                RequestsApacheHTTPClient.requestGet(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN).getStatusLine().getStatusCode(),
+                collaboratorsResponse.getStatusLine().getStatusCode(),
                 200,
                 "ApacheHTTPClient: Collaborators endpoint cannot be accessed -"
         );
     }
 
     @Test(dependsOnMethods = "repoCollaboratorsEndpointWithApacheHTTPClient")
-    public void getCollaboratorsWithApacheHTTPClient() throws IOException, AuthenticationException {
-        Collaborator[] repoCollaborators =
-                CollaboratorsBuilder.createCollaborators(
-                        RequestsApacheHTTPClient.requestGet(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN));
+    public void getCollaboratorsWithApacheHTTPClient() {
+        RequestDataPreparatory requestToCollaboratorsData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
+        HttpResponse collaboratorsResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToCollaboratorsData);
+        Collaborator[] repoCollaborators = CollaboratorsBuilder.createCollaborators(collaboratorsResponse);
         Assert.assertNotNull(
                 repoCollaborators,
                 "ApacheHTTPClient: GitHub API isn't return any collaborators"
@@ -126,24 +148,28 @@ public class Task1L6 {
     }
 
     @Test(dependsOnMethods = "repoExistWithApacheHTTPClient")
-    public void createPositiveInvitationWithApacheHTTPClient() throws IOException, AuthenticationException {
-        Assert.assertEquals(RequestsApacheHTTPClient.requestPut(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
-                                                                        "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN)
-                                                    .getStatusLine()
-                                                    .getStatusCode(),
-                            201,
-                            "ApacheHTTPClient: Cannot invite a collaborator -"
+    public void createPositiveInvitationWithApacheHTTPClient() {
+        RequestDataPreparatory requestToRepoInvitationData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
+                                                                                                "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
+        HttpResponse collaboratorsInvitationResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.PUT,
+                                                                                             requestToRepoInvitationData);
+        Assert.assertEquals(
+                collaboratorsInvitationResponse.getStatusLine().getStatusCode(),
+                201,
+                "ApacheHTTPClient: Cannot invite a collaborator -"
         );
     }
 
     @Test(dependsOnMethods = "repoExistWithApacheHTTPClient")
-    public void createNegativeInvitationWithApacheHTTPClient() throws IOException, AuthenticationException {
-        Assert.assertEquals(RequestsApacheHTTPClient.requestPut(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
-                                                                        "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN)
-                                                    .getStatusLine()
-                                                    .getStatusCode(),
-                            204,
-                            "ApacheHTTPClient: Collaborator can be invited again -"
+    public void createNegativeInvitationWithApacheHTTPClient() {
+        RequestDataPreparatory requestToRepoInvitationData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
+                                                                                                "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
+        HttpResponse collaboratorsInvitationResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.PUT,
+                                                                                             requestToRepoInvitationData);
+        Assert.assertEquals(
+                collaboratorsInvitationResponse.getStatusLine().getStatusCode(),
+                204,
+                "ApacheHTTPClient: Collaborator can be invited again -"
         );
     }
 }
