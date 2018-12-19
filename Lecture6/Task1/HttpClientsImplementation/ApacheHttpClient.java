@@ -35,10 +35,8 @@ public class ApacheHttpClient {
             }
         } catch (IOException ioEx) {
             System.out.println(ERROR_MESSAGE_IO_EXCEPTION);
-
         } catch (AuthenticationException authEx) {
             System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
-            System.exit(0);
         }
         return null;
     }
@@ -52,10 +50,8 @@ public class ApacheHttpClient {
             return client.execute(request);
         } catch (IOException ioEx) {
             System.out.println(ERROR_MESSAGE_IO_EXCEPTION);
-
         } catch (AuthenticationException authEx) {
             System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
-            System.exit(0);
         }
         return null;
     }
