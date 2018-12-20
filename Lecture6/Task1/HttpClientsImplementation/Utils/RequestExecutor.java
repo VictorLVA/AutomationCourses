@@ -13,7 +13,7 @@ public class RequestExecutor {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T executeAndGetResponse(HttpClients httpClients, HttpMethods httpMethods, RequestDataPreparatory requestData) {
+    public <T> T executeAndGetResponse(HttpClients httpClients, HttpMethods httpMethods, RequestData requestData) {
         switch (httpClients) {
             case RestAssured:
                 switch (httpMethods) {
@@ -24,7 +24,7 @@ public class RequestExecutor {
                         return (T) RestAssured.requestPut(requestData);
                     }
                     default:
-                        return (T) new RuntimeException(ERROR_MESSAGE);
+                        throw new RuntimeException(ERROR_MESSAGE);
                 }
             case ApacheHttpClient: {
                 switch (httpMethods) {
@@ -35,11 +35,11 @@ public class RequestExecutor {
                         return (T) ApacheHttpClient.requestPut(requestData);
                     }
                     default:
-                        return (T) new RuntimeException(ERROR_MESSAGE);
+                        throw new RuntimeException(ERROR_MESSAGE);
                 }
             }
             default:
-                return (T) new RuntimeException(ERROR_MESSAGE);
+                throw new RuntimeException(ERROR_MESSAGE);
         }
     }
 }

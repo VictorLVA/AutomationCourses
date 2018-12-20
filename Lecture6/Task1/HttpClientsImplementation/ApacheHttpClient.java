@@ -2,7 +2,7 @@ package HttpClientsImplementation;
 
 import java.io.IOException;
 
-import HttpClientsImplementation.Utils.RequestDataPreparatory;
+import HttpClientsImplementation.Utils.RequestData;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthenticationException;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -20,7 +20,7 @@ public class ApacheHttpClient {
     private ApacheHttpClient() {
     }
 
-    public static HttpResponse requestGet(RequestDataPreparatory requestData) {
+    public static HttpResponse requestGet(RequestData requestData) {
         try {
             if (requestData.getLogin() == null && requestData.getToken() == null) {
                 HttpClient client = HttpClientBuilder.create().build();
@@ -38,10 +38,10 @@ public class ApacheHttpClient {
         } catch (AuthenticationException authEx) {
             System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
         }
-        return null;
+        throw new RuntimeException("Something went wrong (ApacheHttpClient => requestGet");
     }
 
-    public static HttpResponse requestPut(RequestDataPreparatory requestData) {
+    public static HttpResponse requestPut(RequestData requestData) {
         try {
             UsernamePasswordCredentials gitHubCredentials = new UsernamePasswordCredentials(requestData.getLogin(), requestData.getToken());
             HttpClient client = HttpClientBuilder.create().build();
@@ -53,6 +53,6 @@ public class ApacheHttpClient {
         } catch (AuthenticationException authEx) {
             System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
         }
-        return null;
+        throw new RuntimeException("Something went wrong (ApacheHttpClient => requestPut");
     }
 }

@@ -1,15 +1,15 @@
 package HttpClientsImplementation.Utils;
 
-public class RequestDataPreparatory {
+public class RequestData {
     private String URI;
     private String login;
     private String token;
 
-    public RequestDataPreparatory(String URI) {
+    public RequestData(String URI) {
         this.URI = URI;
     }
 
-    public RequestDataPreparatory(String URI, String login, String token) {
+    public RequestData(String URI, String login, String token) {
         this.URI = URI;
         this.login = login;
         this.token = token;

@@ -2,7 +2,7 @@ import CollaboratorClasses.Collaborator;
 import CollaboratorClasses.Utils.CollaboratorsBuilder;
 import Constants.HttpClients;
 import Constants.HttpMethods;
-import HttpClientsImplementation.Utils.RequestDataPreparatory;
+import HttpClientsImplementation.Utils.RequestData;
 import HttpClientsImplementation.Utils.RequestExecutor;
 import com.jayway.restassured.response.Response;
 import org.apache.http.HttpResponse;
@@ -25,7 +25,7 @@ public class Task1L6 {
 
     @Test
     public void pingGitHubWithRestAssured() {
-        RequestDataPreparatory requestToGitHubData = new RequestDataPreparatory(GITHUB_API_URI);
+        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI);
         Response gitHubResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.GET, requestToGitHubData);
         Assert.assertEquals(
                 gitHubResponse.statusCode(),
@@ -36,7 +36,7 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "pingGitHubWithRestAssured")
     public void repoExistWithRestAssured() {
-        RequestDataPreparatory requestToRepoData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO);
+        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO);
         Response repoResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.GET, requestToRepoData);
         Assert.assertEquals(
                 repoResponse.statusCode(),
@@ -47,7 +47,7 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoExistWithRestAssured")
     public void repoCollaboratorsEndpointWithRestAssured() {
-        RequestDataPreparatory requestToCollaboratorsData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
+        RequestData requestToCollaboratorsData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
         Response collaboratorsResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.GET, requestToCollaboratorsData);
         Assert.assertEquals(
                 collaboratorsResponse.statusCode(),
@@ -58,7 +58,7 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoCollaboratorsEndpointWithRestAssured")
     public void getCollaboratorsWithRestAssured() {
-        RequestDataPreparatory requestToCollaboratorsData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
+        RequestData requestToCollaboratorsData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
         Response collaboratorsResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.GET, requestToCollaboratorsData);
         Collaborator[] repoCollaborators = CollaboratorsBuilder.createCollaborators(collaboratorsResponse);
         Assert.assertNotNull(
@@ -75,8 +75,8 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoExistWithRestAssured")
     public void createPositiveInvitationWithRestAssured() {
-        RequestDataPreparatory requestToRepoInvitationData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
-                                                                                                "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
+        RequestData requestToRepoInvitationData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
+                                                                          "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
         Response collaboratorsInvitationResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.PUT, requestToRepoInvitationData);
         Assert.assertEquals(
                 collaboratorsInvitationResponse.statusCode(),
@@ -87,8 +87,8 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoExistWithRestAssured")
     public void createNegativeInvitationWithRestAssured() {
-        RequestDataPreparatory requestToRepoInvitationData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
-                                                                                                "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
+        RequestData requestToRepoInvitationData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
+                                                                          "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
         Response collaboratorsInvitationResponse = requestExecutor.executeAndGetResponse(HttpClients.RestAssured, HttpMethods.PUT, requestToRepoInvitationData);
         Assert.assertEquals(
                 collaboratorsInvitationResponse.statusCode(),
@@ -99,7 +99,7 @@ public class Task1L6 {
 
     @Test
     public void pingGitHubWithApacheHTTPClient() {
-        RequestDataPreparatory requestToGitHubData = new RequestDataPreparatory(GITHUB_API_URI);
+        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI);
         HttpResponse gitHubResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToGitHubData);
         Assert.assertEquals(
                 gitHubResponse.getStatusLine().getStatusCode(),
@@ -110,7 +110,7 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "pingGitHubWithApacheHTTPClient")
     public void repoExistWithApacheHTTPClient() {
-        RequestDataPreparatory requestToRepoData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO);
+        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO);
         HttpResponse repoResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToRepoData);
         Assert.assertEquals(
                 repoResponse.getStatusLine().getStatusCode(),
@@ -121,7 +121,7 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoExistWithApacheHTTPClient")
     public void repoCollaboratorsEndpointWithApacheHTTPClient() {
-        RequestDataPreparatory requestToCollaboratorsData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
+        RequestData requestToCollaboratorsData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
         HttpResponse collaboratorsResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToCollaboratorsData);
         Assert.assertEquals(
                 collaboratorsResponse.getStatusLine().getStatusCode(),
@@ -132,7 +132,7 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoCollaboratorsEndpointWithApacheHTTPClient")
     public void getCollaboratorsWithApacheHTTPClient() {
-        RequestDataPreparatory requestToCollaboratorsData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
+        RequestData requestToCollaboratorsData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
         HttpResponse collaboratorsResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToCollaboratorsData);
         Collaborator[] repoCollaborators = CollaboratorsBuilder.createCollaborators(collaboratorsResponse);
         Assert.assertNotNull(
@@ -149,8 +149,8 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoExistWithApacheHTTPClient")
     public void createPositiveInvitationWithApacheHTTPClient() {
-        RequestDataPreparatory requestToRepoInvitationData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
-                                                                                                "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
+        RequestData requestToRepoInvitationData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
+                                                                          "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
         HttpResponse collaboratorsInvitationResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.PUT,
                                                                                              requestToRepoInvitationData);
         Assert.assertEquals(
@@ -162,8 +162,8 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "repoExistWithApacheHTTPClient")
     public void createNegativeInvitationWithApacheHTTPClient() {
-        RequestDataPreparatory requestToRepoInvitationData = new RequestDataPreparatory(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
-                                                                                                "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
+        RequestData requestToRepoInvitationData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
+                                                                          "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
         HttpResponse collaboratorsInvitationResponse = requestExecutor.executeAndGetResponse(HttpClients.ApacheHttpClient, HttpMethods.PUT,
                                                                                              requestToRepoInvitationData);
         Assert.assertEquals(
