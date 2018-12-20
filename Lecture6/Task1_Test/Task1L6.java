@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class Task1L6 {
 
     private static final String USER_LOGIN = "Victorl";
-    private static final String USER_TOKEN = "622b03dc246761e2ef5197d71086fbe46e1479e7";
+    private static final String USER_TOKEN = "76a4e209f0d582b4c4d904d0c8dc7d57a7279f57";
     private static final String REPO_OWNER = "VictorLVA";
     private static final String REPO_NAME = "AutomationCourses";
     private static final String REPO_POSITIVE_INVITATION_USER = "dihnatsyeu";

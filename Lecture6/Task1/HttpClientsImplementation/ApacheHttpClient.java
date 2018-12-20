@@ -22,37 +22,51 @@ public class ApacheHttpClient {
 
     public static HttpResponse requestGet(RequestData requestData) {
         try {
-            if (requestData.getLogin() == null && requestData.getToken() == null) {
-                HttpClient client = HttpClientBuilder.create().build();
-                HttpGet request = new HttpGet(requestData.getURI());
-                return client.execute(request);
-            } else {
-                UsernamePasswordCredentials gitHubCredentials = new UsernamePasswordCredentials(requestData.getLogin(), requestData.getToken());
-                HttpClient client = HttpClientBuilder.create().build();
-                HttpGet request = new HttpGet(requestData.getURI());
-                request.addHeader(new BasicScheme().authenticate(gitHubCredentials, request, null));
-                return client.execute(request);
+            HttpClient client = HttpClientBuilder.create().build();
+            HttpGet request = new HttpGet(requestData.getURI());
+            if (isContainAuthData(requestData)) {
+                addAuthDataToHeader(requestData, request);
             }
+            return client.execute(request);
         } catch (IOException ioEx) {
             System.out.println(ERROR_MESSAGE_IO_EXCEPTION);
-        } catch (AuthenticationException authEx) {
-            System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
         }
         throw new RuntimeException("Something went wrong (ApacheHttpClient => requestGet");
     }
 
     public static HttpResponse requestPut(RequestData requestData) {
         try {
-            UsernamePasswordCredentials gitHubCredentials = new UsernamePasswordCredentials(requestData.getLogin(), requestData.getToken());
             HttpClient client = HttpClientBuilder.create().build();
             HttpPut request = new HttpPut(requestData.getURI());
-            request.addHeader(new BasicScheme().authenticate(gitHubCredentials, request, null));
+            if (isContainAuthData(requestData)) {
+                addAuthDataToHeader(requestData, request);
+            }
             return client.execute(request);
         } catch (IOException ioEx) {
             System.out.println(ERROR_MESSAGE_IO_EXCEPTION);
+        }
+        throw new RuntimeException("Something went wrong (ApacheHttpClient => requestPut");
+    }
+
+    private static boolean isContainAuthData(RequestData requestData) {
+        return (requestData.getLogin() != null && requestData.getToken() != null);
+    }
+
+    private static void addAuthDataToHeader(RequestData requestData, HttpGet request) {
+        UsernamePasswordCredentials gitHubCredentials = new UsernamePasswordCredentials(requestData.getLogin(), requestData.getToken());
+        try {
+            request.addHeader(new BasicScheme().authenticate(gitHubCredentials, request, null));
         } catch (AuthenticationException authEx) {
             System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
         }
-        throw new RuntimeException("Something went wrong (ApacheHttpClient => requestPut");
+    }
+
+    private static void addAuthDataToHeader(RequestData requestData, HttpPut request) {
+        UsernamePasswordCredentials gitHubCredentials = new UsernamePasswordCredentials(requestData.getLogin(), requestData.getToken());
+        try {
+            request.addHeader(new BasicScheme().authenticate(gitHubCredentials, request, null));
+        } catch (AuthenticationException authEx) {
+            System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
+        }
     }
 }
