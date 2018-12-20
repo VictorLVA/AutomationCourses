@@ -2,6 +2,7 @@ package HttpClientsImplementation;
 
 import java.io.IOException;
 
+import Constants.HttpMethods;
 import HttpClientsImplementation.Utils.RequestData;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthenticationException;
@@ -16,11 +17,25 @@ public class ApacheHttpClient {
 
     private static final String ERROR_MESSAGE_IO_EXCEPTION = "Something went wrong (ApacheHttpClient => IOException)";
     private static final String ERROR_MESSAGE_AUTH_EXCEPTION = "Something went wrong (ApacheHttpClient => AuthenticationException)";
+    private static final String ERROR_MESSAGE = "Something went wrong => ApacheHttpClient)";
 
     private ApacheHttpClient() {
     }
 
-    public static HttpResponse requestGet(RequestData requestData) {
+    public static HttpResponse doRequest(HttpMethods httpMethods, RequestData requestData) {
+        switch (httpMethods) {
+            case GET: {
+                return requestGet(requestData);
+            }
+            case PUT: {
+                return requestPut(requestData);
+            }
+            default:
+                throw new RuntimeException(ERROR_MESSAGE);
+        }
+    }
+
+    private static HttpResponse requestGet(RequestData requestData) {
         try {
             HttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet(requestData.getURI());
@@ -34,7 +49,7 @@ public class ApacheHttpClient {
         throw new RuntimeException("Something went wrong (ApacheHttpClient => requestGet");
     }
 
-    public static HttpResponse requestPut(RequestData requestData) {
+    private static HttpResponse requestPut(RequestData requestData) {
         try {
             HttpClient client = HttpClientBuilder.create().build();
             HttpPut request = new HttpPut(requestData.getURI());

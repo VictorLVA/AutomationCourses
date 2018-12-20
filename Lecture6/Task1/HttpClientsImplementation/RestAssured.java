@@ -1,5 +1,6 @@
 package HttpClientsImplementation;
 
+import Constants.HttpMethods;
 import HttpClientsImplementation.Utils.RequestData;
 import com.jayway.restassured.response.Response;
 
@@ -7,10 +8,25 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class RestAssured {
 
+    private static final String ERROR_MESSAGE = "Something went wrong => RestAssured)";
+
     private RestAssured() {
     }
 
-    public static Response requestGet(RequestData requestData) {
+    public static Response doRequest(HttpMethods httpMethods, RequestData requestData) {
+        switch (httpMethods) {
+            case GET: {
+                return requestGet(requestData);
+            }
+            case PUT: {
+                return requestPut(requestData);
+            }
+            default:
+                throw new RuntimeException(ERROR_MESSAGE);
+        }
+    }
+
+    private static Response requestGet(RequestData requestData) {
         if (isContainAuthData(requestData)) {
             return given()
                     .auth().preemptive().basic(requestData.getLogin(), requestData.getToken())
@@ -21,7 +37,7 @@ public class RestAssured {
         }
     }
 
-    public static Response requestPut(RequestData requestData) {
+    private static Response requestPut(RequestData requestData) {
         if (isContainAuthData(requestData)) {
             return given()
                     .auth().preemptive().basic(requestData.getLogin(), requestData.getToken())

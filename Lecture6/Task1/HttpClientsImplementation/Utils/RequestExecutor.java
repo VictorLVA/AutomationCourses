@@ -12,31 +12,12 @@ public class RequestExecutor {
     public RequestExecutor() {
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T executeAndGetResponse(HttpClients httpClients, HttpMethods httpMethods, RequestData requestData) {
+    public CustomResponse executeAndGetResponse(HttpClients httpClients, HttpMethods httpMethods, RequestData requestData) {
         switch (httpClients) {
             case RestAssured:
-                switch (httpMethods) {
-                    case GET: {
-                        return (T) RestAssured.requestGet(requestData);
-                    }
-                    case PUT: {
-                        return (T) RestAssured.requestPut(requestData);
-                    }
-                    default:
-                        throw new RuntimeException(ERROR_MESSAGE);
-                }
+                return new CustomResponse(RestAssured.doRequest(httpMethods, requestData));
             case ApacheHttpClient: {
-                switch (httpMethods) {
-                    case GET: {
-                        return (T) ApacheHttpClient.requestGet(requestData);
-                    }
-                    case PUT: {
-                        return (T) ApacheHttpClient.requestPut(requestData);
-                    }
-                    default:
-                        throw new RuntimeException(ERROR_MESSAGE);
-                }
+                return new CustomResponse(ApacheHttpClient.doRequest(httpMethods, requestData));
             }
             default:
                 throw new RuntimeException(ERROR_MESSAGE);
