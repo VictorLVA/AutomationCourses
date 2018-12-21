@@ -26,7 +26,7 @@ public class Task1L6 {
 
     @Test
     public void pingGitHubWithRestAssured() {
-        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI, USER_LOGIN, USER_TOKEN);
+        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI);
         CustomResponse gitHubResponse = restAssuredClient.doRequest(HttpMethods.GET, requestToGitHubData);
         Assert.assertEquals(
                 gitHubResponse.getResponseStatusCode(),
@@ -37,7 +37,7 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "pingGitHubWithRestAssured")
     public void repoExistWithRestAssured() {
-        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO, USER_LOGIN, USER_TOKEN);
+        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO);
         CustomResponse repoResponse = restAssuredClient.doRequest(HttpMethods.GET, requestToRepoData);
         Assert.assertEquals(
                 repoResponse.getResponseStatusCode(),
@@ -100,7 +100,7 @@ public class Task1L6 {
 
     @Test
     public void pingGitHubWithApacheHTTPClient() {
-        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI, USER_LOGIN, USER_TOKEN);
+        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI);
         CustomResponse gitHubResponse = apacheHttpClient.doRequest(HttpMethods.GET, requestToGitHubData);
         Assert.assertEquals(
                 gitHubResponse.getResponseStatusCode(),
@@ -111,7 +111,7 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "pingGitHubWithApacheHTTPClient")
     public void repoExistWithApacheHTTPClient() {
-        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO, USER_LOGIN, USER_TOKEN);
+        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO);
         CustomResponse repoResponse = apacheHttpClient.doRequest(HttpMethods.GET, requestToRepoData);
         Assert.assertEquals(
                 repoResponse.getResponseStatusCode(),
