@@ -1,10 +1,11 @@
 import CollaboratorClasses.Collaborator;
 import CollaboratorClasses.Utils.CollaboratorsBuilder;
-import Constants.HttpClients;
 import Constants.HttpMethods;
+import HttpClientsImplementation.Apache.ApacheHttpClient;
+import HttpClientsImplementation.CustomHttpClient;
+import HttpClientsImplementation.RestAssured.RestAssuredClient;
 import HttpClientsImplementation.Utils.CustomResponse;
 import HttpClientsImplementation.Utils.RequestData;
-import HttpClientsImplementation.Utils.CustomResponseBuilder;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -20,12 +21,13 @@ public class Task1L6 {
     private static final String ENDPOINT_REPO = "/repos/" + REPO_OWNER + "/" + REPO_NAME;
     private static final String ENDPOINT_REPO_COLLABORATORS = ENDPOINT_REPO + "/collaborators";
 
-    private static CustomResponseBuilder customResponseBuilder = new CustomResponseBuilder();
+    private static CustomHttpClient restAssuredClient = new RestAssuredClient();
+    private static CustomHttpClient apacheHttpClient = new ApacheHttpClient();
 
     @Test
     public void pingGitHubWithRestAssured() {
-        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI);
-        CustomResponse gitHubResponse = customResponseBuilder.getCustomResponse(HttpClients.RestAssured, HttpMethods.GET, requestToGitHubData);
+        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI, USER_LOGIN, USER_TOKEN);
+        CustomResponse gitHubResponse = restAssuredClient.doRequest(HttpMethods.GET, requestToGitHubData);
         Assert.assertEquals(
                 gitHubResponse.getResponseStatusCode(),
                 200,
@@ -35,8 +37,8 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "pingGitHubWithRestAssured")
     public void repoExistWithRestAssured() {
-        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO);
-        CustomResponse repoResponse = customResponseBuilder.getCustomResponse(HttpClients.RestAssured, HttpMethods.GET, requestToRepoData);
+        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO, USER_LOGIN, USER_TOKEN);
+        CustomResponse repoResponse = restAssuredClient.doRequest(HttpMethods.GET, requestToRepoData);
         Assert.assertEquals(
                 repoResponse.getResponseStatusCode(),
                 200,
@@ -47,7 +49,7 @@ public class Task1L6 {
     @Test(dependsOnMethods = "repoExistWithRestAssured")
     public void repoCollaboratorsEndpointWithRestAssured() {
         RequestData requestToCollaboratorsData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
-        CustomResponse collaboratorsResponse = customResponseBuilder.getCustomResponse(HttpClients.RestAssured, HttpMethods.GET, requestToCollaboratorsData);
+        CustomResponse collaboratorsResponse = restAssuredClient.doRequest(HttpMethods.GET, requestToCollaboratorsData);
         Assert.assertEquals(
                 collaboratorsResponse.getResponseStatusCode(),
                 200,
@@ -58,7 +60,7 @@ public class Task1L6 {
     @Test(dependsOnMethods = "repoCollaboratorsEndpointWithRestAssured")
     public void getCollaboratorsWithRestAssured() {
         RequestData requestToCollaboratorsData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
-        CustomResponse collaboratorsResponse = customResponseBuilder.getCustomResponse(HttpClients.RestAssured, HttpMethods.GET, requestToCollaboratorsData);
+        CustomResponse collaboratorsResponse = restAssuredClient.doRequest(HttpMethods.GET, requestToCollaboratorsData);
         Collaborator[] repoCollaborators = CollaboratorsBuilder.createCollaborators(collaboratorsResponse);
         Assert.assertNotNull(
                 repoCollaborators,
@@ -76,8 +78,7 @@ public class Task1L6 {
     public void createPositiveInvitationWithRestAssured() {
         RequestData requestToRepoInvitationData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
                                                                           "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
-        CustomResponse collaboratorsInvitationResponse = customResponseBuilder.getCustomResponse(HttpClients.RestAssured, HttpMethods.PUT,
-                                                                                               requestToRepoInvitationData);
+        CustomResponse collaboratorsInvitationResponse = restAssuredClient.doRequest(HttpMethods.PUT, requestToRepoInvitationData);
         Assert.assertEquals(
                 collaboratorsInvitationResponse.getResponseStatusCode(),
                 201,
@@ -89,8 +90,7 @@ public class Task1L6 {
     public void createNegativeInvitationWithRestAssured() {
         RequestData requestToRepoInvitationData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
                                                                           "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
-        CustomResponse collaboratorsInvitationResponse = customResponseBuilder.getCustomResponse(HttpClients.RestAssured, HttpMethods.PUT,
-                                                                                               requestToRepoInvitationData);
+        CustomResponse collaboratorsInvitationResponse = restAssuredClient.doRequest(HttpMethods.PUT, requestToRepoInvitationData);
         Assert.assertEquals(
                 collaboratorsInvitationResponse.getResponseStatusCode(),
                 204,
@@ -100,8 +100,8 @@ public class Task1L6 {
 
     @Test
     public void pingGitHubWithApacheHTTPClient() {
-        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI);
-        CustomResponse gitHubResponse = customResponseBuilder.getCustomResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToGitHubData);
+        RequestData requestToGitHubData = new RequestData(GITHUB_API_URI, USER_LOGIN, USER_TOKEN);
+        CustomResponse gitHubResponse = apacheHttpClient.doRequest(HttpMethods.GET, requestToGitHubData);
         Assert.assertEquals(
                 gitHubResponse.getResponseStatusCode(),
                 200,
@@ -111,8 +111,8 @@ public class Task1L6 {
 
     @Test(dependsOnMethods = "pingGitHubWithApacheHTTPClient")
     public void repoExistWithApacheHTTPClient() {
-        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO);
-        CustomResponse repoResponse = customResponseBuilder.getCustomResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToRepoData);
+        RequestData requestToRepoData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO, USER_LOGIN, USER_TOKEN);
+        CustomResponse repoResponse = apacheHttpClient.doRequest(HttpMethods.GET, requestToRepoData);
         Assert.assertEquals(
                 repoResponse.getResponseStatusCode(),
                 200,
@@ -123,7 +123,7 @@ public class Task1L6 {
     @Test(dependsOnMethods = "repoExistWithApacheHTTPClient")
     public void repoCollaboratorsEndpointWithApacheHTTPClient() {
         RequestData requestToCollaboratorsData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
-        CustomResponse collaboratorsResponse = customResponseBuilder.getCustomResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToCollaboratorsData);
+        CustomResponse collaboratorsResponse = apacheHttpClient.doRequest(HttpMethods.GET, requestToCollaboratorsData);
         Assert.assertEquals(
                 collaboratorsResponse.getResponseStatusCode(),
                 200,
@@ -134,7 +134,7 @@ public class Task1L6 {
     @Test(dependsOnMethods = "repoCollaboratorsEndpointWithApacheHTTPClient")
     public void getCollaboratorsWithApacheHTTPClient() {
         RequestData requestToCollaboratorsData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS, USER_LOGIN, USER_TOKEN);
-        CustomResponse collaboratorsResponse = customResponseBuilder.getCustomResponse(HttpClients.ApacheHttpClient, HttpMethods.GET, requestToCollaboratorsData);
+        CustomResponse collaboratorsResponse = apacheHttpClient.doRequest(HttpMethods.GET, requestToCollaboratorsData);
         Collaborator[] repoCollaborators = CollaboratorsBuilder.createCollaborators(collaboratorsResponse);
         Assert.assertNotNull(
                 repoCollaborators,
@@ -152,8 +152,7 @@ public class Task1L6 {
     public void createPositiveInvitationWithApacheHTTPClient() {
         RequestData requestToRepoInvitationData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
                                                                           "/" + REPO_POSITIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
-        CustomResponse collaboratorsInvitationResponse = customResponseBuilder.getCustomResponse(HttpClients.ApacheHttpClient, HttpMethods.PUT,
-                                                                                               requestToRepoInvitationData);
+        CustomResponse collaboratorsInvitationResponse = apacheHttpClient.doRequest(HttpMethods.PUT, requestToRepoInvitationData);
         Assert.assertEquals(
                 collaboratorsInvitationResponse.getResponseStatusCode(),
                 201,
@@ -165,8 +164,7 @@ public class Task1L6 {
     public void createNegativeInvitationWithApacheHTTPClient() {
         RequestData requestToRepoInvitationData = new RequestData(GITHUB_API_URI + ENDPOINT_REPO_COLLABORATORS +
                                                                           "/" + REPO_NEGATIVE_INVITATION_USER, USER_LOGIN, USER_TOKEN);
-        CustomResponse collaboratorsInvitationResponse = customResponseBuilder.getCustomResponse(HttpClients.ApacheHttpClient, HttpMethods.PUT,
-                                                                                               requestToRepoInvitationData);
+        CustomResponse collaboratorsInvitationResponse = apacheHttpClient.doRequest(HttpMethods.PUT, requestToRepoInvitationData);
         Assert.assertEquals(
                 collaboratorsInvitationResponse.getResponseStatusCode(),
                 204,

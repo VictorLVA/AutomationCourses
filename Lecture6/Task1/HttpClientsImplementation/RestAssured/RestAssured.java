@@ -1,4 +1,4 @@
-package HttpClientsImplementation;
+package HttpClientsImplementation.RestAssured;
 
 import Constants.HttpMethods;
 import HttpClientsImplementation.Utils.RequestData;
@@ -6,12 +6,12 @@ import com.jayway.restassured.response.Response;
 
 import static com.jayway.restassured.RestAssured.given;
 
-public class RestAssured {
+class RestAssured {
 
-    public RestAssured() {
+    RestAssured() {
     }
 
-    public Response doRequest(HttpMethods httpMethods, RequestData requestData) {
+    Response doRequest(HttpMethods httpMethods, RequestData requestData) {
         switch (httpMethods) {
             case GET: {
                 return requestGet(requestData);
