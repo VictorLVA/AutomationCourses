@@ -142,11 +142,11 @@ public class Task1L3 {
     private static void searchWithFood() {
         if (!isUserNeedFood()) {
             listOfSelection = listOfSelection.stream()
-                                             .filter(voucher -> voucher.getFood().isBlank())
+                                             .filter(voucher -> voucher.getFood().isEmpty())
                                              .collect(Collectors.toList());
         } else {
             listOfSelection = listOfSelection.stream()
-                                             .filter(voucher -> !voucher.getFood().isBlank())
+                                             .filter(voucher -> !voucher.getFood().isEmpty())
                                              .collect(Collectors.toList());
         }
     }
@@ -170,11 +170,11 @@ public class Task1L3 {
     private static void searchWithTransfer() {
         if (!isUserNeedTransfer()) {
             listOfSelection = listOfSelection.stream()
-                                             .filter(each -> each.getTransfer().isBlank())
+                                             .filter(each -> each.getTransfer().isEmpty())
                                              .collect(Collectors.toList());
         } else {
             listOfSelection = listOfSelection.stream()
-                                             .filter(each -> !each.getTransfer().isBlank())
+                                             .filter(each -> !each.getTransfer().isEmpty())
                                              .collect(Collectors.toList());
         }
     }
