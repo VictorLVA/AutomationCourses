@@ -19,10 +19,10 @@ public class ApacheHttpClient {
     private static final String ERROR_MESSAGE_AUTH_EXCEPTION = "Something went wrong (ApacheHttpClient => AuthenticationException)";
     private static final String ERROR_MESSAGE = "Something went wrong => ApacheHttpClient)";
 
-    private ApacheHttpClient() {
+    public ApacheHttpClient() {
     }
 
-    public static HttpResponse doRequest(HttpMethods httpMethods, RequestData requestData) {
+    public HttpResponse doRequest(HttpMethods httpMethods, RequestData requestData) {
         switch (httpMethods) {
             case GET: {
                 return requestGet(requestData);
@@ -35,7 +35,7 @@ public class ApacheHttpClient {
         }
     }
 
-    private static HttpResponse requestGet(RequestData requestData) {
+    private HttpResponse requestGet(RequestData requestData) {
         try {
             HttpClient client = HttpClientBuilder.create().build();
             HttpGet request = new HttpGet(requestData.getURI());
@@ -49,7 +49,7 @@ public class ApacheHttpClient {
         throw new RuntimeException("Something went wrong (ApacheHttpClient => requestGet");
     }
 
-    private static HttpResponse requestPut(RequestData requestData) {
+    private HttpResponse requestPut(RequestData requestData) {
         try {
             HttpClient client = HttpClientBuilder.create().build();
             HttpPut request = new HttpPut(requestData.getURI());
@@ -63,11 +63,11 @@ public class ApacheHttpClient {
         throw new RuntimeException("Something went wrong (ApacheHttpClient => requestPut");
     }
 
-    private static boolean isContainAuthData(RequestData requestData) {
+    private boolean isContainAuthData(RequestData requestData) {
         return (requestData.getLogin() != null && requestData.getToken() != null);
     }
 
-    private static void addAuthDataToHeader(RequestData requestData, HttpGet request) {
+    private void addAuthDataToHeader(RequestData requestData, HttpGet request) {
         UsernamePasswordCredentials gitHubCredentials = new UsernamePasswordCredentials(requestData.getLogin(), requestData.getToken());
         try {
             request.addHeader(new BasicScheme().authenticate(gitHubCredentials, request, null));
@@ -76,7 +76,7 @@ public class ApacheHttpClient {
         }
     }
 
-    private static void addAuthDataToHeader(RequestData requestData, HttpPut request) {
+    private void addAuthDataToHeader(RequestData requestData, HttpPut request) {
         UsernamePasswordCredentials gitHubCredentials = new UsernamePasswordCredentials(requestData.getLogin(), requestData.getToken());
         try {
             request.addHeader(new BasicScheme().authenticate(gitHubCredentials, request, null));

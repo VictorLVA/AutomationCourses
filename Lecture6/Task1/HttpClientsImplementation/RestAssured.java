@@ -10,10 +10,10 @@ public class RestAssured {
 
     private static final String ERROR_MESSAGE = "Something went wrong => RestAssured)";
 
-    private RestAssured() {
+    public RestAssured() {
     }
 
-    public static Response doRequest(HttpMethods httpMethods, RequestData requestData) {
+    public Response doRequest(HttpMethods httpMethods, RequestData requestData) {
         switch (httpMethods) {
             case GET: {
                 return requestGet(requestData);
@@ -26,7 +26,7 @@ public class RestAssured {
         }
     }
 
-    private static Response requestGet(RequestData requestData) {
+    private Response requestGet(RequestData requestData) {
         if (isContainAuthData(requestData)) {
             return given()
                     .auth().preemptive().basic(requestData.getLogin(), requestData.getToken())
@@ -37,7 +37,7 @@ public class RestAssured {
         }
     }
 
-    private static Response requestPut(RequestData requestData) {
+    private Response requestPut(RequestData requestData) {
         if (isContainAuthData(requestData)) {
             return given()
                     .auth().preemptive().basic(requestData.getLogin(), requestData.getToken())
@@ -48,7 +48,7 @@ public class RestAssured {
         }
     }
 
-    private static boolean isContainAuthData(RequestData requestData) {
+    private boolean isContainAuthData(RequestData requestData) {
         return (requestData.getLogin() != null && requestData.getToken() != null);
     }
 }
