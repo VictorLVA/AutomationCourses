@@ -11,14 +11,15 @@ import org.apache.http.util.EntityUtils;
 
 public class ApacheHttpClient implements CustomHttpClient {
 
+    private static ApacheHttp apacheHttp = new ApacheHttp();
+
     public ApacheHttpClient() {
     }
 
     @Override
     public CustomResponse doRequest(HttpMethods httpMethods, RequestData requestData) {
-        ApacheHttp apacheHttp = new ApacheHttp();
         HttpResponse apacheResponse = apacheHttp.doRequest(httpMethods, requestData);
-        String responseBody = "0";
+        String responseBody = "";
         try {
             if (apacheResponse.getEntity() != null) {
                 responseBody = EntityUtils.toString(apacheResponse.getEntity());
