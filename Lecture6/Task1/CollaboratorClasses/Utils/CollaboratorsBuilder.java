@@ -8,18 +8,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CollaboratorsBuilder {
 
-    private static final String ERROR_MESSAGE = "Something went wrong (CollaboratorsBuilder => IOException)";
-
-    private static ObjectMapper objectMapper = new ObjectMapper();
-
     private CollaboratorsBuilder() {
     }
 
     public static Collaborator[] createCollaborators(CustomResponse responseCollaborators) {
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(responseCollaborators.getResponseBody(), Collaborator[].class);
         } catch (IOException ioEx) {
-            System.out.println(ERROR_MESSAGE);
+            System.out.println("Something went wrong => CollaboratorsBuilder class, method 'createCollaborators'");
             return new Collaborator[0];
         }
     }

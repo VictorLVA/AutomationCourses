@@ -7,8 +7,6 @@ import HttpClientsImplementation.RestAssured;
 
 public class CustomResponseBuilder {
 
-    private static final String ERROR_MESSAGE = "Something went wrong => CustomResponseBuilder)";
-
     public CustomResponseBuilder() {
     }
 
@@ -23,7 +21,7 @@ public class CustomResponseBuilder {
                 return new CustomResponse(apacheHttpClient.doRequest(httpMethods, requestData));
             }
             default:
-                throw new RuntimeException(ERROR_MESSAGE);
+                throw new RuntimeException("Something went wrong => CustomResponseBuilder class, method 'getCustomResponse'");
         }
     }
 }

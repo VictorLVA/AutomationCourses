@@ -15,10 +15,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class ApacheHttpClient {
 
-    private static final String ERROR_MESSAGE_IO_EXCEPTION = "Something went wrong (ApacheHttpClient => IOException)";
-    private static final String ERROR_MESSAGE_AUTH_EXCEPTION = "Something went wrong (ApacheHttpClient => AuthenticationException)";
-    private static final String ERROR_MESSAGE = "Something went wrong => ApacheHttpClient)";
-
     public ApacheHttpClient() {
     }
 
@@ -31,7 +27,7 @@ public class ApacheHttpClient {
                 return requestPut(requestData);
             }
             default:
-                throw new RuntimeException(ERROR_MESSAGE);
+                throw new RuntimeException("Something went wrong => ApacheHttpClient class, method 'doRequest'");
         }
     }
 
@@ -44,9 +40,9 @@ public class ApacheHttpClient {
             }
             return client.execute(request);
         } catch (IOException ioEx) {
-            System.out.println(ERROR_MESSAGE_IO_EXCEPTION);
+            System.out.println("Something went wrong => ApacheHttpClient class, method 'requestGet'");
         }
-        throw new RuntimeException("Something went wrong (ApacheHttpClient => requestGet");
+        throw new RuntimeException("Something went wrong => ApacheHttpClient class, method 'requestGet'");
     }
 
     private HttpResponse requestPut(RequestData requestData) {
@@ -58,9 +54,9 @@ public class ApacheHttpClient {
             }
             return client.execute(request);
         } catch (IOException ioEx) {
-            System.out.println(ERROR_MESSAGE_IO_EXCEPTION);
+            System.out.println("Something went wrong => ApacheHttpClient class, method 'requestPut'");
         }
-        throw new RuntimeException("Something went wrong (ApacheHttpClient => requestPut");
+        throw new RuntimeException("Something went wrong => ApacheHttpClient class, method 'requestPut'");
     }
 
     private boolean isContainAuthData(RequestData requestData) {
@@ -72,7 +68,7 @@ public class ApacheHttpClient {
         try {
             request.addHeader(new BasicScheme().authenticate(gitHubCredentials, request, null));
         } catch (AuthenticationException authEx) {
-            System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
+            System.out.println("Something went wrong => ApacheHttpClient class, method 'addAuthDataToHeader'");
         }
     }
 
@@ -81,7 +77,7 @@ public class ApacheHttpClient {
         try {
             request.addHeader(new BasicScheme().authenticate(gitHubCredentials, request, null));
         } catch (AuthenticationException authEx) {
-            System.out.println(ERROR_MESSAGE_AUTH_EXCEPTION);
+            System.out.println("Something went wrong => ApacheHttpClient class, method 'addAuthDataToHeader'");
         }
     }
 }

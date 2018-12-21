@@ -8,8 +8,6 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class RestAssured {
 
-    private static final String ERROR_MESSAGE = "Something went wrong => RestAssured)";
-
     public RestAssured() {
     }
 
@@ -22,7 +20,7 @@ public class RestAssured {
                 return requestPut(requestData);
             }
             default:
-                throw new RuntimeException(ERROR_MESSAGE);
+                throw new RuntimeException("Something went wrong => RestAssured class, method 'doRequest'");
         }
     }
 

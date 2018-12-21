@@ -8,8 +8,6 @@ import org.apache.http.util.EntityUtils;
 
 public class CustomResponse {
 
-    private static final String ERROR_MESSAGE = "Something went wrong (CustomResponse => IOException)";
-
     private String responseBody;
     private int responseStatusCode;
 
@@ -19,7 +17,7 @@ public class CustomResponse {
                 this.responseBody = EntityUtils.toString(httpResponse.getEntity());
             }
         } catch (IOException ioEx) {
-            System.out.println(ERROR_MESSAGE);
+            System.out.println("Something went wrong => CustomResponse class, constructor");
         }
         this.responseStatusCode = httpResponse.getStatusLine().getStatusCode();
     }
