@@ -41,8 +41,10 @@ public class Task1L7 {
         Wait<WebDriver> wait = new WebDriverWait(driver, 10, 500);
         driver.get(onlinerURI);
         driver.findElement(By.cssSelector("div.auth-bar__item.auth-bar__item--text")).click();
-        driver.findElement(By.cssSelector("input.auth-input.auth-input_primary.auth-input_base.auth-form__input.auth-form__input_width_full[type=text]")).sendKeys(onlinerLogin);
-        driver.findElement(By.cssSelector("input.auth-input.auth-input_primary.auth-input_base.auth-form__input.auth-form__input_width_full[type=password]")).sendKeys(onlinerPassword);
+        driver.findElement(By.cssSelector("input.auth-input.auth-input_primary.auth-input_base.auth-form__input.auth-form__input_width_full[type=text]"))
+              .sendKeys(onlinerLogin);
+        driver.findElement(By.cssSelector("input.auth-input.auth-input_primary.auth-input_base.auth-form__input.auth-form__input_width_full[type=password]"))
+              .sendKeys(onlinerPassword);
         driver.findElement(By.cssSelector("button.auth-button.auth-button_primary.auth-button_middle.auth-form__button.auth-form__button_width_full")).submit();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-main-navigation__link"))).click();
         List<WebElement> classifiersLinks = driver.findElements(By.className("catalog-navigation-classifier__item "));
@@ -52,7 +54,8 @@ public class Task1L7 {
         List<WebElement> categoriesLinks = selectedCatalogBlock.findElements(By.className("catalog-navigation-list__aside-item"));
         int categoriesLinksIndex = (int) (Math.random() * categoriesLinks.size());
         categoriesLinks.get(categoriesLinksIndex).click();
-        WebElement activeCategory = driver.findElement(By.xpath("//div[@class=\"catalog-navigation-list__aside-item catalog-navigation-list__aside-item_active\"]"));
+        WebElement activeCategory = driver.findElement(
+                By.xpath("//div[@class=\"catalog-navigation-list__aside-item catalog-navigation-list__aside-item_active\"]"));
         List<WebElement> activeCategoryChapters = activeCategory.findElements(By.className("catalog-navigation-list__dropdown-item"));
         int activeCategoryChaptersIndex = (int) (Math.random() * activeCategoryChapters.size());
         activeCategoryChapters.get(activeCategoryChaptersIndex).click();
@@ -136,8 +139,10 @@ public class Task1L7 {
         Wait<WebDriver> wait = new WebDriverWait(driver, 10, 500);
         driver.get(onlinerURI);
         driver.findElement(By.cssSelector("div.auth-bar__item.auth-bar__item--text")).click();
-        driver.findElement(By.cssSelector("input.auth-input.auth-input_primary.auth-input_base.auth-form__input.auth-form__input_width_full[type=text]")).sendKeys(onlinerLogin);
-        driver.findElement(By.cssSelector("input.auth-input.auth-input_primary.auth-input_base.auth-form__input.auth-form__input_width_full[type=password]")).sendKeys(onlinerPassword);
+        driver.findElement(By.cssSelector("input.auth-input.auth-input_primary.auth-input_base.auth-form__input.auth-form__input_width_full[type=text]"))
+              .sendKeys(onlinerLogin);
+        driver.findElement(By.cssSelector("input.auth-input.auth-input_primary.auth-input_base.auth-form__input.auth-form__input_width_full[type=password]"))
+              .sendKeys(onlinerPassword);
         driver.findElement(By.cssSelector("button.auth-button.auth-button_primary.auth-button_middle.auth-form__button.auth-form__button_width_full")).submit();
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-top-navigation-cart__link"))).click();
         List<WebElement> cartProducts = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
