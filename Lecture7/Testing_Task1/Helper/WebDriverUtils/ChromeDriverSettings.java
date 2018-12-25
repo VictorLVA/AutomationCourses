@@ -1,15 +1,15 @@
-package Helper;
+package Helper.WebDriverUtils;
 
-public class ChromeDriverSettings {
+class ChromeDriverSettings {
 
     private ChromeDriverSettings() {
     }
 
-    public static String getDriverName() {
+    static String getDriverName() {
         return "webdriver.chrome.driver";
     }
 
-    public static String getLocation() {
+    static String getLocation() {
         return "C:/Java/chromedriver/chromedriver.exe";
     }
 }
