@@ -1,4 +1,4 @@
-package Helper.OnlinerUtils;
+package OnlinerUtils;
 
 import java.util.List;
 
@@ -32,8 +32,8 @@ public class OnlinerNavigation {
         System.out.println("Login to Onliner was performed");
     }
 
-    public static void openOnlinerFullCatalog(Wait<WebDriver> waiter) {
-        waiter.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-main-navigation__link"))).click();
+    public static void openOnlinerFullCatalog(Wait<WebDriver> wait) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-main-navigation__link"))).click();
         System.out.println("Onliner full catalog was opened");
     }
 
@@ -58,7 +58,7 @@ public class OnlinerNavigation {
         activeCategoryChapters.get(activeCategoryChaptersIndex).click();
     }
 
-    public static void openOnlinerRandomProductWithOffers(WebDriver driver, Wait<WebDriver> waiter) {
+    public static void openOnlinerRandomProductWithOffers(WebDriver driver, Wait<WebDriver> wait) {
         boolean areOffersExist = false;
         int attemps = 3;
         while (!areOffersExist) {
@@ -73,15 +73,15 @@ public class OnlinerNavigation {
                 } else {
                     attemps -= 1;
                     System.out.println("No offers for products with the selected chapter. Trying another chapter (" + attemps + " attemps left)");
-                    openOnlinerFullCatalog(waiter);
+                    openOnlinerFullCatalog(wait);
                     openOnlinerRandomCatalogChapter(driver);
                 }
             }
         }
     }
 
-    public static void openOnlinerCart(Wait<WebDriver> waiter) {
-        waiter.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-top-navigation-cart__link"))).click();
+    public static void openOnlinerCart(Wait<WebDriver> wait) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-top-navigation-cart__link"))).click();
         System.out.println("Cart was opened");
     }
 }

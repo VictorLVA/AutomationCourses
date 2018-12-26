@@ -1,4 +1,4 @@
-package Helper.OnlinerUtils;
+package OnlinerUtils;
 
 import java.util.List;
 
@@ -8,16 +8,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Wait;
 
-import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerFullCatalog;
-import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerRandomCatalogChapter;
-import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerRandomProductWithOffers;
-
 public class OnlinerProductsManipulation {
 
     private OnlinerProductsManipulation() {
     }
 
-    public static void addProductToCartWithRandomOffer(WebDriver driver, Wait<WebDriver> waiter) {
+    public static void addProductToCartWithRandomOffer(WebDriver driver, Wait<WebDriver> wait) {
         driver.findElement(By.className("item")).click();
         System.out.println("Product: " + driver.findElement(By.className("catalog-masthead__title")).getText());
         driver.navigate().back();
@@ -40,9 +36,9 @@ public class OnlinerProductsManipulation {
                 } else {
                     attemps -= 1;
                     System.out.println("No offers with ability to cart adding. Trying another product (" + attemps + " attemps left)");
-                    openOnlinerFullCatalog(waiter);
-                    openOnlinerRandomCatalogChapter(driver);
-                    openOnlinerRandomProductWithOffers(driver, waiter);
+                    OnlinerNavigation.openOnlinerFullCatalog(wait);
+                    OnlinerNavigation.openOnlinerRandomCatalogChapter(driver);
+                    OnlinerNavigation.openOnlinerRandomProductWithOffers(driver, wait);
                 }
             }
         }
