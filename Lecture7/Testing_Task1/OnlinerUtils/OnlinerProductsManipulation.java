@@ -29,7 +29,6 @@ public class OnlinerProductsManipulation {
                 System.out.println("Shop link: " + offers.get(offersIndex)
                                                          .findElement(By.xpath("../../td[@class=\"b-cell-4\"]//a[@class=\"logo\"]")).getAttribute("href"));
                 offers.get(offersIndex).click();
-                System.out.println("!!!Added to cart!!!");
             } else {
                 if (attemps == 0) {
                     throw new RuntimeException("Too many tries to find product for cart adding... stopping test");
@@ -54,8 +53,8 @@ public class OnlinerProductsManipulation {
         }
         while (isProductWithinCart) {
             try {
-                driver.findElement(By.xpath(".//a[@class=\"cart-product__remove\"]")).click();
                 Thread.sleep(500);
+                driver.findElement(By.xpath(".//a[@class=\"cart-product__remove\"]")).click();
             } catch (NoSuchElementException noSuchElementEx) {
                 isProductWithinCart = false;
                 System.out.println("All products were removed within cart");

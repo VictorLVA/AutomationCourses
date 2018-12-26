@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -24,9 +25,15 @@ import static com.jayway.restassured.RestAssured.given;
 
 public class Task1L7 {
 
+    private static WebDriver driver;
+    private static Wait<WebDriver> wait;
+
     @BeforeClass
     public void setupChromeWebDriver() {
         System.setProperty("webdriver.chrome.driver", "C:/Java/chromedriver/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 5, 500);
     }
 
     @Test
@@ -41,43 +48,39 @@ public class Task1L7 {
 
     @Test(dependsOnMethods = "pingOnliner")
     public void addProductToCart() {
-        WebDriver myChromeDriver = new ChromeDriver();
-        myChromeDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        Wait<WebDriver> myWait = new WebDriverWait(myChromeDriver, 5, 500);
-        goToOnliner(myChromeDriver);
-        loginToOnliner(myChromeDriver);
-        openOnlinerCart(myWait);
-        List<WebElement> cartProductsBeforeAdding = myChromeDriver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
-        myChromeDriver.navigate().back();
-        openOnlinerFullCatalog(myWait);
-        openOnlinerRandomCatalogChapter(myChromeDriver);
-        openOnlinerRandomProductWithOffers(myChromeDriver, myWait);
-        addProductToCartWithRandomOffer(myChromeDriver, myWait);
-        openOnlinerCart(myWait);
-        List<WebElement> cartProductsAfterAdding = myChromeDriver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
+        System.out.println("\n=== Testing product addition to the cart ===");
+        goToOnliner(driver);
+        loginToOnliner(driver);
+        openOnlinerCart(wait);
+        List<WebElement> cartProductsBeforeAdding = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
+        driver.navigate().back();
+        openOnlinerFullCatalog(wait);
+        openOnlinerRandomCatalogChapter(driver);
+        openOnlinerRandomProductWithOffers(driver, wait);
+        addProductToCartWithRandomOffer(driver, wait);
+        openOnlinerCart(wait);
+        List<WebElement> cartProductsAfterAdding = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
         Assert.assertEquals(
                 cartProductsAfterAdding.size(),
                 cartProductsBeforeAdding.size() + 1,
                 "Product wasn't added to the cart - "
         );
-        myChromeDriver.close();
     }
 
     @Test(dependsOnMethods = "addProductToCart")
     public void removeProductFromCart() {
-        WebDriver myChromeDriver = new ChromeDriver();
-        myChromeDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        Wait<WebDriver> myWait = new WebDriverWait(myChromeDriver, 5, 500);
-        goToOnliner(myChromeDriver);
-        loginToOnliner(myChromeDriver);
-        openOnlinerCart(myWait);
-        removeAllProductsFromCart(myChromeDriver);
-        List<WebElement> cartAfterRemoving = myChromeDriver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
+        System.out.println("\n=== Testing products deleting from the cart ===");
+        removeAllProductsFromCart(driver);
+        List<WebElement> cartAfterRemoving = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
         Assert.assertEquals(
                 cartAfterRemoving.size(),
                 0,
                 "Product wasn't deleted from the cart - "
         );
-        myChromeDriver.close();
+    }
+
+    @AfterClass
+    public void closeDriver() {
+        driver.close();
     }
 }
