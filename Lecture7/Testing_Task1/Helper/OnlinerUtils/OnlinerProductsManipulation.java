@@ -58,7 +58,6 @@ public class OnlinerProductsManipulation {
         }
         while (isProductWithinCart) {
             try {
-                driver.findElement(By.className("cart-product__remove"));
                 driver.findElement(By.xpath(".//a[@class=\"cart-product__remove\"]")).click();
                 Thread.sleep(500);
             } catch (NoSuchElementException noSuchElementEx) {

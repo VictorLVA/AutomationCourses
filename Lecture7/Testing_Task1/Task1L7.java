@@ -36,8 +36,8 @@ public class Task1L7 {
     @Test(dependsOnMethods = "pingOnliner")
     public void addProductToCart() {
         WebDriver myChromeDriver = useChromeWebDriver();
-        myChromeDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        Wait<WebDriver> myWaiter = new WebDriverWait(myChromeDriver, 10, 500);
+        myChromeDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        Wait<WebDriver> myWaiter = new WebDriverWait(myChromeDriver, 5, 500);
         goToOnliner(myChromeDriver);
         loginToOnliner(myChromeDriver);
         openOnlinerCart(myWaiter);
@@ -60,8 +60,8 @@ public class Task1L7 {
     @Test(dependsOnMethods = "addProductToCart")
     public void removeProductFromCart() {
         WebDriver myChromeDriver = useChromeWebDriver();
-        myChromeDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        Wait<WebDriver> myWaiter = new WebDriverWait(myChromeDriver, 10, 500);
+        myChromeDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        Wait<WebDriver> myWaiter = new WebDriverWait(myChromeDriver, 5, 500);
         goToOnliner(myChromeDriver);
         loginToOnliner(myChromeDriver);
         openOnlinerCart(myWaiter);

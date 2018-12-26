@@ -69,7 +69,7 @@ public class OnlinerNavigation {
                 productsOffers.get(productsOffersIndex).click();
             } else {
                 if (attemps == 0) {
-                    throw new RuntimeException("Too many tries to find product with offers... stopping test.");
+                    throw new RuntimeException("Too many tries to find product with offers... stopping test");
                 } else {
                     attemps -= 1;
                     System.out.println("No offers for products with the selected chapter. Trying another chapter (" + attemps + " attemps left)");
