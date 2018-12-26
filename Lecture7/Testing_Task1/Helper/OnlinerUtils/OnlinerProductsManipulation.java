@@ -6,9 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
+
+import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerFullCatalog;
+import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerRandomCatalogChapter;
+import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerRandomProductWithOffers;
 
 public class OnlinerProductsManipulation {
 
@@ -16,47 +18,31 @@ public class OnlinerProductsManipulation {
     }
 
     public static void addProductToCartWithRandomOffer(WebDriver driver, Wait<WebDriver> waiter) {
-        List<WebElement> offers = driver.findElements(By.className("product-aside__item"));
-        if (offers.size() == 1) {
-            try {
-                offers.get(0).findElement(By.xpath(".//a[@class=\"button button_orange product-aside__item-button\"]")).click();
-            } catch (NoSuchElementException noSuchElementEx) {
-                throw new RuntimeException("Single offer cannot be added to the cart. Test will be stopped and failed.");
-            }
-        } else {
-            boolean isAvailableToCart = false;
-            int attemps = 5;
-            while (!isAvailableToCart) {
+        driver.findElement(By.className("item")).click();
+        System.out.println("Product: " + driver.findElement(By.className("catalog-masthead__title")).getText());
+        driver.navigate().back();
+        boolean isOfferAvailableForCart = false;
+        int attemps = 3;
+        while (!isOfferAvailableForCart) {
+            List<WebElement> offers = driver.findElements(By.className("offers-list__button_basket"));
+            if (offers.size() != 0) {
+                isOfferAvailableForCart = true;
                 int offersIndex = (int) (Math.random() * offers.size());
-                if (offersIndex == 0) {
-                    try {
-                        offers.get(offersIndex).findElement(By.xpath(".//a[@class=\"button button_orange product-aside__item-button\"]"));
-                        isAvailableToCart = true;
-                        offers.get(offersIndex).findElement(By.xpath(".//a[@class=\"button button_orange product-aside__item-button\"]")).click();
-                    } catch (NoSuchElementException noSuchElementEx) {
-                        if (attemps == 0) {
-                            throw new RuntimeException("To many tries... stopping test");
-                        } else {
-                            attemps -= 1;
-                            System.out.println("Offer cannot be added to the cart. Trying another offer (" + attemps + " attemps left)");
-                        }
-                    }
+                System.out.println("Shop: " + offers.get(offersIndex)
+                                                    .findElement(By.xpath("../../td[@class=\"b-cell-4\"]//a[@class=\"logo\"]//img")).getAttribute("alt"));
+                System.out.println("Shop link: " + offers.get(offersIndex)
+                                                         .findElement(By.xpath("../../td[@class=\"b-cell-4\"]//a[@class=\"logo\"]")).getAttribute("href"));
+                offers.get(offersIndex).click();
+                System.out.println("!!!Added to cart!!!");
+            } else {
+                if (attemps == 0) {
+                    throw new RuntimeException("Too many tries to find product for cart adding... stopping test");
                 } else {
-                    try {
-                        offers.get(offersIndex).findElement(By.xpath(".//a[@class=\"button button_orange product-aside__item-button\"]"));
-                        isAvailableToCart = true;
-                        Actions mouseActions = new Actions(driver);
-                        mouseActions.moveToElement(offers.get(offersIndex)).click().build().perform();
-                        waiter.until(ExpectedConditions.elementToBeClickable(By.xpath(".//a[@class=\"button button_orange product-aside__item-button\"]")));
-                        offers.get(offersIndex).findElement(By.xpath(".//a[@class=\"button button_orange product-aside__item-button\"]")).click();
-                    } catch (NoSuchElementException noSuchElementEx) {
-                        if (attemps == 0) {
-                            throw new RuntimeException("To many tries... stopping test");
-                        } else {
-                            attemps -= 1;
-                            System.out.println("Offer cannot be added to the cart. Trying another offer (" + attemps + " attemps left)");
-                        }
-                    }
+                    attemps -= 1;
+                    System.out.println("No offers with ability to cart adding. Trying another product (" + attemps + " attemps left)");
+                    openOnlinerFullCatalog(waiter);
+                    openOnlinerRandomCatalogChapter(driver);
+                    openOnlinerRandomProductWithOffers(driver, waiter);
                 }
             }
         }

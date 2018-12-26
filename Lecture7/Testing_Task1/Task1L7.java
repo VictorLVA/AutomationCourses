@@ -15,7 +15,7 @@ import static Helper.OnlinerUtils.OnlinerNavigation.loginToOnliner;
 import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerCart;
 import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerFullCatalog;
 import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerRandomCatalogChapter;
-import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerRandomProductWithPrice;
+import static Helper.OnlinerUtils.OnlinerNavigation.openOnlinerRandomProductWithOffers;
 import static Helper.OnlinerUtils.OnlinerProductsManipulation.addProductToCartWithRandomOffer;
 import static Helper.OnlinerUtils.OnlinerProductsManipulation.removeAllProductsFromCart;
 import static Helper.WebDriverUtils.WebDriverUtils.useChromeWebDriver;
@@ -45,7 +45,7 @@ public class Task1L7 {
         myChromeDriver.navigate().back();
         openOnlinerFullCatalog(myWaiter);
         openOnlinerRandomCatalogChapter(myChromeDriver);
-        openOnlinerRandomProductWithPrice(myChromeDriver);
+        openOnlinerRandomProductWithOffers(myChromeDriver, myWaiter);
         addProductToCartWithRandomOffer(myChromeDriver, myWaiter);
         openOnlinerCart(myWaiter);
         List<WebElement> cartProductsAfterAdding = myChromeDriver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
