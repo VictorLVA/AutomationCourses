@@ -7,37 +7,43 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class OnlinerNavigation {
 
-    private static final String onlinerURI = "https://www.onliner.by/";
-    private static final String onlinerLogin = "playtika.autotest@tut.by";
-    private static final String onlinerPassword = "123456123";
+    private static final String ONLINER_URI = "https://www.onliner.by/";
+    private static final String ONLINER_LOGIN = "playtika.autotest@tut.by";
+    private static final String ONLINER_PASSWORD = "123456123";
 
-    private OnlinerNavigation() {
+    private WebDriver driver;
+    private Wait<WebDriver> wait;
+
+    public OnlinerNavigation(WebDriver driver) {
+        this.driver = driver;
+        wait = new WebDriverWait(driver, 5, 500);
     }
 
-    public static void goToOnliner(WebDriver driver) {
-        driver.get(onlinerURI);
+    public void goToOnliner() {
+        driver.get(ONLINER_URI);
         System.out.println("Onliner was opened.");
     }
 
-    public static void loginToOnliner(WebDriver driver) {
+    public void loginToOnliner() {
         driver.findElement(By.cssSelector("div.auth-bar__item--text")).click();
         driver.findElement(By.cssSelector("input.auth-input[type=text]"))
-              .sendKeys(onlinerLogin);
+              .sendKeys(ONLINER_LOGIN);
         driver.findElement(By.cssSelector("input.auth-input[type=password]"))
-              .sendKeys(onlinerPassword);
+              .sendKeys(ONLINER_PASSWORD);
         driver.findElement(By.cssSelector("button.auth-button")).submit();
         System.out.println("Login to Onliner was performed");
     }
 
-    public static void openOnlinerFullCatalog(Wait<WebDriver> wait) {
+    public void openOnlinerFullCatalog() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-main-navigation__link"))).click();
         System.out.println("Onliner full catalog was opened");
     }
 
-    public static void openOnlinerRandomCatalogChapter(WebDriver driver) {
+    public void openOnlinerRandomCatalogChapter() {
         List<WebElement> classifiersLinks = driver.findElements(By.className("catalog-navigation-classifier__item "));
         int classifiersLinksIndex = (int) (Math.random() * classifiersLinks.size());
         classifiersLinks.get(classifiersLinksIndex).click();
@@ -58,7 +64,7 @@ public class OnlinerNavigation {
         activeCategoryChapters.get(activeCategoryChaptersIndex).click();
     }
 
-    public static void openOnlinerRandomProductWithOffers(WebDriver driver, Wait<WebDriver> wait) {
+    public void openOnlinerRandomProductWithOffers() {
         boolean areOffersExist = false;
         int attemps = 3;
         while (!areOffersExist) {
@@ -73,14 +79,14 @@ public class OnlinerNavigation {
                 } else {
                     attemps -= 1;
                     System.out.println("No offers for products with the selected chapter. Trying another chapter (" + attemps + " attemps left)");
-                    openOnlinerFullCatalog(wait);
-                    openOnlinerRandomCatalogChapter(driver);
+                    openOnlinerFullCatalog();
+                    openOnlinerRandomCatalogChapter();
                 }
             }
         }
     }
 
-    public static void openOnlinerCart(Wait<WebDriver> wait) {
+    public void openOnlinerCart() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-top-navigation-cart__link"))).click();
         System.out.println("Cart was opened");
     }

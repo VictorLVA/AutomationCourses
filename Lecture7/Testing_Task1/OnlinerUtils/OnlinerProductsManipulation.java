@@ -6,14 +6,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Wait;
 
 public class OnlinerProductsManipulation {
 
-    private OnlinerProductsManipulation() {
+    private WebDriver driver;
+    private OnlinerNavigation onlinerNavigation;
+
+    public OnlinerProductsManipulation(WebDriver driver) {
+        this.driver = driver;
+        onlinerNavigation = new OnlinerNavigation(driver);
     }
 
-    public static void addProductToCartWithRandomOffer(WebDriver driver, Wait<WebDriver> wait) {
+    public void addProductToCartWithRandomOffer() {
         driver.findElement(By.className("item")).click();
         System.out.println("Product: " + driver.findElement(By.className("catalog-masthead__title")).getText());
         driver.navigate().back();
@@ -35,15 +39,15 @@ public class OnlinerProductsManipulation {
                 } else {
                     attemps -= 1;
                     System.out.println("No offers with ability to cart adding. Trying another product (" + attemps + " attemps left)");
-                    OnlinerNavigation.openOnlinerFullCatalog(wait);
-                    OnlinerNavigation.openOnlinerRandomCatalogChapter(driver);
-                    OnlinerNavigation.openOnlinerRandomProductWithOffers(driver, wait);
+                    onlinerNavigation.openOnlinerFullCatalog();
+                    onlinerNavigation.openOnlinerRandomCatalogChapter();
+                    onlinerNavigation.openOnlinerRandomProductWithOffers();
                 }
             }
         }
     }
 
-    public static void removeAllProductsFromCart(WebDriver driver) {
+    public void removeAllProductsFromCart() {
         boolean isProductWithinCart = false;
         try {
             driver.findElement(By.className("cart-product__remove"));
