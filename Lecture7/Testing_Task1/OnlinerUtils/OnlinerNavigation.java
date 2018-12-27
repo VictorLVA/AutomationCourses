@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class OnlinerNavigation {
+class OnlinerNavigation {
 
     private static final String ONLINER_URI = "https://www.onliner.by/";
     private static final String ONLINER_LOGIN = "playtika.autotest@tut.by";
@@ -23,12 +23,12 @@ public class OnlinerNavigation {
         wait = new WebDriverWait(driver, 5, 500);
     }
 
-    public void goToOnliner() {
+    void goToOnliner() {
         driver.get(ONLINER_URI);
         System.out.println("Onliner was opened.");
     }
 
-    public void loginToOnliner() {
+    void loginToOnliner() {
         driver.findElement(By.cssSelector("div.auth-bar__item--text")).click();
         driver.findElement(By.cssSelector("input.auth-input[type=text]"))
               .sendKeys(ONLINER_LOGIN);
@@ -38,12 +38,12 @@ public class OnlinerNavigation {
         System.out.println("Login to Onliner was performed");
     }
 
-    public void openOnlinerFullCatalog() {
+    void openOnlinerFullCatalog() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-main-navigation__link"))).click();
         System.out.println("Onliner full catalog was opened");
     }
 
-    public void openOnlinerRandomCatalogChapter() {
+    void openOnlinerRandomCatalogChapter() {
         List<WebElement> classifiersLinks = driver.findElements(By.className("catalog-navigation-classifier__item "));
         int classifiersLinksIndex = (int) (Math.random() * classifiersLinks.size());
         classifiersLinks.get(classifiersLinksIndex).click();
@@ -64,7 +64,7 @@ public class OnlinerNavigation {
         activeCategoryChapters.get(activeCategoryChaptersIndex).click();
     }
 
-    public void openOnlinerRandomProductWithOffers() {
+    void openOnlinerRandomProductWithOffers() {
         boolean areOffersExist = false;
         int attemps = 3;
         while (!areOffersExist) {
@@ -86,7 +86,7 @@ public class OnlinerNavigation {
         }
     }
 
-    public void openOnlinerCart() {
+    void openOnlinerCart() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-top-navigation-cart__link"))).click();
         System.out.println("Cart was opened");
     }

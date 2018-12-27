@@ -40,16 +40,16 @@ public class Task1L7 {
     @Test(dependsOnMethods = "pingOnliner")
     public void addProductToCart() {
         System.out.println("\n=== Testing product addition to the cart ===");
-        onliner.useOnlinerNavigation().goToOnliner();
-        onliner.useOnlinerNavigation().loginToOnliner();
-        onliner.useOnlinerNavigation().openOnlinerCart();
+        onliner.goToOnliner();
+        onliner.loginToOnliner();
+        onliner.openOnlinerCart();
         List<WebElement> cartProductsBeforeAdding = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
         driver.navigate().back();
-        onliner.useOnlinerNavigation().openOnlinerFullCatalog();
-        onliner.useOnlinerNavigation().openOnlinerRandomCatalogChapter();
-        onliner.useOnlinerNavigation().openOnlinerRandomProductWithOffers();
-        onliner.useOnlinerProductsManipulation().addProductToCartWithRandomOffer();
-        onliner.useOnlinerNavigation().openOnlinerCart();
+        onliner.openOnlinerFullCatalog();
+        onliner.openOnlinerRandomCatalogChapter();
+        onliner.openOnlinerRandomProductWithOffers();
+        onliner.addProductToCartWithRandomOffer();
+        onliner.openOnlinerCart();
         List<WebElement> cartProductsAfterAdding = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
         Assert.assertEquals(
                 cartProductsAfterAdding.size(),
@@ -61,7 +61,7 @@ public class Task1L7 {
     @Test(dependsOnMethods = "addProductToCart")
     public void removeProductFromCart() {
         System.out.println("\n=== Testing products deleting from the cart ===");
-        onliner.useOnlinerProductsManipulation().removeAllProductsFromCart();
+        onliner.removeAllProductsFromCart();
         List<WebElement> cartAfterRemoving = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
         Assert.assertEquals(
                 cartAfterRemoving.size(),

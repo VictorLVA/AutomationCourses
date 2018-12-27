@@ -7,7 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class OnlinerProductsManipulation {
+class OnlinerProductsManipulation {
 
     private WebDriver driver;
     private OnlinerNavigation onlinerNavigation;
@@ -17,7 +17,7 @@ public class OnlinerProductsManipulation {
         this.onlinerNavigation = onlinerNavigation;
     }
 
-    public void addProductToCartWithRandomOffer() {
+    void addProductToCartWithRandomOffer() {
         driver.findElement(By.className("item")).click();
         System.out.println("Product: " + driver.findElement(By.className("catalog-masthead__title")).getText());
         driver.navigate().back();
@@ -47,7 +47,7 @@ public class OnlinerProductsManipulation {
         }
     }
 
-    public void removeAllProductsFromCart() {
+    void removeAllProductsFromCart() {
         boolean isProductWithinCart = false;
         try {
             driver.findElement(By.className("cart-product__remove"));
