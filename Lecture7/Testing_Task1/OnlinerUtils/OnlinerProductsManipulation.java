@@ -12,9 +12,9 @@ public class OnlinerProductsManipulation {
     private WebDriver driver;
     private OnlinerNavigation onlinerNavigation;
 
-    public OnlinerProductsManipulation(WebDriver driver) {
+    OnlinerProductsManipulation(WebDriver driver, OnlinerNavigation onlinerNavigation) {
         this.driver = driver;
-        onlinerNavigation = new OnlinerNavigation(driver);
+        this.onlinerNavigation = onlinerNavigation;
     }
 
     public void addProductToCartWithRandomOffer() {

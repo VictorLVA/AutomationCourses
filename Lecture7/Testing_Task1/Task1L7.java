@@ -1,8 +1,7 @@
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import OnlinerUtils.OnlinerNavigation;
-import OnlinerUtils.OnlinerProductsManipulation;
+import OnlinerUtils.Onliner;
 import com.jayway.restassured.response.Response;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,16 +17,14 @@ import static com.jayway.restassured.RestAssured.given;
 public class Task1L7 {
 
     private WebDriver driver;
-    private OnlinerNavigation onlinerNavigation;
-    private OnlinerProductsManipulation onlinerProductsManipulation;
+    private Onliner onliner;
 
     @BeforeClass
     public void setup() {
         System.setProperty("webdriver.chrome.driver", "C:/Java/chromedriver/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        onlinerNavigation = new OnlinerNavigation(driver);
-        onlinerProductsManipulation = new OnlinerProductsManipulation(driver);
+        onliner = new Onliner(driver);
     }
 
     @Test
@@ -43,16 +40,16 @@ public class Task1L7 {
     @Test(dependsOnMethods = "pingOnliner")
     public void addProductToCart() {
         System.out.println("\n=== Testing product addition to the cart ===");
-        onlinerNavigation.goToOnliner();
-        onlinerNavigation.loginToOnliner();
-        onlinerNavigation.openOnlinerCart();
+        onliner.useOnlinerNavigation().goToOnliner();
+        onliner.useOnlinerNavigation().loginToOnliner();
+        onliner.useOnlinerNavigation().openOnlinerCart();
         List<WebElement> cartProductsBeforeAdding = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
         driver.navigate().back();
-        onlinerNavigation.openOnlinerFullCatalog();
-        onlinerNavigation.openOnlinerRandomCatalogChapter();
-        onlinerNavigation.openOnlinerRandomProductWithOffers();
-        onlinerProductsManipulation.addProductToCartWithRandomOffer();
-        onlinerNavigation.openOnlinerCart();
+        onliner.useOnlinerNavigation().openOnlinerFullCatalog();
+        onliner.useOnlinerNavigation().openOnlinerRandomCatalogChapter();
+        onliner.useOnlinerNavigation().openOnlinerRandomProductWithOffers();
+        onliner.useOnlinerProductsManipulation().addProductToCartWithRandomOffer();
+        onliner.useOnlinerNavigation().openOnlinerCart();
         List<WebElement> cartProductsAfterAdding = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
         Assert.assertEquals(
                 cartProductsAfterAdding.size(),
@@ -64,7 +61,7 @@ public class Task1L7 {
     @Test(dependsOnMethods = "addProductToCart")
     public void removeProductFromCart() {
         System.out.println("\n=== Testing products deleting from the cart ===");
-        onlinerProductsManipulation.removeAllProductsFromCart();
+        onliner.useOnlinerProductsManipulation().removeAllProductsFromCart();
         List<WebElement> cartAfterRemoving = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
         Assert.assertEquals(
                 cartAfterRemoving.size(),

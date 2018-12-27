@@ -18,7 +18,7 @@ public class OnlinerNavigation {
     private WebDriver driver;
     private Wait<WebDriver> wait;
 
-    public OnlinerNavigation(WebDriver driver) {
+    OnlinerNavigation(WebDriver driver) {
         this.driver = driver;
         wait = new WebDriverWait(driver, 5, 500);
     }
