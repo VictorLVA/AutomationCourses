@@ -44,7 +44,6 @@ public class Task1L7 {
         onliner.loginToOnliner();
         onliner.openOnlinerCart();
         List<WebElement> cartProductsBeforeAdding = driver.findElements(By.xpath("//div[@class=\"cart-product\"]"));
-        driver.navigate().back();
         onliner.openOnlinerFullCatalog();
         onliner.openOnlinerRandomCatalogChapter();
         onliner.openOnlinerRandomProductWithOffers();

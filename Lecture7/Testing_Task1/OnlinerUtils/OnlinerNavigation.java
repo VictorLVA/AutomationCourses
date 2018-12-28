@@ -39,8 +39,14 @@ class OnlinerNavigation {
     }
 
     void openOnlinerFullCatalog() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("b-main-navigation__link"))).click();
-        System.out.println("Onliner full catalog was opened");
+        List<WebElement> catalogLinks = driver.findElements(By.xpath("//a[contains(@href,\"catalog\")]"));
+        for (WebElement eachCatalogLink : catalogLinks) {
+            if (eachCatalogLink.isDisplayed()) {
+                wait.until(ExpectedConditions.elementToBeClickable(eachCatalogLink)).click();
+                System.out.println("Onliner full catalog was opened");
+                return;
+            }
+        }
     }
 
     void openOnlinerRandomCatalogChapter() {
