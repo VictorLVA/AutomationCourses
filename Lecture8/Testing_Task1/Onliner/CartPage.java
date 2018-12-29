@@ -1,9 +1,12 @@
 package Onliner;
 
+import java.util.List;
+
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -14,6 +17,10 @@ public class CartPage extends Page {
 
     @FindBy(className = "cart-product__remove")
     private WebElement cartProductDeletingLink;
+
+    @FindBys(@FindBy(
+            xpath = "//div[@class=\"cart-product\"]"))
+    private List<WebElement> cartProductsList;
 
     public CartPage(WebDriver driver) {
         super(driver);
@@ -45,5 +52,9 @@ public class CartPage extends Page {
                 System.out.println("Something went wrong with products removing");
             }
         }
+    }
+
+    public int getCartSize() {
+        return cartProductsList.size();
     }
 }
